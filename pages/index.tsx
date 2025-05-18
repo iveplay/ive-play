@@ -1,9 +1,13 @@
-import { Welcome } from '../components/Welcome/Welcome';
+import { Navigation } from '@/components/Navigation/Navigation';
+import { Welcome } from '@/components/Welcome/Welcome';
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <>
+      <Navigation />
       <Welcome />
     </>
   );
-}
+};
+
+export default HomePage;

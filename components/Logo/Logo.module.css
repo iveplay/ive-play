@@ -1,0 +1,21 @@
+.logo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: var(--font-frankfurter);
+  color: var(--mantine-color-white);
+  font-size: rem(48px);
+  line-height: 0.7;
+  letter-spacing: -0.02em;
+
+  &:after {
+    content: 'ive';
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    font-size: 1em;
+    color: var(--mantine-primary-color-6);
+    -webkit-text-stroke-width: em(2.5px);
+    -webkit-text-stroke-color: var(--mantine-primary-color-6);
+  }
+}

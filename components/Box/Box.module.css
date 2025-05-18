@@ -1,0 +1,41 @@
+.box {
+  height: 100%;
+  background-color: var(--mantine-color-dark-6);
+  border-radius: rem(16px);
+
+  &.width-full {
+    width: 100%;
+  }
+
+  &.margin-t {
+    margin-block-start: rem(16px);
+  }
+
+  &.margin-b {
+    margin-block-end: rem(16px);
+  }
+
+  &.margin-l {
+    margin-inline-start: rem(16px);
+  }
+
+  &.margin-r {
+    margin-inline-end: rem(16px);
+  }
+
+  &.margin-x {
+    margin-inline: rem(16px);
+  }
+
+  &.margin-y {
+    margin-block: rem(16px);
+  }
+
+  &.margin-all {
+    margin: rem(16px);
+  }
+
+  &.padding-all {
+    padding: rem(16px);
+  }
+}

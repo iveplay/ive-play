@@ -1,13 +1,20 @@
 import '@mantine/core/styles.css';
+import '@/components/Global/styles.css';
 
 import type { AppProps } from 'next/app';
+import localFont from 'next/font/local';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 
-export default function App({ Component, pageProps }: AppProps) {
+const frankfurter = localFont({
+  src: '../public/fonts/frankfurter-highlight-std.otf',
+  variable: '--font-frankfurter',
+});
+
+const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <Head>
         <title>IVE Play</title>
         <meta
@@ -16,7 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
-      <Component {...pageProps} />
+      <body className={frankfurter.variable}>
+        <Component {...pageProps} />
+      </body>
     </MantineProvider>
   );
-}
+};
+
+export default App;

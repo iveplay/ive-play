@@ -1,0 +1,40 @@
+.navigation {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: rem(64px);
+
+  .menu {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      height: 100%;
+
+      a {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: rem(16px);
+        color: var(--mantine-color-light-0);
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover {
+          background-color: var(--mantine-color-dark-4);
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+
+        border-radius: rem(16px);
+      }
+    }
+  }
+}
