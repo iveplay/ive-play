@@ -1,10 +1,12 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import '@/components/Global/styles.css';
 
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import { theme } from '../theme';
 
 const frankfurter = localFont({
@@ -24,6 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
       <body className={frankfurter.variable}>
+        <Notifications />
         <Component {...pageProps} />
       </body>
     </MantineProvider>

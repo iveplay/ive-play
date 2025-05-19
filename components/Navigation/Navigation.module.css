@@ -6,7 +6,7 @@
   gap: rem(16px);
   height: rem(64px);
   width: 100%;
-  z-index: 100;
+  margin-block-end: rem(16px);
 
   a {
     text-decoration: none;

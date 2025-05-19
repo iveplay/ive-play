@@ -1,3 +1,4 @@
+import { Download } from '@/components/Downlaod/Download';
 import { Navigation } from '@/components/Navigation/Navigation';
 import { Welcome } from '@/components/Welcome/Welcome';
 
@@ -6,6 +7,7 @@ const HomePage = () => {
     <>
       <Navigation />
       <Welcome />
+      <Download />
     </>
   );
 };
