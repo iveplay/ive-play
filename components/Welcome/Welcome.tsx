@@ -1,15 +1,21 @@
-import clsx from 'clsx';
-import { Button, Group, Text, Title } from '@mantine/core';
+import { Button, Flex, Group, Text, Title } from '@mantine/core';
 import { Browser } from '../Browser/Browser';
 import { Logo } from '../Logo/Logo';
 import styles from './Welcome.module.css';
 
 export const Welcome = () => {
   return (
-    <section className={clsx(styles.welcome)}>
-      <div className={clsx(styles.welcomeContent, 'box w')}>
+    <section className={styles.welcome}>
+      <Flex
+        className="box w"
+        p={{ base: '32px', md: '64px' }}
+        direction="column"
+        align="center"
+        justify="center"
+        gap="xl"
+      >
         <Logo size={96} />
-        <Title order={1} ta="center" fw={500}>
+        <Title order={1} ta="center">
           Interactive Video Extension
         </Title>
         <Text size="lg" ta="center" maw="80%">
@@ -24,7 +30,7 @@ export const Welcome = () => {
             Learn More
           </Button>
         </Group>
-      </div>
+      </Flex>
       <Browser />
     </section>
   );

@@ -1,4 +1,5 @@
-import { Download } from '@/components/Downlaod/Download';
+import { Download } from '@/components/Download/Download';
+import { Features } from '@/components/Features/Features';
 import { Navigation } from '@/components/Navigation/Navigation';
 import { Welcome } from '@/components/Welcome/Welcome';
 
@@ -8,6 +9,7 @@ const HomePage = () => {
       <Navigation />
       <Welcome />
       <Download />
+      <Features />
     </>
   );
 };
