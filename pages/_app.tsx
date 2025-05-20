@@ -12,6 +12,7 @@ import { theme } from '../theme';
 const frankfurter = localFont({
   src: '../public/fonts/frankfurter-highlight-std.otf',
   variable: '--font-frankfurter',
+  display: 'swap',
 });
 
 const App = ({ Component, pageProps }: AppProps) => {
