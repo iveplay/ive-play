@@ -7,7 +7,7 @@
   width: 100%;
   margin-block-end: rem(16px);
 
-  @media (max-width: 768px) {
+  @media (max-width: $mantine-breakpoint-sm) {
     flex-direction: column;
     height: auto;
   }

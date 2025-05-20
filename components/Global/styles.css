@@ -16,3 +16,11 @@ body {
     width: 100%;
   }
 }
+
+.mantine-Notification-root {
+  background-color: var(--mantine-color-dark-5);
+
+  .mantine-Notification-description {
+    color: var(--mantine-color-white);
+  }
+}

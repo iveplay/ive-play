@@ -1,0 +1,29 @@
+.footerCopyRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    > * {
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  > * + * {
+    &:before {
+      content: '|';
+      margin: 0 rem(8px);
+    }
+  }
+
+  > span > * + * {
+    &:before {
+      content: '|';
+      margin: 0 rem(8px);
+    }
+  }
+}
