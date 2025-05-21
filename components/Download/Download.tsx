@@ -62,12 +62,11 @@ export const Download = () => {
               <Button
                 component="a"
                 href={`/extension/ive-${CHROME_VERSION}.crx`}
-                target="_blank"
-                rel="noopener noreferrer"
                 radius="lg"
                 size="md"
                 variant="default"
                 mt="sm"
+                download
               >
                 Direct download
               </Button>
@@ -102,8 +101,6 @@ export const Download = () => {
             <Button
               component="a"
               href={`/extension/ive-${FIREFOX_VERSION}.xpi`}
-              target="_blank"
-              rel="noopener noreferrer"
               radius="lg"
               size="md"
               variant="default"
