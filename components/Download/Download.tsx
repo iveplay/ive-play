@@ -1,5 +1,8 @@
 import { IconBrandChrome, IconBrandFirefox, IconDownload } from '@tabler/icons-react';
-import { Box, Button, Flex, Grid, Text, Title } from '@mantine/core';
+import { Box, Button, Flex, Grid, Text, Title, Tooltip } from '@mantine/core';
+
+const CHROME_VERSION = '0.4.5';
+const FIREFOX_VERSION = '0.4.4';
 
 export const Download = () => {
   return (
@@ -21,11 +24,10 @@ export const Download = () => {
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Flex
             className="box w"
-            h="100%"
-            p={{ base: '32px', md: '64px' }}
             direction="column"
             align="center"
             justify="center"
+            p={{ base: '32px', md: '64px' }}
           >
             <Title order={2} ta="center" fw={500}>
               Works with Chrome, Edge, Brave and most Chromium browsers
@@ -41,18 +43,45 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandChrome size={20} style={{ marginRight: 8 }} />
-              Download for Chrome
+              Download from Chrome Store
             </Button>
+            <Tooltip
+              label={
+                <>
+                  Go to chrome://extensions/.
+                  <br />
+                  Enable developer mode and reload.
+                  <br />
+                  Then drag and drop the crx file to install the extension.
+                </>
+              }
+              withArrow
+              position="bottom"
+              radius="md"
+            >
+              <Button
+                component="a"
+                href={`/public/extension/ive-${CHROME_VERSION}.crx`}
+                target="_blank"
+                rel="noopener noreferrer"
+                radius="lg"
+                size="md"
+                variant="default"
+                mt="sm"
+                download
+              >
+                Direct download
+              </Button>
+            </Tooltip>
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Flex
             className="box w"
-            h="100%"
-            p={{ base: '32px', md: '64px' }}
             direction="column"
             align="center"
             justify="center"
+            p={{ base: '32px', md: '64px' }}
           >
             <Title order={2} ta="center" fw={500}>
               Works with Firefox and Firefox for Android
@@ -68,8 +97,28 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandFirefox size={20} style={{ marginRight: 8 }} />
-              Download for Firefox
+              Download from Firefox Store
             </Button>
+            <Tooltip
+              label="Open the xpi file in Firefox to directly install the extension"
+              withArrow
+              position="bottom"
+              radius="md"
+            >
+              <Button
+                component="a"
+                href={`/public/extension/ive-${FIREFOX_VERSION}.xpi`}
+                target="_blank"
+                rel="noopener noreferrer"
+                radius="lg"
+                size="md"
+                variant="default"
+                mt="sm"
+                download
+              >
+                Direct download
+              </Button>
+            </Tooltip>
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 0, md: 2 }} display={{ base: 'none', md: 'block' }}>
