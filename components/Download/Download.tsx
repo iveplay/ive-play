@@ -43,7 +43,7 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandChrome size={20} style={{ marginRight: 8 }} />
-              Download from Chrome Store
+              Install from Chrome Store
             </Button>
             <Tooltip
               label={
@@ -61,14 +61,13 @@ export const Download = () => {
             >
               <Button
                 component="a"
-                href={`/public/extension/ive-${CHROME_VERSION}.crx`}
+                href={`/extension/ive-${CHROME_VERSION}.crx`}
                 target="_blank"
                 rel="noopener noreferrer"
                 radius="lg"
                 size="md"
                 variant="default"
                 mt="sm"
-                download
               >
                 Direct download
               </Button>
@@ -97,28 +96,21 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandFirefox size={20} style={{ marginRight: 8 }} />
-              Download from Firefox Store
+              Install from Firefox Store
             </Button>
-            <Tooltip
-              label="Open the xpi file in Firefox to directly install the extension"
-              withArrow
-              position="bottom"
-              radius="md"
+
+            <Button
+              component="a"
+              href={`/extension/ive-${FIREFOX_VERSION}.xpi`}
+              target="_blank"
+              rel="noopener noreferrer"
+              radius="lg"
+              size="md"
+              variant="default"
+              mt="sm"
             >
-              <Button
-                component="a"
-                href={`/public/extension/ive-${FIREFOX_VERSION}.xpi`}
-                target="_blank"
-                rel="noopener noreferrer"
-                radius="lg"
-                size="md"
-                variant="default"
-                mt="sm"
-                download
-              >
-                Direct download
-              </Button>
-            </Tooltip>
+              Direct download
+            </Button>
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 0, md: 2 }} display={{ base: 'none', md: 'block' }}>
