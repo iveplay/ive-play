@@ -5,7 +5,7 @@ import {
   IconPlayerPlay,
   IconRotateClockwise2,
 } from '@tabler/icons-react';
-import { Box, Flex, Grid, Text, Title } from '@mantine/core';
+import { Anchor, Box, Flex, Grid, Text, Title } from '@mantine/core';
 
 export const Features = () => {
   return (
@@ -70,9 +70,13 @@ export const Features = () => {
               </Title>
               <Text>
                 Works with{' '}
-                <Text component="span" fw={700}>
+                <Anchor
+                  href="https://www.thehandy.com/?ref=otjlmgq&utm_source=otjlmgq&utm_medium=affiliate&utm_campaign=The+Handy+Affiliate+program"
+                  target="_blank"
+                  fw={700}
+                >
                   The Handy
-                </Text>{' '}
+                </Anchor>{' '}
                 and all{' '}
                 <Text component="span" fw={700}>
                   Buttplug.io
@@ -100,13 +104,9 @@ export const Features = () => {
                 </Text>{' '}
                 with much more to come. Stay tuned for updates and new features. Checkout our{' '}
                 <Text component="span" fw={700}>
-                  <a
-                    href="https://www.patreon.com/iveplay"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Anchor href="https://www.patreon.com/iveplay" target="_blank" fw={700}>
                     Patreon
-                  </a>
+                  </Anchor>
                 </Text>{' '}
                 for the latest news and developments.
               </Text>
