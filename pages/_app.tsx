@@ -35,7 +35,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <meta
           name="keywords"
-          content="ive, the handy, lovense, autoblow, eroscripts, faptap, ivdb, interactive video extension, chrome, firefox, toy, haptic"
+          content="ive, the handy, lovense, kiiroo, eroscripts, faptap, ivdb, interactive video extension, chrome, firefox, toy, haptic"
         />
 
         <meta property="og:site_name" content="IVE - Interactive Video Extension" />

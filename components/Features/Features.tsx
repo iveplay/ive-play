@@ -79,7 +79,7 @@ export const Features = () => {
                 </Text>{' '}
                 compatible devices including{' '}
                 <Text component="span" fw={700}>
-                  Lovense, Satisfyer, Autoblow
+                  Lovense, Satisfyer, Kiiroo, ...
                 </Text>
                 , and many more. One extension to control everything.
               </Text>
