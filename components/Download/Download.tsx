@@ -43,7 +43,7 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandChrome size={20} style={{ marginRight: 8 }} />
-              Install from Chrome Store
+              Chrome Store v0.4
             </Button>
             <Tooltip
               label={
@@ -52,7 +52,7 @@ export const Download = () => {
                   <br />
                   Enable developer mode and reload.
                   <br />
-                  Then drag and drop the crx file to install the extension.
+                  Drag and drop the crx file to install the extension.
                 </>
               }
               withArrow
@@ -68,7 +68,7 @@ export const Download = () => {
                 mt="sm"
                 download
               >
-                Direct download
+                Direct download v1.0
               </Button>
             </Tooltip>
           </Flex>
@@ -95,7 +95,7 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandFirefox size={20} style={{ marginRight: 8 }} />
-              Install from Firefox Store
+              Firefox Store v1.0
             </Button>
 
             <Button
@@ -106,7 +106,7 @@ export const Download = () => {
               variant="default"
               mt="sm"
             >
-              Direct download
+              Direct download v1.0
             </Button>
           </Flex>
         </Grid.Col>
