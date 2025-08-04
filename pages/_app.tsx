@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-import '@/components/Global/styles.css';
+import '@/components/global/styles.css';
 
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
