@@ -1,9 +1,9 @@
-import { Download } from '@/components/Download/Download';
-import { Features } from '@/components/Features/Features';
-import { Footer } from '@/components/Footer/Footer';
-import { Navigation } from '@/components/Navigation/Navigation';
-import { Support } from '@/components/Support/Support';
-import { Welcome } from '@/components/Welcome/Welcome';
+import { Footer } from '@/components/footer/Footer';
+import { Navigation } from '@/components/navigation/Navigation';
+import { Download } from '@/content/home/download/Download';
+import { Features } from '@/content/home/features/Features';
+import { Support } from '@/content/home/support/Support';
+import { Welcome } from '@/content/home/welcome/Welcome';
 
 const HomePage = () => {
   return (

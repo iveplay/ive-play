@@ -1,4 +1,4 @@
-import { Logo } from '../Logo/Logo';
+import { Logo } from '../logo/Logo';
 import styles from './Navigation.module.css';
 
 export const Navigation = () => {

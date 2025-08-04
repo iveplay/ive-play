@@ -1,6 +1,8 @@
 import {
   IconBell,
+  IconBrowserShare,
   IconBulb,
+  IconChartHistogram,
   IconDeviceMobile,
   IconPlayerPlay,
   IconRotateClockwise2,
@@ -10,7 +12,7 @@ import { Anchor, Box, Flex, Grid, Text, Title } from '@mantine/core';
 export const Features = () => {
   return (
     <Box component="section" id="features" mb="md">
-      <Flex className="box w" p={{ base: '64px', md: '96px' }} direction="column" align="center">
+      <Flex className="box w" p={{ base: '48px', md: '96px' }} direction="column" align="center">
         <IconBulb size={48} />
         <Title order={1} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
           Features
@@ -28,7 +30,7 @@ export const Features = () => {
       </Flex>
       <Grid mt="md" gutter="md" overflow="hidden">
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Flex className="box w" h="100%" p={{ base: '32px', md: '64px' }} align="center" gap="xl">
+          <Flex className="box w" h="100%" p={{ base: '32px', md: '48px' }} align="center" gap="xl">
             <IconRotateClockwise2 size={64} style={{ flexShrink: 0 }} />
             <Flex direction="column">
               <Title order={2} fw={500} mb="md">
@@ -45,7 +47,7 @@ export const Features = () => {
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Flex className="box w" h="100%" p={{ base: '32px', md: '64px' }} align="center" gap="xl">
+          <Flex className="box w" h="100%" p={{ base: '32px', md: '48px' }} align="center" gap="xl">
             <IconPlayerPlay size={64} style={{ flexShrink: 0 }} />
             <Flex direction="column">
               <Title order={2} fw={500} mb="md">
@@ -54,7 +56,21 @@ export const Features = () => {
               <Text>
                 Enhanced experience on popular sites like{' '}
                 <Text component="span" fw={700}>
-                  IDVB, FapTap and EroScripts
+                  <Anchor href="https://ivdb.io" target="_blank" fw={700}>
+                    IVDB
+                  </Anchor>
+                  ,{' '}
+                  <Anchor href="https://faptap.net" target="_blank" fw={700}>
+                    FapTap
+                  </Anchor>
+                  ,{' '}
+                  <Anchor href="https://funscripthub.com" target="_blank" fw={700}>
+                    FunScriptHub
+                  </Anchor>{' '}
+                  and{' '}
+                  <Anchor href="https://eroscripts.com" target="_blank" fw={700}>
+                    EroScripts
+                  </Anchor>
                 </Text>{' '}
                 with easy script loading.
               </Text>
@@ -62,7 +78,7 @@ export const Features = () => {
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Flex className="box w" h="100%" p={{ base: '32px', md: '64px' }} align="center" gap="xl">
+          <Flex className="box w" h="100%" p={{ base: '32px', md: '48px' }} align="center" gap="xl">
             <IconDeviceMobile size={64} style={{ flexShrink: 0 }} />
             <Flex direction="column">
               <Title order={2} fw={500} mb="md">
@@ -91,7 +107,52 @@ export const Features = () => {
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 12, sm: 6 }}>
-          <Flex className="box w" h="100%" p={{ base: '32px', md: '64px' }} align="center" gap="xl">
+          <Flex className="box w" h="100%" p={{ base: '32px', md: '48px' }} align="center" gap="xl">
+            <IconBrowserShare size={64} style={{ flexShrink: 0 }} />
+            <Flex direction="column">
+              <Title order={2} fw={500} mb="md">
+                Custom video player
+              </Title>
+              <Text>
+                Use the same video player for a{' '}
+                <Text component="span" fw={700}>
+                  seamless experience
+                </Text>{' '}
+                across all sites. Stretch your video player to fit any screen size and drag to any
+                place you want.
+              </Text>
+            </Flex>
+          </Flex>
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Flex className="box w" h="100%" p={{ base: '32px', md: '48px' }} align="center" gap="xl">
+            <IconChartHistogram size={64} style={{ flexShrink: 0 }} />
+            <Flex direction="column">
+              <Title order={2} fw={500} mb="md">
+                Heatmap
+              </Title>
+              <Text>
+                <Text component="span" fw={700}>
+                  Visualize
+                </Text>{' '}
+                the script interactions with a heatmap overlay. View how{' '}
+                <Text component="span" fw={700}>
+                  intense
+                </Text>{' '}
+                the script is going to be.
+              </Text>
+              <Text>
+                Control and{' '}
+                <Text component="span" fw={700}>
+                  reverse
+                </Text>{' '}
+                the script how you like.
+              </Text>
+            </Flex>
+          </Flex>
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Flex className="box w" h="100%" p={{ base: '32px', md: '48px' }} align="center" gap="xl">
             <IconBell size={64} style={{ flexShrink: 0 }} />
             <Flex direction="column">
               <Title order={2} fw={500} mb="md">

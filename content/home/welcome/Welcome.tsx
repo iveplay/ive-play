@@ -1,6 +1,6 @@
 import { Button, Flex, Group, Text, Title } from '@mantine/core';
-import { Browser } from '../Browser/Browser';
-import { Logo } from '../Logo/Logo';
+import { Logo } from '../../../components/logo/Logo';
+import { Browser } from '../browser/Browser';
 import styles from './Welcome.module.css';
 
 export const Welcome = () => {

@@ -1,4 +1,4 @@
-import { IconBrandChrome, IconBrandFirefox, IconDownload } from '@tabler/icons-react';
+import { IconBrandFirefox, IconDownload } from '@tabler/icons-react';
 import { Box, Button, Flex, Grid, Text, Title, Tooltip } from '@mantine/core';
 
 const CHROME_VERSION = '1.0.0';
@@ -32,19 +32,7 @@ export const Download = () => {
             <Title order={2} ta="center" fw={500}>
               Works with Chrome, Edge, Brave and most Chromium browsers
             </Title>
-            <Button
-              component="a"
-              href="https://chromewebstore.google.com/detail/eaoceppbmjlcdfcampmnaaogckfkmjbo?utm_source=item-share-cb"
-              target="_blank"
-              rel="noopener noreferrer"
-              radius="lg"
-              size="lg"
-              mt="lg"
-              fw={500}
-            >
-              <IconBrandChrome size={20} style={{ marginRight: 8 }} />
-              Chrome Store v0.4
-            </Button>
+
             <Tooltip
               label={
                 <>
@@ -63,9 +51,8 @@ export const Download = () => {
                 component="a"
                 href={`/extension/ive-${CHROME_VERSION}.crx`}
                 radius="lg"
-                size="md"
-                variant="default"
-                mt="sm"
+                size="lg"
+                mt="lg"
                 download
               >
                 Direct download v1.0
