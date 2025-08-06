@@ -8,7 +8,11 @@
   width: 100%;
   margin-block-end: rem(16px);
 
-  a {
+  > div {
+    flex: 1;
+  }
+
+  .menuItem {
     text-decoration: none;
     border-radius: rem(16px);
 

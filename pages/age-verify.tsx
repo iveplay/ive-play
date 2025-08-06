@@ -16,7 +16,8 @@ const AgeVerifyPage = () => {
 
     setLoading(true);
     document.cookie = 'age_verified=true; max-age=31536000; path=/; secure; samesite=strict';
-    router.push('/');
+    const callback = (router.query.callback as string) || '/';
+    router.push(callback);
   };
 
   return (

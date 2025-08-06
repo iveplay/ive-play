@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <MantineProvider theme={theme} defaultColorScheme="dark">
       <Head>
-        <title>IVE - Interactive Video Extension</title>
+        <title>IVE - Interactive Video Experience</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
@@ -35,10 +35,10 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <meta
           name="keywords"
-          content="ive, the handy, lovense, kiiroo, eroscripts, faptap, ivdb, interactive video extension, chrome, firefox, toy, haptic"
+          content="ive, the handy, lovense, kiiroo, eroscripts, faptap, ivdb, interactive video Experience, chrome, firefox, toy, haptic"
         />
 
-        <meta property="og:site_name" content="IVE - Interactive Video Extension" />
+        <meta property="og:site_name" content="IVE - Interactive Video Experience" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://iveplay.io" />

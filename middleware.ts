@@ -17,7 +17,9 @@ export function middleware(request: NextRequest) {
   const ageVerified = request.cookies.get('age_verified')?.value === 'true';
 
   if (!ageVerified) {
-    return NextResponse.redirect(new URL('/age-verify', request.url));
+    // Preserve the original URL as a query parameter
+    const callback = encodeURIComponent(request.nextUrl.pathname + request.nextUrl.search);
+    return NextResponse.redirect(new URL(`/age-verify?callback=${callback}`, request.url));
   }
 
   return NextResponse.next();

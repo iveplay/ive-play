@@ -1,24 +1,38 @@
+import Link from 'next/link';
+import clsx from 'clsx';
+import { Button } from '@mantine/core';
 import { Logo } from '../logo/Logo';
 import styles from './Navigation.module.css';
 
 export const Navigation = () => {
   return (
     <nav className={styles.navigation}>
-      <a href="/" className="box">
+      <Link href="/" className={clsx('box', styles.menuItem)}>
         <Logo />
-      </a>
-      <div className="box w" />
+      </Link>
+      <div className="box" />
       <ul className="box">
         <li>
-          <a href="#download">Download</a>
+          <Link href="/#download" className={styles.menuItem}>
+            Download
+          </Link>
         </li>
         <li>
-          <a href="#features">Features</a>
+          <Link href="/#features" className={styles.menuItem}>
+            Features
+          </Link>
         </li>
         <li>
-          <a href="#support">Support</a>
+          <Link href="/#support" className={styles.menuItem}>
+            Support
+          </Link>
         </li>
       </ul>
+      {process.env.NODE_ENV === 'development' && (
+        <Button component={Link} href="/hub" radius="lg" size="lg" h="100%" fw={500}>
+          Hub
+        </Button>
+      )}
     </nav>
   );
 };
