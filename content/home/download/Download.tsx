@@ -1,8 +1,8 @@
 import { IconBrandFirefox, IconDownload } from '@tabler/icons-react';
 import { Box, Button, Flex, Grid, Text, Title, Tooltip } from '@mantine/core';
 
-const CHROME_VERSION = '1.0.0';
-const FIREFOX_VERSION = '1.0.0';
+const CHROME_VERSION = '1.1.0';
+const FIREFOX_VERSION = '1.1.0';
 
 export const Download = () => {
   return (
