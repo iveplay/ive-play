@@ -23,7 +23,7 @@ const AgeVerifyPage = () => {
   return (
     <>
       <Head>
-        <title>Age Verification - IVE</title>
+        <title>IVE - Interactive Video Experience</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <Flex
