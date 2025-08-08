@@ -55,7 +55,7 @@ export const Download = () => {
                 mt="lg"
                 download
               >
-                Direct download v1.0
+                Direct download v1.1
               </Button>
             </Tooltip>
           </Flex>
@@ -82,7 +82,7 @@ export const Download = () => {
               fw={500}
             >
               <IconBrandFirefox size={20} style={{ marginRight: 8 }} />
-              Firefox Store v1.0
+              Firefox Store v1.1
             </Button>
 
             <Button
@@ -93,7 +93,7 @@ export const Download = () => {
               variant="default"
               mt="sm"
             >
-              Direct download v1.0
+              Direct download v1.1
             </Button>
           </Flex>
         </Grid.Col>
