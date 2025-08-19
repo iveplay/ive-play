@@ -2,10 +2,6 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  margin: rem(16px);
-}
-
 .box {
   height: 100%;
   padding: rem(16px);
@@ -15,6 +11,24 @@ body {
   &.w {
     width: 100%;
   }
+
+  &.h {
+    height: 100%;
+  }
+}
+
+.menuItem {
+  text-decoration: none;
+  border-radius: rem(16px);
+
+  &:hover,
+  &.active {
+    background-color: var(--mantine-color-dark-4);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 .mantine-Notification-root {
@@ -22,5 +36,11 @@ body {
 
   .mantine-Notification-description {
     color: var(--mantine-color-white);
+  }
+}
+
+.hub-navbar {
+  @mixin smaller-than $mantine-breakpoint-sm {
+    --app-shell-navbar-width: rem(96px);
   }
 }
