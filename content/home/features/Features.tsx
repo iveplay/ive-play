@@ -64,7 +64,7 @@ export const Features = () => {
                     FapTap
                   </Anchor>
                   ,{' '}
-                  <Anchor href="https://funscripthub.com" target="_blank" fw={700}>
+                  <Anchor href="https://www.funscripthub.com" target="_blank" fw={700}>
                     FunScriptHub
                   </Anchor>{' '}
                   and{' '}
