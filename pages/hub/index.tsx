@@ -71,10 +71,9 @@ const HubPage = () => {
       <AppShell.Main
         mr="md"
         mb="md"
-        ml={{ base: 'md', sm: 0 }}
+        ml={{ base: opened ? '96px' : 'md', sm: 0 }}
         style={{
-          transform: `translateX(${opened ? '80px' : '0'})`,
-          transition: 'transform 200ms ease',
+          transition: 'all 200ms ease',
         }}
       >
         <Videos />

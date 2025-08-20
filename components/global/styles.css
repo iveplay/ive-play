@@ -44,3 +44,7 @@ html {
     --app-shell-navbar-width: rem(96px);
   }
 }
+
+.mantine-Pill-root {
+  background: var(--mantine-color-body);
+}
