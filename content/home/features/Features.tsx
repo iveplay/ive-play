@@ -14,7 +14,7 @@ export const Features = () => {
     <Box component="section" id="features" mb="md">
       <Flex className="box w" p={{ base: '48px', md: '96px' }} direction="column" align="center">
         <IconBulb size={48} />
-        <Title order={1} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
+        <Title order={2} size={32} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
           Features
         </Title>
         <Text size="lg" ta="center">

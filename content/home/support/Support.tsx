@@ -16,7 +16,7 @@ export const Support = () => {
             align="center"
           >
             <IconHeartHandshake size={48} />
-            <Title order={1} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
+            <Title order={2} size={32} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
               Support Us
             </Title>
             <Text size="lg" ta="center">

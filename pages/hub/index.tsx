@@ -63,7 +63,7 @@ const HubPage = () => {
             <IconHome color="var(--mantine-color-text)" />
           </Box>
           <div className="box h" />
-          <Box className="box menuItem" component={Link} href="/hub" p="lg" w={64} h={64}>
+          <Box className="box menuItem" component={Link} href="/" p="lg" w={64} h={64}>
             <IconLogout2 color="var(--mantine-color-text)" />
           </Box>
         </Flex>

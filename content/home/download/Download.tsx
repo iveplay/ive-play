@@ -9,7 +9,7 @@ export const Download = () => {
     <Box component="section" id="download" mb="md">
       <Flex className="box w" p={{ base: '64px', md: '96px' }} direction="column" align="center">
         <IconDownload size={48} />
-        <Title order={1} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
+        <Title order={2} size={32} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
           Download the Extension
         </Title>
         <Text size="lg" ta="center">

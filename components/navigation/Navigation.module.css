@@ -20,14 +20,11 @@
     padding: 0;
     list-style: none;
 
-    @media (max-width: $mantine-breakpoint-sm) {
-      display: none;
-    }
-
     li {
       height: 100%;
 
-      a {
+      a,
+      .menuItem {
         display: flex;
         align-items: center;
         height: 100%;
@@ -37,4 +34,12 @@
       }
     }
   }
+}
+
+.menuItem {
+  text-align: center;
+  height: 100%;
+  padding: rem(16px);
+  color: var(--mantine-color-light-0);
+  font-weight: 600;
 }
