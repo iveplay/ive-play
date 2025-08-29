@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isbot } from 'isbot';
 
 export function middleware(request: NextRequest) {
+  const userAgent = request.headers.get('user-agent');
+
   // Skip verification for assets and API routes
   if (
     request.nextUrl.pathname.startsWith('/_next') ||
@@ -8,7 +11,8 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/extension') ||
     request.nextUrl.pathname.startsWith('/fonts') ||
     request.nextUrl.pathname.includes('.') || // e.g., .static, .css, .png
-    request.nextUrl.pathname === '/age-verify'
+    request.nextUrl.pathname === '/age-verify' ||
+    isbot(userAgent)
   ) {
     return NextResponse.next();
   }
