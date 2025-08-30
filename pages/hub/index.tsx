@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { IconHome, IconLogout2 } from '@tabler/icons-react';
+import { IconBrandDiscord, IconBrandPatreon, IconHome, IconLogout2 } from '@tabler/icons-react';
 import clsx from 'clsx';
 import { AppShell, Box, Burger, Flex } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
@@ -63,6 +63,26 @@ const HubPage = () => {
             <IconHome color="var(--mantine-color-text)" />
           </Box>
           <div className="box h" />
+          <Box
+            className="box menuItem"
+            component={Link}
+            href="https://discord.gg/KsYCE4jRHE"
+            p="lg"
+            w={64}
+            h={64}
+          >
+            <IconBrandDiscord color="var(--mantine-color-text)" />
+          </Box>
+          <Box
+            className="box menuItem"
+            component={Link}
+            href="https://patreon.com/iveplay"
+            p="lg"
+            w={64}
+            h={64}
+          >
+            <IconBrandPatreon color="var(--mantine-color-text)" />
+          </Box>
           <Box className="box menuItem" component={Link} href="/" p="lg" w={64} h={64}>
             <IconLogout2 color="var(--mantine-color-text)" />
           </Box>

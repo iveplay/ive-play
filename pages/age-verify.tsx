@@ -33,15 +33,16 @@ const AgeVerifyPage = () => {
         justify="center"
         gap="md"
         direction="column"
+        mx="md"
       >
         <Logo size={96} />
         <Box
           className="box w"
           mt="lg"
           px={{ base: '32px', md: '64px' }}
-          py={{ base: '16px', md: '32px' }}
+          py="32px"
           style={{
-            maxWidth: '500px',
+            maxWidth: '520px',
             textAlign: 'center',
           }}
         >
@@ -54,7 +55,7 @@ const AgeVerifyPage = () => {
           <Text mb="lg" fw={500}>
             Are you 18 years of age or older?
           </Text>
-          <Flex gap="md">
+          <Flex gap="md" justify="center" wrap="wrap">
             <Button
               radius="lg"
               size="lg"

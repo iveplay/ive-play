@@ -14,12 +14,21 @@
 
   .stats {
     position: absolute;
+    display: flex;
+    flex-wrap: wrap;
     bottom: rem(8px);
     left: rem(8px);
+    right: rem(64px);
     display: flex;
     gap: rem(4px);
 
-    > span > span {
+    > div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: rem(4px);
+    }
+
+    span > span {
       display: flex;
       align-items: center;
       gap: 2px;

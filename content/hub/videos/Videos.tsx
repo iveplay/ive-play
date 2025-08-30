@@ -10,7 +10,8 @@ export const Videos = () => {
         imageUrl="https://placehold.co/400"
         duration={1234500}
         actions={1000}
-        maxSpeed={200}
+        averageSpeed={1500}
+        maxSpeed={50000}
         creator="Jack the scripter"
         creatorUrl="#"
         tags={['colombian', 'colombian girl', 'creampie', 'fbb', 'hardcore', 'hardcore lingerie']}

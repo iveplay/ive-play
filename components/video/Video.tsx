@@ -1,5 +1,6 @@
 import {
   IconActivityHeartbeat,
+  IconBrandSpeedtest,
   IconGauge,
   IconHeart,
   IconHeartFilled,
@@ -16,6 +17,7 @@ type VideoProps = {
   imageUrl: string;
   duration?: number;
   actions?: number;
+  averageSpeed?: number;
   maxSpeed?: number;
   creator?: string;
   creatorUrl?: string;
@@ -29,6 +31,7 @@ export const Video = ({
   imageUrl,
   duration,
   actions,
+  averageSpeed,
   maxSpeed,
   creator,
   creatorUrl,
@@ -63,30 +66,44 @@ export const Video = ({
           <Pill size="sm" aria-label="Duration">
             {formatTime(duration ?? 0)}
           </Pill>
-          {actions && (
-            <Pill
-              size="sm"
-              aria-label="Number of actions"
-              style={{
-                paddingLeft: 6,
-              }}
-            >
-              <IconActivityHeartbeat size="14" />
-              {actions}
-            </Pill>
-          )}
-          {maxSpeed && (
-            <Pill
-              size="sm"
-              aria-label="Max speed"
-              style={{
-                paddingLeft: 6,
-              }}
-            >
-              <IconGauge size="14" />
-              {maxSpeed}
-            </Pill>
-          )}
+          <div>
+            {actions && (
+              <Pill
+                size="sm"
+                aria-label="Number of actions"
+                style={{
+                  paddingLeft: 6,
+                }}
+              >
+                <IconActivityHeartbeat size="14" />
+                {actions}
+              </Pill>
+            )}
+            {averageSpeed && (
+              <Pill
+                size="sm"
+                aria-label="Average speed"
+                style={{
+                  paddingLeft: 6,
+                }}
+              >
+                <IconBrandSpeedtest size="14" />
+                {averageSpeed}
+              </Pill>
+            )}
+            {maxSpeed && (
+              <Pill
+                size="sm"
+                aria-label="Max speed"
+                style={{
+                  paddingLeft: 6,
+                }}
+              >
+                <IconGauge size="14" />
+                {maxSpeed}
+              </Pill>
+            )}
+          </div>
         </PillGroup>
         <div className={styles.playButtonContainer}>
           <Button c="white" className={styles.playButton}>
