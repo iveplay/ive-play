@@ -53,7 +53,9 @@
 
   .playButton {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: rem(48px);
     height: rem(48px);
     padding: 0;

@@ -7,7 +7,7 @@ import {
   IconUser,
 } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { ActionIcon, Anchor, Button, Flex, Image, Pill, PillGroup, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Flex, Image, Pill, PillGroup, Title } from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
 import styles from './Video.module.css';
 
@@ -23,6 +23,7 @@ type VideoProps = {
   creatorUrl?: string;
   tags?: string[];
   isFavorite?: boolean;
+  onFavoriteToggle?: () => void;
 };
 
 export const Video = ({
@@ -37,6 +38,7 @@ export const Video = ({
   creatorUrl,
   tags,
   isFavorite,
+  onFavoriteToggle,
 }: VideoProps) => {
   const domain = (() => {
     try {
@@ -56,6 +58,7 @@ export const Video = ({
           aria-label="Toggle favorite"
           size={40}
           data-favorite={isFavorite}
+          onClick={onFavoriteToggle}
           className={styles.favoriteButton}
           bg={isFavorite ? 'var(--mantine-primary-color-6)' : 'gray'}
         >
@@ -106,9 +109,9 @@ export const Video = ({
           </div>
         </PillGroup>
         <div className={styles.playButtonContainer}>
-          <Button c="white" className={styles.playButton}>
+          <Anchor href={href} c="white" className={styles.playButton} underline="never">
             V
-          </Button>
+          </Anchor>
         </div>
       </div>
       <div className={clsx('box', styles.videoInfo)}>

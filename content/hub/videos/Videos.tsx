@@ -1,27 +1,49 @@
+import { useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
 import { SimpleGrid } from '@mantine/core';
 import { Video } from '@/components/video/Video';
+import { useIveStore } from '@/store/useIveStore';
 
 export const Videos = () => {
+  const { entries, favorites, toggleFavorite, loadEntries, loadFavorites, extensionAvailable } =
+    useIveStore(
+      useShallow((state) => ({
+        entries: state.entries,
+        loading: state.loading,
+        error: state.error,
+        favorites: state.favorites,
+        toggleFavorite: state.toggleFavorite,
+        loadEntries: state.loadEntries,
+        loadFavorites: state.loadFavorites,
+        extensionAvailable: state.extensionAvailable,
+      }))
+    );
+
+  useEffect(() => {
+    setTimeout(() => {
+      loadEntries();
+      loadFavorites();
+    }, 1000);
+  }, []);
+
+  if (!extensionAvailable) {
+    return <div>IVE Extension not detected. Please install it first.</div>;
+  }
+
   return (
     <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="md" verticalSpacing="md">
-      <Video
-        href="https://xhamster.com/videos/a-muscular-colombian-girl-amazing-convulsion-xhDUQow"
-        title="A muscular Colombian girl, amazing convulsion"
-        imageUrl="https://placehold.co/400"
-        duration={1234500}
-        actions={1000}
-        averageSpeed={1500}
-        maxSpeed={50000}
-        creator="Jack the scripter"
-        creatorUrl="#"
-        tags={['colombian', 'colombian girl', 'creampie', 'fbb', 'hardcore', 'hardcore lingerie']}
-      />
-      <Video
-        href="https://fr.pornhub.com"
-        title="This is a  very long long video title"
-        imageUrl="https://placehold.co/400"
-        isFavorite
-      />
+      {entries.map((entry) => (
+        <Video
+          key={entry.id}
+          href={`#/video/${entry.id}`}
+          title={entry.title}
+          imageUrl={entry.thumbnail || 'https://placehold.co/400'}
+          duration={entry.duration}
+          tags={entry.tags}
+          isFavorite={favorites.some((fav) => fav.id === entry.id)}
+          onFavoriteToggle={() => toggleFavorite(entry.id)}
+        />
+      ))}
     </SimpleGrid>
   );
 };
