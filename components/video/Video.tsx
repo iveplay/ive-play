@@ -115,7 +115,7 @@ export const Video = ({
         </div>
       </div>
       <div className={clsx('box', styles.videoInfo)}>
-        <Flex justify="space-between" align="center">
+        <Flex justify="space-between" align="center" h={16}>
           {(creator && creatorUrl && (
             <Anchor href={creatorUrl} c="gray" size="xs" className={styles.creator}>
               <IconUser size={12} />
@@ -128,11 +128,11 @@ export const Video = ({
             </Anchor>
           )}
         </Flex>
-        <Title size="lg" lineClamp={2}>
+        <Title size="lg" lineClamp={2} h={48}>
           {title}
         </Title>
         {tags && (
-          <PillGroup className={styles.tags}>
+          <PillGroup className={styles.tags} h={18}>
             {tags.map((tag) => (
               <Pill size="xs" key={tag}>
                 {tag}

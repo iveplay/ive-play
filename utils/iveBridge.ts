@@ -45,6 +45,19 @@ export interface CreateIveEntryData {
   scripts: Omit<ScriptMetadata, 'id' | 'createdAt' | 'updatedAt'>[];
 }
 
+const MESSAGES = {
+  IVEDB_CREATE_ENTRY: 'ive:ivedb:create_entry',
+  IVEDB_GET_ENTRY: 'ive:ivedb:get_entry',
+  IVEDB_GET_ALL_ENTRIES: 'ive:ivedb:get_all_entries',
+  IVEDB_SEARCH_ENTRIES: 'ive:ivedb:search_entries',
+  IVEDB_UPDATE_ENTRY: 'ive:ivedb:update_entry',
+  IVEDB_DELETE_ENTRY: 'ive:ivedb:delete_entry',
+  IVEDB_ADD_FAVORITE: 'ive:ivedb:add_favorite',
+  IVEDB_REMOVE_FAVORITE: 'ive:ivedb:remove_favorite',
+  IVEDB_GET_FAVORITES: 'ive:ivedb:get_favorites',
+  IVEDB_IS_FAVORITED: 'ive:ivedb:is_favorited',
+};
+
 class IveBridge {
   private messageId = 0;
   private pendingMessages = new Map<
@@ -100,7 +113,7 @@ class IveBridge {
 
       window.postMessage(
         {
-          from: 'iveplay-page',
+          from: 'iveplay',
           id,
           type,
           ...payload,
@@ -120,39 +133,39 @@ class IveBridge {
 
   // API Methods
   getAllEntries() {
-    return this.sendMessage<IveEntry[]>('IVEDB_GET_ALL_ENTRIES');
+    return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_GET_ALL_ENTRIES);
   }
 
   getEntry(entryId: string) {
-    return this.sendMessage<IveEntry | null>('IVEDB_GET_ENTRY', { entryId });
+    return this.sendMessage<IveEntry | null>(MESSAGES.IVEDB_GET_ENTRY, { entryId });
   }
 
   createEntry(data: CreateIveEntryData) {
-    return this.sendMessage<string>('IVEDB_CREATE_ENTRY', { data });
+    return this.sendMessage<string>(MESSAGES.IVEDB_CREATE_ENTRY, { data });
   }
 
   updateEntry(entryId: string, updates: Partial<Omit<IveEntry, 'id' | 'createdAt'>>) {
-    return this.sendMessage<void>('IVEDB_UPDATE_ENTRY', { entryId, updates });
+    return this.sendMessage<void>(MESSAGES.IVEDB_UPDATE_ENTRY, { entryId, updates });
   }
 
   deleteEntry(entryId: string) {
-    return this.sendMessage<void>('IVEDB_DELETE_ENTRY', { entryId });
+    return this.sendMessage<void>(MESSAGES.IVEDB_DELETE_ENTRY, { entryId });
   }
 
   addFavorite(entryId: string) {
-    return this.sendMessage<void>('IVEDB_ADD_FAVORITE', { entryId });
+    return this.sendMessage<void>(MESSAGES.IVEDB_ADD_FAVORITE, { entryId });
   }
 
   removeFavorite(entryId: string) {
-    return this.sendMessage<void>('IVEDB_REMOVE_FAVORITE', { entryId });
+    return this.sendMessage<void>(MESSAGES.IVEDB_REMOVE_FAVORITE, { entryId });
   }
 
   getFavorites() {
-    return this.sendMessage<IveEntry[]>('IVEDB_GET_FAVORITES');
+    return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_GET_FAVORITES);
   }
 
   isFavorited(entryId: string) {
-    return this.sendMessage<boolean>('IVEDB_IS_FAVORITED', { entryId });
+    return this.sendMessage<boolean>(MESSAGES.IVEDB_IS_FAVORITED, { entryId });
   }
 }
 

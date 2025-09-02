@@ -112,7 +112,7 @@
   overflow-x: auto;
   flex-wrap: nowrap;
   gap: rem(4px);
-  margin-top: rem(4px);
+  margin-top: rem(2px);
   margin-inline: rem(-4px);
 
   /* hide scrollbar */

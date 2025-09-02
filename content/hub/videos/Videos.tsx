@@ -31,11 +31,11 @@ export const Videos = () => {
   }
 
   return (
-    <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="md" verticalSpacing="md">
+    <SimpleGrid cols={{ base: 1, sm: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
       {entries.map((entry) => (
         <Video
           key={entry.id}
-          href={`#/video/${entry.id}`}
+          href="https://iveplay.io/"
           title={entry.title}
           imageUrl={entry.thumbnail || 'https://placehold.co/400'}
           duration={entry.duration}
