@@ -8,7 +8,7 @@ import { useIveStore } from '@/store/useIveStore';
 export const Videos = () => {
   const {
     entries,
-    favorites,
+    favoriteIds,
     loading,
     entriesHasMore,
     extensionAvailable,
@@ -17,7 +17,7 @@ export const Videos = () => {
   } = useIveStore(
     useShallow((state) => ({
       entries: state.entries,
-      favorites: state.favorites,
+      favoriteIds: state.favoriteIds,
       loading: state.loading,
       entriesHasMore: state.entriesHasMore,
       extensionAvailable: state.extensionAvailable,
@@ -76,7 +76,7 @@ export const Videos = () => {
               creator={script?.creator}
               creatorUrl={script?.supportUrl}
               tags={entry.tags}
-              isFavorite={favorites.some((fav) => fav.id === entry.id)}
+              isFavorite={favoriteIds.has(entry.id)}
               onFavoriteToggle={() => toggleFavorite(entry.id)}
             />
           );

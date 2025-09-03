@@ -4,7 +4,7 @@ import { CreateIveEntryData, iveBridge, IveEntry, IveEntryWithDetails } from '@/
 interface IveStore {
   // State
   entries: IveEntryWithDetails[];
-  favorites: IveEntry[];
+  favoriteIds: Set<string>;
   loading: boolean;
   error: string | null;
   extensionAvailable: boolean;
@@ -30,14 +30,14 @@ interface IveStore {
 
 export const useIveStore = create<IveStore>((set, get) => ({
   entries: [],
-  favorites: [],
+  favoriteIds: new Set<string>(),
   loading: false,
   error: null,
   extensionAvailable: false,
 
   entriesPage: 0,
   entriesHasMore: true,
-  entriesPerPage: 20,
+  entriesPerPage: 10,
 
   loadEntries: async (reset = false) => {
     set({ loading: true, error: null });
@@ -87,18 +87,13 @@ export const useIveStore = create<IveStore>((set, get) => ({
   },
 
   loadFavorites: async () => {
-    set({ loading: true, error: null });
     try {
       const favorites = await iveBridge.getFavorites();
-
-      set({ favorites, extensionAvailable: true });
+      set({ favoriteIds: new Set(favorites.map((fav) => fav.id)) });
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : 'Failed to load favorites',
-        extensionAvailable: false,
       });
-    } finally {
-      set({ loading: false });
     }
   },
 
@@ -136,7 +131,7 @@ export const useIveStore = create<IveStore>((set, get) => ({
       // Update local state immediately
       set((state) => ({
         entries: state.entries.filter((e) => e.entry.id !== entryId),
-        favorites: state.favorites.filter((e) => e.id !== entryId),
+        favoriteIds: new Set(Array.from(state.favoriteIds).filter((id) => id !== entryId)),
       }));
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Failed to delete entry' });
@@ -148,13 +143,26 @@ export const useIveStore = create<IveStore>((set, get) => ({
 
   toggleFavorite: async (entryId) => {
     try {
-      const isFavorited = await iveBridge.isFavorited(entryId);
+      const { favoriteIds } = get();
+      const isFavorited = favoriteIds.has(entryId);
+
       if (isFavorited) {
         await iveBridge.removeFavorite(entryId);
+        // Remove from Set immediately
+        set((state) => {
+          const newFavoriteIds = new Set(state.favoriteIds);
+          newFavoriteIds.delete(entryId);
+          return { favoriteIds: newFavoriteIds };
+        });
       } else {
         await iveBridge.addFavorite(entryId);
+        // Add to Set immediately
+        set((state) => {
+          const newFavoriteIds = new Set(state.favoriteIds);
+          newFavoriteIds.add(entryId);
+          return { favoriteIds: newFavoriteIds };
+        });
       }
-      await get().loadFavorites();
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Failed to toggle favorite' });
       throw error;
