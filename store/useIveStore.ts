@@ -25,7 +25,7 @@ interface IveStore {
   ) => Promise<void>;
   deleteEntry: (entryId: string) => Promise<void>;
   toggleFavorite: (entryId: string) => Promise<void>;
-  checkExtension: () => Promise<void>;
+  checkExtension: () => Promise<boolean>;
 }
 
 export const useIveStore = create<IveStore>((set, get) => ({
@@ -37,7 +37,7 @@ export const useIveStore = create<IveStore>((set, get) => ({
 
   entriesPage: 0,
   entriesHasMore: true,
-  entriesPerPage: 10,
+  entriesPerPage: 20,
 
   loadEntries: async (reset = false) => {
     set({ loading: true, error: null });
@@ -171,10 +171,12 @@ export const useIveStore = create<IveStore>((set, get) => ({
 
   checkExtension: async () => {
     try {
-      await iveBridge.ping();
-      set({ extensionAvailable: true });
+      const result = await iveBridge.ping();
+      set({ extensionAvailable: result });
+      return result;
     } catch {
       set({ extensionAvailable: false });
+      return false;
     }
   },
 }));

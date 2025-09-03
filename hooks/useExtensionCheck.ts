@@ -1,43 +1,48 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useShallow } from 'zustand/shallow';
 import { useIveStore } from '@/store/useIveStore';
 
-const MAX_TIMEOUT = 10000; // 10 seconds
+const MAX_TIMEOUT = 5000; // 5s
+const CHECK_INTERVAL = 200;
 
 export const useExtensionCheck = () => {
-  const isLoading = useRef(true);
-  const { checkExtension, extensionAvailable, loadEntries, loadFavorites } = useIveStore();
+  const [isLoading, setIsLoading] = useState(true);
+  const { checkExtension, loadEntries, loadFavorites } = useIveStore(
+    useShallow((state) => ({
+      checkExtension: state.checkExtension,
+      loadEntries: state.loadEntries,
+      loadFavorites: state.loadFavorites,
+    }))
+  );
 
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval> | null = null;
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let intervalId: ReturnType<typeof setInterval> | undefined = undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined = undefined;
 
-    const pingExtension = async () => {
-      await checkExtension();
-      if (extensionAvailable) {
-        intervalId && clearInterval(intervalId);
-        timeoutId && clearTimeout(timeoutId);
+    const tryCheck = async () => {
+      const result = await checkExtension();
+
+      if (result) {
+        clearInterval(intervalId);
+        clearTimeout(timeoutId);
+        setIsLoading(false);
+
+        // Load data once extension is ready
+        Promise.all([loadEntries(true), loadFavorites()]);
       }
     };
 
-    pingExtension();
-    intervalId = setInterval(pingExtension, 200);
-
+    intervalId = setInterval(tryCheck, CHECK_INTERVAL);
     timeoutId = setTimeout(() => {
-      intervalId && clearInterval(intervalId);
+      clearInterval(intervalId);
+      setIsLoading(false);
     }, MAX_TIMEOUT);
 
     return () => {
-      intervalId && clearInterval(intervalId);
-      timeoutId && clearTimeout(timeoutId);
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
     };
-  }, [checkExtension, extensionAvailable]);
+  }, [checkExtension, loadEntries, loadFavorites]);
 
-  useEffect(() => {
-    if (extensionAvailable && isLoading.current) {
-      isLoading.current = false;
-      Promise.all([loadEntries(true), loadFavorites()]);
-    }
-  }, [extensionAvailable, loadEntries, loadFavorites]);
-
-  return { isLoading: isLoading.current };
+  return { isLoading };
 };

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useShallow } from 'zustand/shallow';
-import { Button, Center, Flex, Loader, SimpleGrid, Text, Title } from '@mantine/core';
+import { Box, Button, Center, Flex, Loader, SimpleGrid, Text, Title } from '@mantine/core';
 import { Video } from '@/components/video/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useIveStore } from '@/store/useIveStore';
@@ -46,7 +46,7 @@ export const Videos = () => {
           Make sure you have the IVE browser extension installed and running.
         </Text>
         <Button component={Link} href="/#download" radius="lg" size="lg" fw={500}>
-          Get the Extension
+          Get the extension
         </Button>
       </Flex>
     );
@@ -84,11 +84,13 @@ export const Videos = () => {
       </SimpleGrid>
 
       {entriesHasMore && (
-        <Center mt="md">
-          <Button onClick={loadMoreEntries} loading={loading} size="lg" radius="lg">
+        <Flex mt="md" gap="md" justify="center" align="center">
+          <Box className="box w" h="50" />
+          <Button onClick={loadMoreEntries} loading={loading} size="lg" radius="lg" flex="0 0 auto">
             {loading ? 'Loading...' : 'Load more'}
           </Button>
-        </Center>
+          <Box className="box w" h="50" />
+        </Flex>
       )}
     </>
   );
