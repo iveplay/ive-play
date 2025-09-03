@@ -45,10 +45,19 @@ export interface CreateIveEntryData {
   scripts: Omit<ScriptMetadata, 'id' | 'createdAt' | 'updatedAt'>[];
 }
 
+export interface IveEntryWithDetails {
+  entry: IveEntry;
+  videoSources: VideoSource[];
+  scripts: ScriptMetadata[];
+}
+
 const MESSAGES = {
+  IVEDB_PING: 'ive:ivedb:ping',
   IVEDB_CREATE_ENTRY: 'ive:ivedb:create_entry',
   IVEDB_GET_ENTRY: 'ive:ivedb:get_entry',
+  IVEDB_GET_ENTRY_WITH_DETAILS: 'ive:ivedb:get_entry_with_details',
   IVEDB_GET_ALL_ENTRIES: 'ive:ivedb:get_all_entries',
+  IVEDB_GET_ENTRIES_PAGINATED: 'ive:ivedb:get_entries_paginated',
   IVEDB_SEARCH_ENTRIES: 'ive:ivedb:search_entries',
   IVEDB_UPDATE_ENTRY: 'ive:ivedb:update_entry',
   IVEDB_DELETE_ENTRY: 'ive:ivedb:delete_entry',
@@ -67,7 +76,6 @@ class IveBridge {
   private initialized = false;
 
   constructor() {
-    // Only initialize in browser environment
     if (typeof window !== 'undefined') {
       this.initialize();
     }
@@ -79,7 +87,6 @@ class IveBridge {
     }
     this.initialized = true;
 
-    // Listen for responses from extension
     window.addEventListener('message', (event) => {
       if (event.data?.from === 'ive-extension') {
         const { id, data, error } = event.data;
@@ -97,12 +104,10 @@ class IveBridge {
   }
 
   private sendMessage<T>(type: string, payload?: any): Promise<T> {
-    // Ensure we're in browser environment
     if (typeof window === 'undefined') {
       return Promise.reject(new Error('Not in browser environment'));
     }
 
-    // Initialize if needed
     if (!this.initialized) {
       this.initialize();
     }
@@ -121,7 +126,6 @@ class IveBridge {
         '*'
       );
 
-      // Timeout after 5 seconds
       setTimeout(() => {
         if (this.pendingMessages.has(id)) {
           this.pendingMessages.delete(id);
@@ -131,13 +135,29 @@ class IveBridge {
     });
   }
 
-  // API Methods
+  ping() {
+    return this.sendMessage<boolean>(MESSAGES.IVEDB_PING);
+  }
+
   getAllEntries() {
     return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_GET_ALL_ENTRIES);
   }
 
+  getEntriesPaginated(offset: number = 0, limit: number = 20) {
+    return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_GET_ENTRIES_PAGINATED, {
+      offset,
+      limit,
+    });
+  }
+
   getEntry(entryId: string) {
     return this.sendMessage<IveEntry | null>(MESSAGES.IVEDB_GET_ENTRY, { entryId });
+  }
+
+  getEntryWithDetails(entryId: string) {
+    return this.sendMessage<IveEntryWithDetails | null>(MESSAGES.IVEDB_GET_ENTRY_WITH_DETAILS, {
+      entryId,
+    });
   }
 
   createEntry(data: CreateIveEntryData) {
