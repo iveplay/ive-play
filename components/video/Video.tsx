@@ -66,9 +66,11 @@ export const Video = ({
         </ActionIcon>
         <Image src={imageUrl} alt={title} radius="lg" />
         <PillGroup className={styles.stats}>
-          <Pill size="sm" aria-label="Duration">
-            {formatTime(duration ?? 0)}
-          </Pill>
+          {duration && (
+            <Pill size="sm" aria-label="Video duration">
+              {formatTime(duration ?? 0)}
+            </Pill>
+          )}
           <div>
             {actions && (
               <Pill
