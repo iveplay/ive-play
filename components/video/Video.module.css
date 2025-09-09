@@ -53,7 +53,9 @@
 
   .playButton {
     position: relative;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: rem(48px);
     height: rem(48px);
     padding: 0;
@@ -110,7 +112,7 @@
   overflow-x: auto;
   flex-wrap: nowrap;
   gap: rem(4px);
-  margin-top: rem(4px);
+  margin-top: rem(2px);
   margin-inline: rem(-4px);
 
   /* hide scrollbar */

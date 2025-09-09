@@ -89,10 +89,12 @@ const HubPage = () => {
         </Flex>
       </AppShell.Navbar>
       <AppShell.Main
+        display="flex"
         mr="md"
-        mb="md"
         ml={{ base: opened ? '96px' : 'md', sm: 0 }}
+        pb="md"
         style={{
+          flexDirection: 'column',
           transition: 'all 200ms ease',
         }}
       >

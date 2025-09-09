@@ -7,7 +7,7 @@ import {
   IconUser,
 } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { ActionIcon, Anchor, Button, Flex, Image, Pill, PillGroup, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Flex, Image, Pill, PillGroup, Title } from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
 import styles from './Video.module.css';
 
@@ -23,6 +23,7 @@ type VideoProps = {
   creatorUrl?: string;
   tags?: string[];
   isFavorite?: boolean;
+  onFavoriteToggle?: () => void;
 };
 
 export const Video = ({
@@ -37,6 +38,7 @@ export const Video = ({
   creatorUrl,
   tags,
   isFavorite,
+  onFavoriteToggle,
 }: VideoProps) => {
   const domain = (() => {
     try {
@@ -56,6 +58,7 @@ export const Video = ({
           aria-label="Toggle favorite"
           size={40}
           data-favorite={isFavorite}
+          onClick={onFavoriteToggle}
           className={styles.favoriteButton}
           bg={isFavorite ? 'var(--mantine-primary-color-6)' : 'gray'}
         >
@@ -63,9 +66,11 @@ export const Video = ({
         </ActionIcon>
         <Image src={imageUrl} alt={title} radius="lg" />
         <PillGroup className={styles.stats}>
-          <Pill size="sm" aria-label="Duration">
-            {formatTime(duration ?? 0)}
-          </Pill>
+          {duration && (
+            <Pill size="sm" aria-label="Video duration">
+              {formatTime(duration ?? 0)}
+            </Pill>
+          )}
           <div>
             {actions && (
               <Pill
@@ -106,30 +111,36 @@ export const Video = ({
           </div>
         </PillGroup>
         <div className={styles.playButtonContainer}>
-          <Button c="white" className={styles.playButton}>
+          <Anchor
+            href={href}
+            c="white"
+            className={styles.playButton}
+            underline="never"
+            target="_blank"
+          >
             V
-          </Button>
+          </Anchor>
         </div>
       </div>
       <div className={clsx('box', styles.videoInfo)}>
-        <Flex justify="space-between" align="center">
+        <Flex justify="space-between" align="center" h={16}>
           {(creator && creatorUrl && (
-            <Anchor href={creatorUrl} c="gray" size="xs" className={styles.creator}>
+            <Anchor href={creatorUrl} c="gray" size="xs" className={styles.creator} target="_blank">
               <IconUser size={12} />
               {creator}
             </Anchor>
           )) ?? <div />}
           {domain && (
-            <Anchor href={href} c="gray" size="xs" className={styles.domain}>
+            <Anchor href={href} c="gray" size="xs" className={styles.domain} target="_blank">
               {domain}
             </Anchor>
           )}
         </Flex>
-        <Title size="lg" lineClamp={2}>
+        <Title size="lg" lineClamp={2} h={48} title={title}>
           {title}
         </Title>
         {tags && (
-          <PillGroup className={styles.tags}>
+          <PillGroup className={styles.tags} h={18}>
             {tags.map((tag) => (
               <Pill size="xs" key={tag}>
                 {tag}
