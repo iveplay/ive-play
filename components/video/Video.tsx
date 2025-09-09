@@ -111,7 +111,13 @@ export const Video = ({
           </div>
         </PillGroup>
         <div className={styles.playButtonContainer}>
-          <Anchor href={href} c="white" className={styles.playButton} underline="never">
+          <Anchor
+            href={href}
+            c="white"
+            className={styles.playButton}
+            underline="never"
+            target="_blank"
+          >
             V
           </Anchor>
         </div>
@@ -119,13 +125,13 @@ export const Video = ({
       <div className={clsx('box', styles.videoInfo)}>
         <Flex justify="space-between" align="center" h={16}>
           {(creator && creatorUrl && (
-            <Anchor href={creatorUrl} c="gray" size="xs" className={styles.creator}>
+            <Anchor href={creatorUrl} c="gray" size="xs" className={styles.creator} target="_blank">
               <IconUser size={12} />
               {creator}
             </Anchor>
           )) ?? <div />}
           {domain && (
-            <Anchor href={href} c="gray" size="xs" className={styles.domain}>
+            <Anchor href={href} c="gray" size="xs" className={styles.domain} target="_blank">
               {domain}
             </Anchor>
           )}
