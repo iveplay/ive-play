@@ -4,6 +4,7 @@ import { Box, Button, Center, Flex, Loader, SimpleGrid, Text, Title } from '@man
 import { Video } from '@/components/video/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useIveStore } from '@/store/useIveStore';
+import { EmptyVideos } from './EmptyVideos';
 
 export const Videos = () => {
   const {
@@ -50,6 +51,10 @@ export const Videos = () => {
         </Button>
       </Flex>
     );
+  }
+
+  if (entries.length === 0) {
+    return <EmptyVideos />;
   }
 
   return (
