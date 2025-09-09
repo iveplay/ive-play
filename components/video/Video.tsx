@@ -130,7 +130,7 @@ export const Video = ({
             </Anchor>
           )}
         </Flex>
-        <Title size="lg" lineClamp={2} h={48}>
+        <Title size="lg" lineClamp={2} h={48} title={title}>
           {title}
         </Title>
         {tags && (
