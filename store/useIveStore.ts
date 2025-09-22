@@ -26,6 +26,7 @@ interface IveStore {
   deleteEntry: (entryId: string) => Promise<void>;
   toggleFavorite: (entryId: string) => Promise<void>;
   checkExtension: () => Promise<boolean>;
+  checkForNewEntries: () => Promise<void>;
 }
 
 export const useIveStore = create<IveStore>((set, get) => ({
@@ -177,6 +178,34 @@ export const useIveStore = create<IveStore>((set, get) => ({
     } catch {
       set({ extensionAvailable: false });
       return false;
+    }
+  },
+
+  checkForNewEntries: async () => {
+    try {
+      const { entries, entriesPerPage } = get();
+      const existingIds = new Set(entries.map((e) => e.entry.id));
+
+      // Get latest entries from start
+      const newBasicEntries = await iveBridge.getEntriesPaginated(0, entriesPerPage);
+      const newEntries = newBasicEntries.filter((entry) => !existingIds.has(entry.id));
+
+      if (newEntries.length > 0) {
+        // Fetch details for new entries
+        const newEntriesWithDetails = await Promise.all(
+          newEntries.map(async (entry) => {
+            const details = await iveBridge.getEntryWithDetails(entry.id);
+            return details || { entry, videoSources: [], scripts: [] };
+          })
+        );
+
+        // Add new entries to the top
+        set((state) => ({
+          entries: [...newEntriesWithDetails, ...state.entries],
+        }));
+      }
+    } catch (error) {
+      // Silent fail for background checks
     }
   },
 }));

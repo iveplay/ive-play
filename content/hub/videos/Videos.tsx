@@ -3,6 +3,7 @@ import { useShallow } from 'zustand/shallow';
 import { Box, Button, Center, Flex, Loader, SimpleGrid, Text, Title } from '@mantine/core';
 import { Video } from '@/components/video/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
+import { useNewVideosCheck } from '@/hooks/useNewVideosCheck';
 import { useIveStore } from '@/store/useIveStore';
 import { EmptyVideos } from './EmptyVideos';
 
@@ -28,6 +29,7 @@ export const Videos = () => {
   );
 
   const { isLoading } = useExtensionCheck();
+  useNewVideosCheck(10000);
 
   if (isLoading) {
     return (
@@ -44,7 +46,7 @@ export const Videos = () => {
           IVE not detected
         </Title>
         <Text mb="lg" fw={500}>
-          Make sure you have the IVE browser extension installed and running.
+          Make sure you have the latest IVE browser extension installed and running.
         </Text>
         <Button component={Link} href="/#download" radius="lg" size="lg" fw={500}>
           Get the extension
