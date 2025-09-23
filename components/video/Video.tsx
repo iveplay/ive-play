@@ -14,7 +14,7 @@ import styles from './Video.module.css';
 type VideoProps = {
   href: string;
   title: string;
-  imageUrl: string;
+  imageUrl?: string;
   duration?: number;
   actions?: number;
   averageSpeed?: number;
@@ -64,7 +64,12 @@ export const Video = ({
         >
           {isFavorite ? <IconHeartFilled /> : <IconHeart />}
         </ActionIcon>
-        <Image src={imageUrl} alt={title} radius="lg" />
+        <Image
+          src={imageUrl}
+          alt={title}
+          radius="lg"
+          fallbackSrc={`https://placehold.co/400/DDD/333?font=roboto&text=${title}`}
+        />
         <PillGroup className={styles.stats}>
           {duration && (
             <Pill size="sm" aria-label="Video duration">

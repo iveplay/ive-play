@@ -12,6 +12,7 @@ export const Videos = () => {
     entries,
     favoriteIds,
     loading,
+    isLoadingMore,
     entriesHasMore,
     extensionAvailable,
     toggleFavorite,
@@ -21,6 +22,7 @@ export const Videos = () => {
       entries: state.entries,
       favoriteIds: state.favoriteIds,
       loading: state.loading,
+      isLoadingMore: state.isLoadingMore,
       entriesHasMore: state.entriesHasMore,
       extensionAvailable: state.extensionAvailable,
       toggleFavorite: state.toggleFavorite,
@@ -55,7 +57,7 @@ export const Videos = () => {
     );
   }
 
-  if (entries.length === 0) {
+  if (entries.length === 0 && !loading) {
     return <EmptyVideos />;
   }
 
@@ -72,10 +74,7 @@ export const Videos = () => {
               key={entry.id}
               href={videoSource?.url}
               title={entry.title}
-              imageUrl={
-                entry.thumbnail ||
-                `https://placehold.co/400/DDD/333?font=roboto&text=${script?.creator}`
-              }
+              imageUrl={entry.thumbnail}
               duration={entry.duration}
               actions={script?.actionCount}
               averageSpeed={script?.avgSpeed}
@@ -90,11 +89,17 @@ export const Videos = () => {
         })}
       </SimpleGrid>
 
-      {entriesHasMore && (
+      {entriesHasMore && !loading && (
         <Flex mt="md" gap="md" justify="center" align="center">
           <Box className="box w" h="50" />
-          <Button onClick={loadMoreEntries} loading={loading} size="lg" radius="lg" flex="0 0 auto">
-            {loading ? 'Loading...' : 'Load more'}
+          <Button
+            onClick={loadMoreEntries}
+            loading={isLoadingMore}
+            size="lg"
+            radius="lg"
+            flex="0 0 auto"
+          >
+            {isLoadingMore ? 'Loading...' : 'Load more'}
           </Button>
           <Box className="box w" h="50" />
         </Flex>

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { AppShell, Box, Burger, Flex } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { Logo } from '@/components/logo/Logo';
+import { Filters } from '@/content/hub/Filters';
 import { Videos } from '@/content/hub/videos/Videos';
 
 const HubPage = () => {
@@ -48,6 +49,8 @@ const HubPage = () => {
             <Logo />
           </Flex>
           <Box className="box" flex={1} />
+          <Filters />
+          <Box className="box" w={128} />
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar ref={setNavbar} withBorder={false}>

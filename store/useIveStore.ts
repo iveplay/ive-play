@@ -1,13 +1,23 @@
 import { create } from 'zustand';
-import { CreateIveEntryData, iveBridge, IveEntry, IveEntryWithDetails } from '@/utils/iveBridge';
+import {
+  CreateIveEntryData,
+  iveBridge,
+  IveEntry,
+  IveEntryWithDetails,
+  IveSearchOptions,
+} from '@/utils/iveBridge';
 
 interface IveStore {
   // State
   entries: IveEntryWithDetails[];
   favoriteIds: Set<string>;
   loading: boolean;
+  isLoadingMore: boolean;
   error: string | null;
   extensionAvailable: boolean;
+
+  // Filters
+  filters: IveSearchOptions;
 
   // Pagination
   entriesPage: number;
@@ -15,6 +25,7 @@ interface IveStore {
   entriesPerPage: number;
 
   // Actions
+  setFilters: (filters: IveSearchOptions) => void;
   loadEntries: (reset?: boolean) => Promise<void>;
   loadMoreEntries: () => Promise<void>;
   loadFavorites: () => Promise<void>;
@@ -33,26 +44,45 @@ export const useIveStore = create<IveStore>((set, get) => ({
   entries: [],
   favoriteIds: new Set<string>(),
   loading: false,
+  isLoadingMore: false,
   error: null,
   extensionAvailable: false,
+
+  filters: {
+    favorites: false,
+  },
 
   entriesPage: 0,
   entriesHasMore: true,
   entriesPerPage: 20,
 
+  setFilters: (filters) => {
+    set({ filters });
+    get().loadEntries(true); // Reset entries when filters change
+  },
+
   loadEntries: async (reset = false) => {
     set({ loading: true, error: null });
 
     if (reset) {
-      set({ entries: [], entriesPage: 0, entriesHasMore: true });
+      set({ entriesPage: 0, entriesHasMore: true });
     }
 
     try {
-      const { entriesPage, entriesPerPage } = get();
+      const { entriesPage, entriesPerPage, filters } = get();
       const offset = reset ? 0 : entriesPage * entriesPerPage;
 
-      // Get paginated basic entries
-      const basicEntries = await iveBridge.getEntriesPaginated(offset, entriesPerPage);
+      let basicEntries: IveEntry[];
+      if (Object.keys(filters).length > 0) {
+        // Use search with filters
+        const allResults = await iveBridge.searchEntries(filters);
+        const startIndex = offset;
+        const endIndex = startIndex + entriesPerPage;
+        basicEntries = allResults.slice(startIndex, endIndex);
+      } else {
+        // Get paginated entries without filters
+        basicEntries = await iveBridge.getEntriesPaginated(offset, entriesPerPage);
+      }
 
       // Fetch details for each entry in parallel
       const entriesWithDetails = await Promise.all(
@@ -84,7 +114,9 @@ export const useIveStore = create<IveStore>((set, get) => ({
       return;
     }
 
+    set({ isLoadingMore: true });
     await get().loadEntries(false);
+    set({ isLoadingMore: false });
   },
 
   loadFavorites: async () => {
@@ -102,7 +134,7 @@ export const useIveStore = create<IveStore>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const entryId = await iveBridge.createEntry(data);
-      await get().loadEntries(); // Reload all entries
+      await get().loadEntries(true); // Reload all entries
       return entryId;
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Failed to create entry' });
@@ -116,7 +148,7 @@ export const useIveStore = create<IveStore>((set, get) => ({
     set({ loading: true, error: null });
     try {
       await iveBridge.updateEntry(entryId, updates);
-      await get().loadEntries(); // Reload all entries
+      await get().loadEntries(true); // Reload all entries
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Failed to update entry' });
       throw error;

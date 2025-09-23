@@ -45,6 +45,16 @@ export interface CreateIveEntryData {
   scripts: Omit<ScriptMetadata, 'id' | 'createdAt' | 'updatedAt'>[];
 }
 
+export interface IveSearchOptions {
+  query?: string;
+  tags?: string[];
+  creator?: string;
+  minDuration?: number;
+  maxDuration?: number;
+  status?: VideoSource['status'];
+  favorites?: boolean;
+}
+
 export interface IveEntryWithDetails {
   entry: IveEntry;
   videoSources: VideoSource[];
@@ -148,6 +158,10 @@ class IveBridge {
       offset,
       limit,
     });
+  }
+
+  searchEntries(options: IveSearchOptions) {
+    return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_SEARCH_ENTRIES, { options });
   }
 
   getEntry(entryId: string) {
