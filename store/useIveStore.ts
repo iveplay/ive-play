@@ -72,17 +72,7 @@ export const useIveStore = create<IveStore>((set, get) => ({
       const { entriesPage, entriesPerPage, filters } = get();
       const offset = reset ? 0 : entriesPage * entriesPerPage;
 
-      let basicEntries: IveEntry[];
-      if (Object.keys(filters).length > 0) {
-        // Use search with filters
-        const allResults = await iveBridge.searchEntries(filters);
-        const startIndex = offset;
-        const endIndex = startIndex + entriesPerPage;
-        basicEntries = allResults.slice(startIndex, endIndex);
-      } else {
-        // Get paginated entries without filters
-        basicEntries = await iveBridge.getEntriesPaginated(offset, entriesPerPage);
-      }
+      const basicEntries = await iveBridge.getEntriesPaginated(offset, entriesPerPage, filters);
 
       // Fetch details for each entry in parallel
       const entriesWithDetails = await Promise.all(

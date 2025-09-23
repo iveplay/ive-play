@@ -153,10 +153,11 @@ class IveBridge {
     return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_GET_ALL_ENTRIES);
   }
 
-  getEntriesPaginated(offset: number = 0, limit: number = 20) {
+  getEntriesPaginated(offset: number = 0, limit: number = 20, options?: IveSearchOptions) {
     return this.sendMessage<IveEntry[]>(MESSAGES.IVEDB_GET_ENTRIES_PAGINATED, {
       offset,
       limit,
+      options,
     });
   }
 
