@@ -26,6 +26,7 @@ type VideoProps = {
   tags?: string[];
   isFavorite?: boolean;
   onFavoriteToggle?: () => void;
+  onDelete?: () => void;
 };
 
 export const Video = ({
@@ -41,6 +42,7 @@ export const Video = ({
   tags,
   isFavorite,
   onFavoriteToggle,
+  onDelete,
 }: VideoProps) => {
   const domain = (() => {
     try {
@@ -66,7 +68,7 @@ export const Video = ({
         >
           {isFavorite ? <IconHeartFilled /> : <IconHeart />}
         </ActionIcon>
-        <ActionMenu />
+        <ActionMenu onDelete={onDelete} />
         <Image
           src={imageUrl}
           alt={title}
@@ -161,7 +163,11 @@ export const Video = ({
   );
 };
 
-const ActionMenu = () => {
+type ActionMenuProps = {
+  onDelete?: () => void;
+};
+
+const ActionMenu = ({ onDelete }: ActionMenuProps) => {
   return (
     <Menu
       position="bottom-end"
@@ -181,7 +187,7 @@ const ActionMenu = () => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item leftSection={<IconTrash size={14} />} onClick={() => {}}>
+        <Menu.Item leftSection={<IconTrash size={14} />} onClick={onDelete}>
           Delete
         </Menu.Item>
       </Menu.Dropdown>

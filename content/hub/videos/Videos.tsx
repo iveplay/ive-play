@@ -17,6 +17,7 @@ export const Videos = () => {
     extensionAvailable,
     toggleFavorite,
     loadMoreEntries,
+    deleteEntry,
   } = useIveStore(
     useShallow((state) => ({
       entries: state.entries,
@@ -27,6 +28,7 @@ export const Videos = () => {
       extensionAvailable: state.extensionAvailable,
       toggleFavorite: state.toggleFavorite,
       loadMoreEntries: state.loadMoreEntries,
+      deleteEntry: state.deleteEntry,
     }))
   );
 
@@ -84,6 +86,7 @@ export const Videos = () => {
               tags={entry.tags}
               isFavorite={favoriteIds.has(entry.id)}
               onFavoriteToggle={() => toggleFavorite(entry.id)}
+              onDelete={() => deleteEntry(entry.id)}
             />
           );
         })}

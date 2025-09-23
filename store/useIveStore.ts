@@ -150,7 +150,7 @@ export const useIveStore = create<IveStore>((set, get) => ({
   deleteEntry: async (entryId) => {
     set({ loading: true, error: null });
     try {
-      await iveBridge.deleteEntry(entryId);
+      iveBridge.deleteEntry(entryId);
       // Update local state immediately
       set((state) => ({
         entries: state.entries.filter((e) => e.entry.id !== entryId),
