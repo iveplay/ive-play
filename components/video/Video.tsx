@@ -1,13 +1,15 @@
 import {
   IconActivityHeartbeat,
   IconBrandSpeedtest,
+  IconDotsVertical,
   IconGauge,
   IconHeart,
   IconHeartFilled,
+  IconTrash,
   IconUser,
 } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { ActionIcon, Anchor, Flex, Image, Pill, PillGroup, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Flex, Image, Menu, Pill, PillGroup, Title } from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
 import styles from './Video.module.css';
 
@@ -64,6 +66,7 @@ export const Video = ({
         >
           {isFavorite ? <IconHeartFilled /> : <IconHeart />}
         </ActionIcon>
+        <ActionMenu />
         <Image
           src={imageUrl}
           alt={title}
@@ -155,5 +158,33 @@ export const Video = ({
         )}
       </div>
     </div>
+  );
+};
+
+const ActionMenu = () => {
+  return (
+    <Menu
+      position="bottom-end"
+      offset={4}
+      classNames={{ dropdown: styles.menuDropdown, item: styles.menuItem }}
+    >
+      <Menu.Target>
+        <ActionIcon
+          variant="filled"
+          radius="xl"
+          color="rgba(41, 11, 29, 0.85)"
+          aria-label="Toggle menu"
+          size={40}
+          className={styles.menuButton}
+        >
+          <IconDotsVertical />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item leftSection={<IconTrash size={14} />} onClick={() => {}}>
+          Delete
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 };
