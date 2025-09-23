@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IconBrandDiscord, IconBrandPatreon, IconHome, IconLogout2 } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { AppShell, Box, Burger, Flex } from '@mantine/core';
+import { AppShell, Box, Burger, Flex, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { Logo } from '@/components/logo/Logo';
 import { Filters } from '@/content/hub/Filters';
@@ -59,35 +59,55 @@ const HubPage = () => {
             className={clsx('box menuItem', { active: pathname === '/hub' })}
             component={Link}
             href="/hub"
-            p="lg"
+            p={0}
             w={64}
             h={64}
           >
-            <IconHome color="var(--mantine-color-text)" />
+            <Flex direction="column" align="center" justify="center" h="64" gap="2">
+              <IconHome color="var(--mantine-color-text)" className="menuItemIcon" />
+              <Text size="xs" c="var(--mantine-color-text)" className="hoverText">
+                Home
+              </Text>
+            </Flex>
           </Box>
           <div className="box h" />
           <Box
             className="box menuItem"
             component={Link}
             href="https://discord.gg/KsYCE4jRHE"
-            p="lg"
+            p={0}
             w={64}
             h={64}
           >
-            <IconBrandDiscord color="var(--mantine-color-text)" />
+            <Flex direction="column" align="center" justify="center" h="64" gap="2">
+              <IconBrandDiscord color="var(--mantine-color-text)" className="menuItemIcon" />
+              <Text size="xs" c="var(--mantine-color-text)" className="hoverText">
+                Discord
+              </Text>
+            </Flex>
           </Box>
           <Box
             className="box menuItem"
             component={Link}
             href="https://patreon.com/iveplay"
-            p="lg"
+            p={0}
             w={64}
             h={64}
           >
-            <IconBrandPatreon color="var(--mantine-color-text)" />
+            <Flex direction="column" align="center" justify="center" h="64" gap="2">
+              <IconBrandPatreon color="var(--mantine-color-text)" className="menuItemIcon" />
+              <Text size="xs" c="var(--mantine-color-text)" className="hoverText">
+                Patreon
+              </Text>
+            </Flex>
           </Box>
-          <Box className="box menuItem" component={Link} href="/" p="lg" w={64} h={64}>
-            <IconLogout2 color="var(--mantine-color-text)" />
+          <Box className="box menuItem" component={Link} href="/" p={0} w={64} h={64}>
+            <Flex direction="column" align="center" justify="center" h="64" gap="2">
+              <IconLogout2 color="var(--mantine-color-text)" className="menuItemIcon" />
+              <Text size="xs" c="var(--mantine-color-text)" className="hoverText">
+                Exit
+              </Text>
+            </Flex>
           </Box>
         </Flex>
       </AppShell.Navbar>

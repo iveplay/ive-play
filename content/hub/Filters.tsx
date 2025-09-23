@@ -1,6 +1,6 @@
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import { useShallow } from 'zustand/shallow';
-import { Button, Flex } from '@mantine/core';
+import { Button, Flex, Text } from '@mantine/core';
 import { useIveStore } from '@/store/useIveStore';
 
 export const Filters = () => {
@@ -14,11 +14,12 @@ export const Filters = () => {
   return (
     <Button
       className="box menuItem"
+      miw={64}
       onClick={() => setFilters({ ...filters, favorites: !filters.favorites })}
     >
       <Flex gap="xs" align="center">
         {filters.favorites ? <IconHeartFilled /> : <IconHeart />}
-        Favorites
+        <Text display={{ base: 'none', sm: 'block' }}>Favorites</Text>
       </Flex>
     </Button>
   );

@@ -29,6 +29,20 @@ html {
   &:active {
     transform: scale(0.98);
   }
+
+  &:hover {
+    .hoverText {
+      display: block;
+    }
+  }
+
+  .hoverText {
+    display: none;
+  }
+}
+
+.menuItemIcon {
+  flex-shrink: 0;
 }
 
 .mantine-Notification-root {
