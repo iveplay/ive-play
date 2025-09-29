@@ -24,6 +24,7 @@ export const ScriptSelector = ({ scripts }: ScriptSelectorProps) => {
         onClick={() => combobox.toggleDropdown()}
         rightSectionPointerEvents="none"
         multiline
+        title={scripts[0]?.name}
       >
         <ScriptOption {...scripts[0]} />
       </InputBase>
@@ -59,6 +60,7 @@ export const ScriptSelector = ({ scripts }: ScriptSelectorProps) => {
           onClick={() => combobox.toggleDropdown()}
           rightSectionPointerEvents="none"
           multiline
+          title={selectedOption.name}
         >
           <ScriptOption {...selectedOption} />
         </InputBase>
@@ -73,11 +75,11 @@ export const ScriptSelector = ({ scripts }: ScriptSelectorProps) => {
 
 type SelectOptionProps = ScriptMetadata;
 
-const ScriptOption = ({ id, creator }: SelectOptionProps) => {
+const ScriptOption = ({ name, creator }: SelectOptionProps) => {
   return (
     <Flex justify="space-between" gap={4}>
       <Text size="sm" fw={500} truncate>
-        {id}
+        {name}
       </Text>
       <Flex gap={4} align="center" c="gray" flex="0 0 auto">
         <IconUser size={12} />

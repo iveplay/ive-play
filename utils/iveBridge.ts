@@ -21,6 +21,7 @@ export interface VideoSource {
 export interface ScriptMetadata {
   id: string;
   url: string;
+  name: string;
   creator: string;
   supportUrl?: string;
   avgSpeed?: number;
