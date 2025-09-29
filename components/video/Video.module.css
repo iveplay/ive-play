@@ -9,30 +9,13 @@
   overflow: hidden;
 
   img {
-    aspect-ratio: 16 / 12;
+    aspect-ratio: 16 / 10;
   }
 
-  .stats {
+  .duration {
     position: absolute;
-    display: flex;
-    flex-wrap: wrap;
     bottom: rem(8px);
     left: rem(8px);
-    right: rem(64px);
-    display: flex;
-    gap: rem(4px);
-
-    > div {
-      display: flex;
-      flex-wrap: wrap;
-      gap: rem(4px);
-    }
-
-    span > span {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
   }
 }
 
@@ -99,13 +82,7 @@
   display: flex;
   flex-direction: column;
   gap: rem(8px);
-  padding: rem(8px) rem(12px);
-
-  .creator {
-    display: flex;
-    align-items: center;
-    gap: rem(4px);
-  }
+  padding: rem(12px) rem(12px);
 }
 
 .tags {
@@ -121,25 +98,4 @@
   }
   -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
   scrollbar-width: none;
-}
-
-.menuButton {
-  position: absolute;
-  top: rem(8px);
-  right: rem(8px);
-  backdrop-filter: blur(10px);
-}
-
-.menuDropdown {
-  border: none;
-  border-radius: rem(8px);
-  background-color: rgba(41, 11, 29, 0.85);
-  backdrop-filter: blur(10px);
-}
-
-.menuItem {
-  &:hover {
-    border-radius: rem(6px);
-    background-color: rgba(123, 2, 77, 0.6);
-  }
 }

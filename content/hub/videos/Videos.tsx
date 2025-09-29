@@ -8,29 +8,17 @@ import { useIveStore } from '@/store/useIveStore';
 import { EmptyVideos } from './EmptyVideos';
 
 export const Videos = () => {
-  const {
-    entries,
-    favoriteIds,
-    loading,
-    isLoadingMore,
-    entriesHasMore,
-    extensionAvailable,
-    toggleFavorite,
-    loadMoreEntries,
-    deleteEntry,
-  } = useIveStore(
-    useShallow((state) => ({
-      entries: state.entries,
-      favoriteIds: state.favoriteIds,
-      loading: state.loading,
-      isLoadingMore: state.isLoadingMore,
-      entriesHasMore: state.entriesHasMore,
-      extensionAvailable: state.extensionAvailable,
-      toggleFavorite: state.toggleFavorite,
-      loadMoreEntries: state.loadMoreEntries,
-      deleteEntry: state.deleteEntry,
-    }))
-  );
+  const { entries, loading, isLoadingMore, entriesHasMore, extensionAvailable, loadMoreEntries } =
+    useIveStore(
+      useShallow((state) => ({
+        entries: state.entries,
+        loading: state.loading,
+        isLoadingMore: state.isLoadingMore,
+        entriesHasMore: state.entriesHasMore,
+        extensionAvailable: state.extensionAvailable,
+        loadMoreEntries: state.loadMoreEntries,
+      }))
+    );
 
   const { isLoading } = useExtensionCheck();
   useNewVideosCheck(10000);
@@ -68,26 +56,9 @@ export const Videos = () => {
       <SimpleGrid cols={{ base: 1, sm: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
         {entries.map((entryWithDetails) => {
           const { entry, videoSources, scripts } = entryWithDetails;
-          const videoSource = videoSources[0];
-          const script = scripts[0];
 
           return (
-            <Video
-              key={entry.id}
-              href={videoSource?.url}
-              title={entry.title}
-              imageUrl={entry.thumbnail}
-              duration={entry.duration}
-              actions={script?.actionCount}
-              averageSpeed={script?.avgSpeed}
-              maxSpeed={script?.maxSpeed}
-              creator={script?.creator}
-              creatorUrl={script?.supportUrl}
-              tags={entry.tags}
-              isFavorite={favoriteIds.has(entry.id)}
-              onFavoriteToggle={() => toggleFavorite(entry.id)}
-              onDelete={() => deleteEntry(entry.id)}
-            />
+            <Video key={entry.id} entry={entry} videoSources={videoSources} scripts={scripts} />
           );
         })}
       </SimpleGrid>
