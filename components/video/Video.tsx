@@ -43,7 +43,7 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
         >
           {isFavorite ? <IconHeartFilled /> : <IconHeart />}
         </ActionIcon>
-        <ActionMenu entryId={id} />
+        <ActionMenu entryId={id} entry={entry} videoSources={videoSources} scripts={scripts} />
         <Image
           src={thumbnail}
           alt={title}

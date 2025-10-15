@@ -180,8 +180,8 @@ class IveBridge {
     return this.sendMessage<string>(MESSAGES.IVEDB_CREATE_ENTRY, { data });
   }
 
-  updateEntry(entryId: string, updates: Partial<Omit<IveEntry, 'id' | 'createdAt'>>) {
-    return this.sendMessage<void>(MESSAGES.IVEDB_UPDATE_ENTRY, { entryId, updates });
+  updateEntry(entryId: string, data: CreateIveEntryData) {
+    return this.sendMessage<void>(MESSAGES.IVEDB_UPDATE_ENTRY, { entryId, data });
   }
 
   deleteEntry(entryId: string) {

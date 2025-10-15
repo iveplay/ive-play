@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import {
   CreateIveEntryData,
   iveBridge,
-  IveEntry,
   IveEntryWithDetails,
   IveSearchOptions,
 } from '@/utils/iveBridge';
@@ -30,10 +29,7 @@ interface IveStore {
   loadMoreEntries: () => Promise<void>;
   loadFavorites: () => Promise<void>;
   createEntry: (data: CreateIveEntryData) => Promise<string>;
-  updateEntry: (
-    entryId: string,
-    updates: Partial<Omit<IveEntry, 'id' | 'createdAt'>>
-  ) => Promise<void>;
+  updateEntry: (entryId: string, data: CreateIveEntryData) => Promise<void>;
   deleteEntry: (entryId: string) => Promise<void>;
   toggleFavorite: (entryId: string) => Promise<void>;
   checkExtension: () => Promise<boolean>;
@@ -134,10 +130,10 @@ export const useIveStore = create<IveStore>((set, get) => ({
     }
   },
 
-  updateEntry: async (entryId, updates) => {
+  updateEntry: async (entryId, data) => {
     set({ loading: true, error: null });
     try {
-      await iveBridge.updateEntry(entryId, updates);
+      await iveBridge.updateEntry(entryId, data);
       await get().loadEntries(true); // Reload all entries
     } catch (error) {
       set({ error: error instanceof Error ? error.message : 'Failed to update entry' });
