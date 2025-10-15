@@ -20,10 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <MantineProvider theme={theme} defaultColorScheme="dark">
       <Head>
         <title>IVE - Interactive Video Experience</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
         <link rel="shortcut icon" href="/icon0.svg" />
@@ -43,10 +40,10 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://iveplay.io" />
       </Head>
-      <body className={frankfurter.variable}>
+      <div className={frankfurter.variable}>
         <Notifications />
         <Component {...pageProps} />
-      </body>
+      </div>
     </MantineProvider>
   );
 };
