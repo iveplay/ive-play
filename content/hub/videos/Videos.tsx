@@ -5,20 +5,29 @@ import { Video } from '@/components/video/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useNewVideosCheck } from '@/hooks/useNewVideosCheck';
 import { useIveStore } from '@/store/useIveStore';
+import { EmptyFavorites } from './EmptyFavorites';
 import { EmptyVideos } from './EmptyVideos';
 
 export const Videos = () => {
-  const { entries, loading, isLoadingMore, entriesHasMore, extensionAvailable, loadMoreEntries } =
-    useIveStore(
-      useShallow((state) => ({
-        entries: state.entries,
-        loading: state.loading,
-        isLoadingMore: state.isLoadingMore,
-        entriesHasMore: state.entriesHasMore,
-        extensionAvailable: state.extensionAvailable,
-        loadMoreEntries: state.loadMoreEntries,
-      }))
-    );
+  const {
+    entries,
+    loading,
+    filters,
+    isLoadingMore,
+    entriesHasMore,
+    extensionAvailable,
+    loadMoreEntries,
+  } = useIveStore(
+    useShallow((state) => ({
+      entries: state.entries,
+      loading: state.loading,
+      filters: state.filters,
+      isLoadingMore: state.isLoadingMore,
+      entriesHasMore: state.entriesHasMore,
+      extensionAvailable: state.extensionAvailable,
+      loadMoreEntries: state.loadMoreEntries,
+    }))
+  );
 
   const { isLoading } = useExtensionCheck();
   useNewVideosCheck(10000);
@@ -48,6 +57,10 @@ export const Videos = () => {
   }
 
   if (entries.length === 0 && !loading) {
+    if (filters.favorites) {
+      return <EmptyFavorites />;
+    }
+
     return <EmptyVideos />;
   }
 

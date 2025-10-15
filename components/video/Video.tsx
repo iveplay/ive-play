@@ -48,7 +48,8 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
           src={thumbnail}
           alt={title}
           radius="lg"
-          fallbackSrc={`https://placehold.co/400/DDD/333?font=roboto&text=${title}`}
+          // Max 25 chars
+          fallbackSrc={`https://placehold.co/400/DDD/333?font=roboto&text=${title.slice(0, 25)}`}
         />
         {duration && (
           <Pill size="sm" aria-label="Video duration" className={styles.duration}>

@@ -7,6 +7,7 @@ import { AppShell, Box, Burger, Flex, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { Logo } from '@/components/logo/Logo';
 import { Filters } from '@/content/hub/Filters';
+import { NewEntry } from '@/content/hub/NewEntry';
 import { Videos } from '@/content/hub/videos/Videos';
 
 const HubPage = () => {
@@ -50,7 +51,8 @@ const HubPage = () => {
           </Flex>
           <Box className="box" flex={1} />
           <Filters />
-          <Box className="box" w={128} />
+          <Box className="box" w={64} />
+          <NewEntry />
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar ref={setNavbar} withBorder={false}>
