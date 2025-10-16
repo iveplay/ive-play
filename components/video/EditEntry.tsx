@@ -1,5 +1,20 @@
 import { useState } from 'react';
-import { Button, Group, Modal, NumberInput, Stack, TagsInput, TextInput } from '@mantine/core';
+import { IconPlus, IconTrash } from '@tabler/icons-react';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Divider,
+  Grid,
+  Group,
+  Modal,
+  NumberInput,
+  ScrollArea,
+  Stack,
+  TagsInput,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
@@ -22,9 +37,14 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
       title: entry.title,
       videoUrl: videoSources[0]?.url || '',
       thumbnailUrl: entry.thumbnail || '',
-      scriptUrl: scripts[0]?.url || '',
-      scriptName: scripts[0]?.name || '',
-      creator: scripts[0]?.creator || '',
+      scripts:
+        scripts.length > 0
+          ? scripts.map((script) => ({
+              url: script.url,
+              name: script.name,
+              creator: script.creator || '',
+            }))
+          : [{ url: '', name: '', creator: '' }],
       duration: entry.duration ? entry.duration / 1000 : undefined,
       tags: entry.tags?.filter((tag) => tag !== 'manual') || [],
     },
@@ -33,33 +53,45 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
       videoUrl: (value) =>
         !value ? 'Video URL is required' : !value.startsWith('http') ? 'Must be a valid URL' : null,
       thumbnailUrl: (value) => (value && !value.startsWith('http') ? 'Must be a valid URL' : null),
-      scriptUrl: (value) =>
-        !value
-          ? 'Script URL is required'
-          : !value.startsWith('http')
-            ? 'Must be a valid URL'
-            : null,
-      scriptName: (value) => (!value ? 'Script name is required' : null),
-      creator: (value) => (!value ? 'Creator is required' : null),
+      scripts: {
+        url: (value) =>
+          !value
+            ? 'Script URL is required'
+            : !value.startsWith('http')
+              ? 'Must be a valid URL'
+              : null,
+        name: (value) => (!value ? 'Script name is required' : null),
+      },
     },
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
     setLoading(true);
     try {
+      // Filter out empty scripts
+      const validScripts = values.scripts.filter((script) => script.url && script.name);
+
+      if (validScripts.length === 0) {
+        notifications.show({
+          title: 'Error',
+          message: 'At least one script is required',
+          color: 'red',
+        });
+        setLoading(false);
+        return;
+      }
+
       await updateEntry(entry.id, {
         title: values.title,
         duration: values.duration ? values.duration * 1000 : undefined,
         thumbnail: values.thumbnailUrl || undefined,
         tags: values.tags.length > 0 ? ['manual', ...values.tags] : ['manual'],
         videoSources: [{ url: values.videoUrl }],
-        scripts: [
-          {
-            url: values.scriptUrl,
-            name: values.scriptName,
-            creator: values.creator || 'Unknown',
-          },
-        ],
+        scripts: validScripts.map((script) => ({
+          url: script.url,
+          name: script.name,
+          creator: script.creator || 'Unknown',
+        })),
       });
 
       notifications.show({
@@ -86,88 +118,144 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
   };
 
   return (
-    <Modal opened={opened} onClose={handleClose} title="Edit entry" radius="lg">
+    <Modal opened={opened} onClose={handleClose} title="Edit entry" radius="lg" size="xl">
       <form onSubmit={handleSubmit}>
-        <Stack>
-          <TextInput
-            key={form.key('title')}
-            label="Video Title"
-            placeholder="Enter video title"
-            required
-            radius="md"
-            {...form.getInputProps('title')}
-          />
+        <Grid gutter="lg">
+          {/* Left Column - Video Details */}
+          <Grid.Col span={6}>
+            <Stack gap="md">
+              <Text fw={600} size="lg">
+                Video Details
+              </Text>
 
-          <TextInput
-            key={form.key('videoUrl')}
-            label="Video URL"
-            placeholder="https://..."
-            required
-            radius="md"
-            {...form.getInputProps('videoUrl')}
-          />
+              <TextInput
+                key={form.key('title')}
+                label="Video Title"
+                placeholder="Enter video title"
+                required
+                radius="md"
+                {...form.getInputProps('title')}
+              />
 
-          <TextInput
-            key={form.key('thumbnailUrl')}
-            label="Thumbnail URL"
-            placeholder="https://..."
-            radius="md"
-            {...form.getInputProps('thumbnailUrl')}
-          />
+              <TextInput
+                key={form.key('videoUrl')}
+                label="Video URL"
+                placeholder="https://..."
+                required
+                radius="md"
+                {...form.getInputProps('videoUrl')}
+              />
 
-          <TextInput
-            key={form.key('scriptUrl')}
-            label="Script URL"
-            placeholder="https://..."
-            required
-            radius="md"
-            {...form.getInputProps('scriptUrl')}
-          />
+              <TextInput
+                key={form.key('thumbnailUrl')}
+                label="Thumbnail URL"
+                placeholder="https://..."
+                radius="md"
+                {...form.getInputProps('thumbnailUrl')}
+              />
 
-          <TextInput
-            key={form.key('scriptName')}
-            label="Script Name"
-            placeholder="Enter script name"
-            required
-            radius="md"
-            {...form.getInputProps('scriptName')}
-          />
+              <NumberInput
+                key={form.key('duration')}
+                label="Duration (seconds)"
+                placeholder="Video duration in seconds (optional)"
+                min={0}
+                radius="md"
+                {...form.getInputProps('duration')}
+              />
 
-          <TextInput
-            key={form.key('creator')}
-            label="Creator"
-            placeholder="Script creator"
-            required
-            radius="md"
-            {...form.getInputProps('creator')}
-          />
+              <TagsInput
+                key={form.key('tags')}
+                label="Tags"
+                placeholder="Add tags (press Enter)"
+                radius="md"
+                {...form.getInputProps('tags')}
+              />
+            </Stack>
+          </Grid.Col>
 
-          <NumberInput
-            key={form.key('duration')}
-            label="Duration (seconds)"
-            placeholder="Video duration in seconds (optional)"
-            min={0}
-            radius="md"
-            {...form.getInputProps('duration')}
-          />
+          {/* Right Column - Scripts */}
+          <Grid.Col span={6}>
+            <Stack gap="md" h="100%">
+              <Group justify="space-between">
+                <Text fw={600} size="lg">
+                  Scripts
+                </Text>
+                <Button
+                  size="xs"
+                  variant="light"
+                  leftSection={<IconPlus size={16} />}
+                  onClick={() => form.insertListItem('scripts', { url: '', name: '', creator: '' })}
+                  radius="md"
+                >
+                  Add Script
+                </Button>
+              </Group>
 
-          <TagsInput
-            key={form.key('tags')}
-            label="Tags"
-            placeholder="Add tags (press Enter)"
-            radius="md"
-            {...form.getInputProps('tags')}
-          />
+              <ScrollArea h={400} type="auto" offsetScrollbars>
+                <Stack gap="md" pr="xs">
+                  {form.values.scripts.map((_, index) => (
+                    <Box
+                      key={index}
+                      p="md"
+                      style={{ border: '1px solid #dee2e6', borderRadius: '8px' }}
+                    >
+                      <Group justify="space-between" mb="xs">
+                        <Text size="sm" fw={500}>
+                          Script {index + 1}
+                        </Text>
+                        {form.values.scripts.length > 1 && (
+                          <ActionIcon
+                            color="red"
+                            variant="subtle"
+                            onClick={() => form.removeListItem('scripts', index)}
+                          >
+                            <IconTrash size={16} />
+                          </ActionIcon>
+                        )}
+                      </Group>
 
-          <Group justify="flex-end" mt="md">
-            <Button variant="default" onClick={handleClose} radius="md">
-              Cancel
-            </Button>
-            <Button type="submit" loading={loading} radius="md">
-              Update entry
-            </Button>
-          </Group>
-        </Stack>
+                      <Stack gap="xs">
+                        <TextInput
+                          label="Script URL"
+                          placeholder="https://..."
+                          required
+                          radius="md"
+                          {...form.getInputProps(`scripts.${index}.url`)}
+                        />
+
+                        <TextInput
+                          label="Script Name"
+                          placeholder="Enter script name"
+                          required
+                          radius="md"
+                          {...form.getInputProps(`scripts.${index}.name`)}
+                        />
+
+                        <TextInput
+                          label="Creator"
+                          placeholder="Script creator"
+                          radius="md"
+                          {...form.getInputProps(`scripts.${index}.creator`)}
+                        />
+                      </Stack>
+                    </Box>
+                  ))}
+                </Stack>
+              </ScrollArea>
+            </Stack>
+          </Grid.Col>
+        </Grid>
+
+        <Divider my="lg" />
+
+        <Group justify="flex-end">
+          <Button variant="default" onClick={handleClose} radius="md">
+            Cancel
+          </Button>
+          <Button type="submit" loading={loading} radius="md">
+            Update entry
+          </Button>
+        </Group>
       </form>
     </Modal>
   );
