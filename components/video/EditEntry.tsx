@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 import {
   ActionIcon,
@@ -18,7 +18,7 @@ import {
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
-import { IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
+import { iveBridge, IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
 
 type EditEntryProps = {
   opened: boolean;
@@ -64,6 +64,37 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
       },
     },
   });
+
+  // Fetch fresh data when modal opens
+  useEffect(() => {
+    if (opened) {
+      const fetchLatestData = async () => {
+        try {
+          const latestData = await iveBridge.getEntryWithDetails(entry.id);
+          if (latestData) {
+            form.setValues({
+              title: latestData.entry.title,
+              videoUrl: latestData.videoSources[0]?.url || '',
+              thumbnailUrl: latestData.entry.thumbnail || '',
+              scripts:
+                latestData.scripts.length > 0
+                  ? latestData.scripts.map((script) => ({
+                      url: script.url,
+                      name: script.name,
+                      creator: script.creator || '',
+                    }))
+                  : [{ url: '', name: '', creator: '' }],
+              duration: latestData.entry.duration ? latestData.entry.duration / 1000 : undefined,
+              tags: latestData.entry.tags?.filter((tag) => tag !== 'manual') || [],
+            });
+          }
+        } catch (error) {
+          // If fetch fails, just use the existing props (silently fail)
+        }
+      };
+      fetchLatestData();
+    }
+  }, [opened, entry.id]);
 
   const handleSubmit = form.onSubmit(async (values) => {
     setLoading(true);
