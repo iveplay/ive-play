@@ -19,6 +19,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
 import { iveBridge, IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
+import styles from './ModalEntry.module.css';
 
 type EditEntryProps = {
   opened: boolean;
@@ -149,7 +150,16 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
   };
 
   return (
-    <Modal opened={opened} onClose={handleClose} title="Edit entry" radius="lg" size="xl">
+    <Modal
+      opened={opened}
+      onClose={handleClose}
+      title="Edit entry"
+      radius="lg"
+      size="xl"
+      classNames={{
+        title: styles.modalTitle,
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <Grid gutter="lg">
           {/* Left Column - Video Details */}

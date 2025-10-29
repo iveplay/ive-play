@@ -20,6 +20,7 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
+import styles from './ModalEntry.module.css';
 
 export const NewEntry = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -116,6 +117,9 @@ export const NewEntry = () => {
         title="Add new entry"
         radius="lg"
         size="xl"
+        classNames={{
+          title: styles.modalTitle,
+        }}
       >
         <form onSubmit={handleSubmit}>
           <Grid gutter="lg">

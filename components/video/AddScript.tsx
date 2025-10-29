@@ -4,6 +4,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
 import { IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
+import styles from './ModalEntry.module.css';
 
 type AddScriptProps = {
   opened: boolean;
@@ -103,7 +104,16 @@ export const AddScript = ({
   };
 
   return (
-    <Modal opened={opened} onClose={handleClose} title="Add script" radius="lg" size="md">
+    <Modal
+      opened={opened}
+      onClose={handleClose}
+      title="Add script"
+      radius="lg"
+      size="md"
+      classNames={{
+        title: styles.modalTitle,
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <Stack gap="md">
           <Text size="sm" c="dimmed">

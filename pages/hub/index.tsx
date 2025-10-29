@@ -6,8 +6,8 @@ import clsx from 'clsx';
 import { AppShell, Box, Burger, Flex, Text } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { Logo } from '@/components/logo/Logo';
+import { NewEntry } from '@/components/video/NewEntry';
 import { Filters } from '@/content/hub/Filters';
-import { NewEntry } from '@/content/hub/NewEntry';
 import { Videos } from '@/content/hub/videos/Videos';
 
 const HubPage = () => {
