@@ -5,6 +5,7 @@ import { Video } from '@/components/video/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useNewVideosCheck } from '@/hooks/useNewVideosCheck';
 import { useIveStore } from '@/store/useIveStore';
+import { REQUIRED_VERSION } from '@/utils/versions';
 import { EmptyFavorites } from './EmptyFavorites';
 import { EmptyVideos } from './EmptyVideos';
 
@@ -16,6 +17,8 @@ export const Videos = () => {
     isLoadingMore,
     entriesHasMore,
     extensionAvailable,
+    extensionVersion,
+    isVersionCompatible,
     loadMoreEntries,
   } = useIveStore(
     useShallow((state) => ({
@@ -25,6 +28,8 @@ export const Videos = () => {
       isLoadingMore: state.isLoadingMore,
       entriesHasMore: state.entriesHasMore,
       extensionAvailable: state.extensionAvailable,
+      extensionVersion: state.extensionVersion,
+      isVersionCompatible: state.isVersionCompatible,
       loadMoreEntries: state.loadMoreEntries,
     }))
   );
@@ -40,12 +45,17 @@ export const Videos = () => {
     );
   }
 
-  if (!extensionAvailable) {
+  if (!extensionAvailable || !isVersionCompatible) {
     return (
       <Flex flex={1} direction="column" align="center" justify="center" className="box">
         <Title order={1} my="md" fw={300} ff="var(--font-frankfurter)">
-          IVE not detected
+          {extensionAvailable && !isVersionCompatible ? `IVE version mismatch` : 'IVE not detected'}
         </Title>
+        {extensionAvailable && !isVersionCompatible && (
+          <Text fw={500}>
+            {`IVE version ${extensionVersion} detected, expected ${REQUIRED_VERSION}`}
+          </Text>
+        )}
         <Text mb="lg" fw={500}>
           Make sure you have the latest IVE browser extension installed and running.
         </Text>

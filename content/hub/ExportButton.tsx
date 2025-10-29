@@ -5,14 +5,16 @@ import { Button, Flex, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
 import { iveBridge } from '@/utils/iveBridge';
+import { REQUIRED_VERSION } from '@/utils/versions';
 
 export const ExportButton = () => {
   const [isExporting, setIsExporting] = useState(false);
 
-  const { entries, favoriteIds } = useIveStore(
+  const { entries, favoriteIds, extensionVersion } = useIveStore(
     useShallow((state) => ({
       entries: state.entries,
       favoriteIds: state.favoriteIds,
+      extensionVersion: state.extensionVersion,
     }))
   );
 
@@ -32,7 +34,7 @@ export const ExportButton = () => {
       );
 
       const exportData = {
-        version: '1.0.0',
+        version: extensionVersion || REQUIRED_VERSION,
         exportDate: new Date().toISOString(),
         totalEntries: allEntriesWithDetails.length,
         favorites: Array.from(favoriteIds),

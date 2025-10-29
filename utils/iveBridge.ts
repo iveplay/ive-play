@@ -147,7 +147,7 @@ class IveBridge {
   }
 
   ping() {
-    return this.sendMessage<boolean>(MESSAGES.IVEDB_PING);
+    return this.sendMessage<{ available: boolean; version: string }>(MESSAGES.IVEDB_PING);
   }
 
   getAllEntries() {

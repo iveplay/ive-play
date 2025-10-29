@@ -5,6 +5,7 @@ import {
   IveEntryWithDetails,
   IveSearchOptions,
 } from '@/utils/iveBridge';
+import { REQUIRED_VERSION } from '@/utils/versions';
 
 interface IveStore {
   // State
@@ -14,6 +15,8 @@ interface IveStore {
   isLoadingMore: boolean;
   error: string | null;
   extensionAvailable: boolean;
+  extensionVersion: string | null;
+  isVersionCompatible: boolean;
 
   // Filters
   filters: IveSearchOptions;
@@ -43,6 +46,8 @@ export const useIveStore = create<IveStore>((set, get) => ({
   isLoadingMore: false,
   error: null,
   extensionAvailable: false,
+  extensionVersion: null,
+  isVersionCompatible: false,
 
   filters: {
     favorites: false,
@@ -191,10 +196,21 @@ export const useIveStore = create<IveStore>((set, get) => ({
   checkExtension: async () => {
     try {
       const result = await iveBridge.ping();
-      set({ extensionAvailable: result });
-      return result;
+      const versionMatch = result.version === REQUIRED_VERSION;
+
+      set({
+        extensionAvailable: result.available,
+        extensionVersion: result.version,
+        isVersionCompatible: versionMatch,
+      });
+
+      return result.available && versionMatch;
     } catch {
-      set({ extensionAvailable: false });
+      set({
+        extensionAvailable: false,
+        extensionVersion: null,
+        isVersionCompatible: false,
+      });
       return false;
     }
   },
