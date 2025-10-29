@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import clsx from 'clsx';
 import { useShallow } from 'zustand/shallow';
@@ -7,6 +8,7 @@ import { formatTime } from '@/utils/formatTime';
 import { IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
 import { ActionMenu } from './ActionMenu';
 import { ScriptSelector } from './ScriptSelector';
+import { VideoSourceSelector } from './VideoSourceSelector';
 import styles from './Video.module.css';
 
 type VideoProps = {
@@ -17,7 +19,8 @@ type VideoProps = {
 
 export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
   const { id, title, thumbnail, duration, tags } = entry;
-  const { url } = videoSources[0];
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState(videoSources[0]?.url);
+
   const { favoriteIds, toggleFavorite } = useIveStore(
     useShallow((state) => ({
       favoriteIds: state.favoriteIds,
@@ -48,7 +51,6 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
           src={thumbnail}
           alt={title}
           radius="lg"
-          // Max 25 chars
           fallbackSrc={`https://placehold.co/400/DDD/333?font=roboto&text=${title.slice(0, 25)}`}
         />
         {duration && (
@@ -58,7 +60,7 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
         )}
         <div className={styles.playButtonContainer}>
           <Anchor
-            href={url}
+            href={selectedVideoUrl}
             c="white"
             className={styles.playButton}
             underline="never"
@@ -68,6 +70,7 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
           </Anchor>
         </div>
       </div>
+      <VideoSourceSelector videoSources={videoSources} onSelect={setSelectedVideoUrl} />
       <ScriptSelector scripts={scripts} />
       <div className={clsx('box', styles.videoInfo)}>
         <Title size="lg" lineClamp={2} h={48} title={title}>

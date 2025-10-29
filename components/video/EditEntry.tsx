@@ -36,7 +36,10 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
   const form = useForm({
     initialValues: {
       title: entry.title,
-      videoUrl: videoSources[0]?.url || '',
+      videoSources:
+        videoSources.length > 0
+          ? videoSources.map((source) => ({ url: source.url }))
+          : [{ url: '' }],
       thumbnailUrl: entry.thumbnail || '',
       scripts:
         scripts.length > 0
@@ -51,9 +54,15 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
     },
     validate: {
       title: (value) => (!value ? 'Title is required' : null),
-      videoUrl: (value) =>
-        !value ? 'Video URL is required' : !value.startsWith('http') ? 'Must be a valid URL' : null,
       thumbnailUrl: (value) => (value && !value.startsWith('http') ? 'Must be a valid URL' : null),
+      videoSources: {
+        url: (value) =>
+          !value
+            ? 'Video URL is required'
+            : !value.startsWith('http')
+              ? 'Must be a valid URL'
+              : null,
+      },
       scripts: {
         url: (value) =>
           !value
@@ -75,7 +84,10 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
           if (latestData) {
             form.setValues({
               title: latestData.entry.title,
-              videoUrl: latestData.videoSources[0]?.url || '',
+              videoSources:
+                latestData.videoSources.length > 0
+                  ? latestData.videoSources.map((source) => ({ url: source.url }))
+                  : [{ url: '' }],
               thumbnailUrl: latestData.entry.thumbnail || '',
               scripts:
                 latestData.scripts.length > 0
@@ -100,6 +112,19 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
   const handleSubmit = form.onSubmit(async (values) => {
     setLoading(true);
     try {
+      // Filter out empty video sources
+      const validVideoSources = values.videoSources.filter((source) => source.url);
+
+      if (validVideoSources.length === 0) {
+        notifications.show({
+          title: 'Error',
+          message: 'At least one video source is required',
+          color: 'red',
+        });
+        setLoading(false);
+        return;
+      }
+
       // Filter out empty scripts
       const validScripts = values.scripts.filter((script) => script.url && script.name);
 
@@ -118,7 +143,7 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
         duration: values.duration ? values.duration * 1000 : undefined,
         thumbnail: values.thumbnailUrl || undefined,
         tags: values.tags.length > 0 ? ['manual', ...values.tags] : ['manual'],
-        videoSources: [{ url: values.videoUrl }],
+        videoSources: validVideoSources,
         scripts: validScripts.map((script) => ({
           url: script.url,
           name: script.name,
@@ -179,15 +204,6 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
               />
 
               <TextInput
-                key={form.key('videoUrl')}
-                label="Video URL"
-                placeholder="https://..."
-                required
-                radius="md"
-                {...form.getInputProps('videoUrl')}
-              />
-
-              <TextInput
                 key={form.key('thumbnailUrl')}
                 label="Thumbnail URL"
                 placeholder="https://..."
@@ -211,6 +227,44 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
                 radius="md"
                 {...form.getInputProps('tags')}
               />
+
+              <Stack gap="xs">
+                <Group justify="space-between">
+                  <Text size="sm" fw={500}>
+                    Video Sources
+                  </Text>
+                  <Button
+                    size="xs"
+                    variant="light"
+                    leftSection={<IconPlus size={14} />}
+                    onClick={() => form.insertListItem('videoSources', { url: '' })}
+                    radius="md"
+                  >
+                    Add Source
+                  </Button>
+                </Group>
+
+                {form.values.videoSources.map((_, index) => (
+                  <Group key={index} wrap="nowrap">
+                    <TextInput
+                      placeholder="https://..."
+                      required
+                      radius="md"
+                      flex={1}
+                      {...form.getInputProps(`videoSources.${index}.url`)}
+                    />
+                    {form.values.videoSources.length > 1 && (
+                      <ActionIcon
+                        color="red"
+                        variant="subtle"
+                        onClick={() => form.removeListItem('videoSources', index)}
+                      >
+                        <IconTrash size={16} />
+                      </ActionIcon>
+                    )}
+                  </Group>
+                ))}
+              </Stack>
             </Stack>
           </Grid.Col>
 

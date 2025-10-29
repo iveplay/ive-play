@@ -1,6 +1,7 @@
 .optionSelector {
   border: none;
   padding-block: rem(12px);
+  cursor: pointer;
 }
 
 .optionDropdown {
