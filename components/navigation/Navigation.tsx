@@ -59,11 +59,9 @@ export const Navigation = () => {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      {process.env.NODE_ENV === 'development' && (
-        <Button component={Link} href="/hub" radius="lg" size="lg" h="100%" fw={500}>
-          Hub
-        </Button>
-      )}
+      <Button component={Link} href="/hub" radius="lg" size="lg" h="100%" fw={500}>
+        Hub
+      </Button>
     </nav>
   );
 };
