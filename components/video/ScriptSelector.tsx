@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconUser } from '@tabler/icons-react';
 import { Combobox, Flex, InputBase, Text, useCombobox } from '@mantine/core';
 import { IveEntry, ScriptMetadata } from '@/utils/iveBridge';
@@ -7,9 +7,10 @@ import styles from './ScriptSelector.module.css';
 type ScriptSelectorProps = {
   scripts: ScriptMetadata[];
   entry?: IveEntry;
+  onSelect?: (scriptId: string) => void;
 };
 
-export const ScriptSelector = ({ scripts, entry }: ScriptSelectorProps) => {
+export const ScriptSelector = ({ scripts, entry, onSelect }: ScriptSelectorProps) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -18,6 +19,12 @@ export const ScriptSelector = ({ scripts, entry }: ScriptSelectorProps) => {
   const defaultScriptId = entry?.defaultScriptId
     ? scripts.find((s) => s.url === entry.defaultScriptId)?.id
     : scripts[0]?.id;
+
+  useEffect(() => {
+    if (defaultScriptId && onSelect) {
+      onSelect(defaultScriptId);
+    }
+  }, [defaultScriptId, onSelect]);
 
   const [entryId, setEntryId] = useState<string | undefined>(defaultScriptId);
 
@@ -52,6 +59,9 @@ export const ScriptSelector = ({ scripts, entry }: ScriptSelectorProps) => {
       withinPortal={false}
       onOptionSubmit={(val) => {
         setEntryId(val);
+        if (onSelect) {
+          onSelect(val);
+        }
         combobox.closeDropdown();
       }}
     >

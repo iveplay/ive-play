@@ -78,6 +78,7 @@ const MESSAGES = {
   IVEDB_REMOVE_FAVORITE: 'ive:ivedb:remove_favorite',
   IVEDB_GET_FAVORITES: 'ive:ivedb:get_favorites',
   IVEDB_IS_FAVORITED: 'ive:ivedb:is_favorited',
+  IVE_SELECT_SCRIPT: 'ive:select_script',
 };
 
 class IveBridge {
@@ -204,6 +205,10 @@ class IveBridge {
 
   isFavorited(entryId: string) {
     return this.sendMessage<boolean>(MESSAGES.IVEDB_IS_FAVORITED, { entryId });
+  }
+
+  selectScript(scriptId: string, timestamp: number) {
+    return this.sendMessage<void>(MESSAGES.IVE_SELECT_SCRIPT, { scriptId, timestamp });
   }
 }
 

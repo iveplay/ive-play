@@ -5,7 +5,7 @@ import { useShallow } from 'zustand/shallow';
 import { ActionIcon, Anchor, Image, Pill, PillGroup, Title } from '@mantine/core';
 import { useIveStore } from '@/store/useIveStore';
 import { formatTime } from '@/utils/formatTime';
-import { IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
+import { iveBridge, IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
 import { ActionMenu } from './ActionMenu';
 import { ScriptSelector } from './ScriptSelector';
 import { VideoSourceSelector } from './VideoSourceSelector';
@@ -20,6 +20,7 @@ type VideoProps = {
 export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
   const { id, title, thumbnail, duration, tags } = entry;
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(videoSources[0]?.url);
+  const [selectedScriptId, setSelectedScriptId] = useState(scripts[0]?.id);
 
   const { favoriteIds, toggleFavorite } = useIveStore(
     useShallow((state) => ({
@@ -65,13 +66,17 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
             className={styles.playButton}
             underline="never"
             target="_blank"
+            onClick={async () => {
+              await iveBridge.selectScript(selectedScriptId!, Date.now());
+              window.open(selectedVideoUrl, '_blank');
+            }}
           >
             V
           </Anchor>
         </div>
       </div>
       <VideoSourceSelector videoSources={videoSources} onSelect={setSelectedVideoUrl} />
-      <ScriptSelector scripts={scripts} entry={entry} />
+      <ScriptSelector scripts={scripts} entry={entry} onSelect={setSelectedScriptId} />
       <div className={clsx('box', styles.videoInfo)}>
         <Title size="lg" lineClamp={2} h={48} title={title}>
           {title}
