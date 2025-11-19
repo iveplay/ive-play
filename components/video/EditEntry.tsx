@@ -9,6 +9,7 @@ import {
   Group,
   Modal,
   NumberInput,
+  Radio,
   ScrollArea,
   Stack,
   TagsInput,
@@ -49,6 +50,7 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
               creator: script.creator || '',
             }))
           : [{ url: '', name: '', creator: '' }],
+      defaultScriptId: entry.defaultScriptId || (scripts.length > 0 ? scripts[0].url : undefined),
       duration: entry.duration ? entry.duration / 1000 : undefined,
       tags: entry.tags?.filter((tag) => tag !== 'manual') || [],
     },
@@ -97,6 +99,9 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
                       creator: script.creator || '',
                     }))
                   : [{ url: '', name: '', creator: '' }],
+              defaultScriptId:
+                latestData.entry.defaultScriptId ||
+                (latestData.scripts.length > 0 ? latestData.scripts[0].url : undefined),
               duration: latestData.entry.duration ? latestData.entry.duration / 1000 : undefined,
               tags: latestData.entry.tags?.filter((tag) => tag !== 'manual') || [],
             });
@@ -149,6 +154,7 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
           name: script.name,
           creator: script.creator || 'Unknown',
         })),
+        defaultScriptId: values.defaultScriptId,
       });
 
       notifications.show({
@@ -331,6 +337,14 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
                           placeholder="Script creator"
                           radius="md"
                           {...form.getInputProps(`scripts.${index}.creator`)}
+                        />
+
+                        <Radio
+                          label="Set as default"
+                          checked={form.values.defaultScriptId === form.values.scripts[index].url}
+                          onChange={() =>
+                            form.setFieldValue('defaultScriptId', form.values.scripts[index].url)
+                          }
                         />
                       </Stack>
                     </Box>

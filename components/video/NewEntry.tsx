@@ -10,6 +10,7 @@ import {
   Group,
   Modal,
   NumberInput,
+  Radio,
   ScrollArea,
   Stack,
   TagsInput,
@@ -33,6 +34,7 @@ export const NewEntry = () => {
       videoSources: [{ url: '' }],
       thumbnailUrl: '',
       scripts: [{ url: '', name: '', creator: '' }],
+      defaultScriptId: undefined as string | undefined,
       duration: undefined as number | undefined,
       tags: [] as string[],
     },
@@ -99,6 +101,7 @@ export const NewEntry = () => {
           name: script.name,
           creator: script.creator || 'Unknown',
         })),
+        defaultScriptId: values.defaultScriptId,
       });
 
       notifications.show({
@@ -290,6 +293,14 @@ export const NewEntry = () => {
                             placeholder="Script creator (optional)"
                             radius="md"
                             {...form.getInputProps(`scripts.${index}.creator`)}
+                          />
+
+                          <Radio
+                            label="Set as default"
+                            checked={form.values.defaultScriptId === form.values.scripts[index].url}
+                            onChange={() =>
+                              form.setFieldValue('defaultScriptId', form.values.scripts[index].url)
+                            }
                           />
                         </Stack>
                       </Box>

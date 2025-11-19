@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Divider, Group, Modal, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Checkbox, Divider, Group, Modal, Stack, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
@@ -29,6 +29,7 @@ export const AddScript = ({
       url: '',
       name: '',
       creator: '',
+      setAsDefault: false,
     },
     validate: {
       url: (value) =>
@@ -77,6 +78,7 @@ export const AddScript = ({
         tags: entry.tags || ['manual'],
         videoSources: videoSources.map((source) => ({ url: source.url })),
         scripts: updatedScripts,
+        defaultScriptId: values.setAsDefault ? values.url : entry.defaultScriptId,
       });
 
       notifications.show({
@@ -144,6 +146,11 @@ export const AddScript = ({
             placeholder="Script creator (optional)"
             radius="md"
             {...form.getInputProps('creator')}
+          />
+
+          <Checkbox
+            label="Set as default script"
+            {...form.getInputProps('setAsDefault', { type: 'checkbox' })}
           />
         </Stack>
 

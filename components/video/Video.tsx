@@ -71,7 +71,7 @@ export const Video = ({ entry, videoSources, scripts }: VideoProps) => {
         </div>
       </div>
       <VideoSourceSelector videoSources={videoSources} onSelect={setSelectedVideoUrl} />
-      <ScriptSelector scripts={scripts} />
+      <ScriptSelector scripts={scripts} entry={entry} />
       <div className={clsx('box', styles.videoInfo)}>
         <Title size="lg" lineClamp={2} h={48} title={title}>
           {title}
