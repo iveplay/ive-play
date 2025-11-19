@@ -81,6 +81,10 @@ export const VideoSourceSelector = ({ videoSources, onSelect }: VideoSourceSelec
 type VideoSourceOptionProps = VideoSource;
 
 const VideoSourceOption = ({ url }: VideoSourceOptionProps) => {
+  if (!url) {
+    return;
+  }
+
   const displayUrl = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
   const domain = displayUrl.split('/')[0];
   const domainWithoutTld = domain.replace(/\.[^.]+$/, '');

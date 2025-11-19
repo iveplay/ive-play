@@ -33,12 +33,23 @@ export const ExportButton = () => {
         })
       );
 
+      // Filter out local scripts from all entries
+      const entriesWithoutLocalScripts = allEntriesWithDetails.map((entryDetails) => ({
+        ...entryDetails,
+        scripts: entryDetails.scripts.filter((script) => !script.url.startsWith('file://')),
+      }));
+
+      // Remove entries that have no scripts left after filtering
+      const validEntries = entriesWithoutLocalScripts.filter(
+        (entryDetails) => entryDetails.scripts.length > 0
+      );
+
       const exportData = {
         version: extensionVersion || REQUIRED_VERSION,
         exportDate: new Date().toISOString(),
-        totalEntries: allEntriesWithDetails.length,
+        totalEntries: validEntries.length,
         favorites: Array.from(favoriteIds),
-        entries: allEntriesWithDetails,
+        entries: validEntries,
       };
 
       const dataStr = JSON.stringify(exportData);
@@ -55,7 +66,7 @@ export const ExportButton = () => {
 
       notifications.show({
         title: 'Success',
-        message: `Exported ${allEntriesWithDetails.length} entries`,
+        message: `Exported ${validEntries.length} entries`,
         color: 'green',
       });
     } catch (error) {

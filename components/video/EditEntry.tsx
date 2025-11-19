@@ -401,7 +401,8 @@ export const EditEntry = ({ opened, onClose, entry, videoSources, scripts }: Edi
                       </Group>
 
                       <Stack gap="xs">
-                        {!script.url.startsWith('file://') && (
+                        {/* Only show URL/Local toggle for new scripts (no existing URL or new local without file://) */}
+                        {!script.url.startsWith('file://') && !script.url.startsWith('http') && (
                           <Group>
                             <Button
                               size="xs"

@@ -130,7 +130,7 @@ export const AddScript = ({
         tags: entry.tags || ['manual'],
         videoSources: videoSources.map((source) => ({ url: source.url })),
         scripts: updatedScripts,
-        defaultScriptId: values.setAsDefault ? values.url : entry.defaultScriptId,
+        defaultScriptId: values.setAsDefault ? scriptUrl : entry.defaultScriptId,
       });
 
       notifications.show({
