@@ -21,6 +21,7 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
+import { iveBridge } from '@/utils/iveBridge';
 import styles from './ModalEntry.module.css';
 
 export const NewEntry = () => {
@@ -33,7 +34,7 @@ export const NewEntry = () => {
       title: '',
       videoSources: [{ url: '' }],
       thumbnailUrl: '',
-      scripts: [{ url: '', name: '', creator: '' }],
+      scripts: [{ url: '', name: '', creator: '', isLocal: false, file: null as File | null }],
       defaultScriptId: undefined as string | undefined,
       duration: undefined as number | undefined,
       tags: [] as string[],
@@ -50,16 +51,52 @@ export const NewEntry = () => {
               : null,
       },
       scripts: {
-        url: (value) =>
-          !value
-            ? 'Script URL is required'
-            : !value.startsWith('http')
-              ? 'Must be a valid URL'
-              : null,
+        url: (value, values, path) => {
+          const index = Number(path.split('.')[1]);
+          const script = values.scripts[index];
+          if (script.isLocal && !script.file) {
+            return 'Please select a .funscript file';
+          }
+          if (!script.isLocal && !value) {
+            return 'Script URL is required';
+          }
+          if (!script.isLocal && value && !value.startsWith('http')) {
+            return 'Must be a valid URL';
+          }
+          return null;
+        },
         name: (value) => (!value ? 'Script name is required' : null),
       },
     },
   });
+
+  const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (!file.name.endsWith('.funscript')) {
+        notifications.show({
+          title: 'Error',
+          message: 'Please select a .funscript file',
+          color: 'red',
+        });
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        notifications.show({
+          title: 'Error',
+          message: 'File size exceeds 2MB limit',
+          color: 'red',
+        });
+        return;
+      }
+
+      form.setFieldValue(`scripts.${index}.file`, file);
+      if (!form.values.scripts[index].name) {
+        form.setFieldValue(`scripts.${index}.name`, file.name.replace('.funscript', ''));
+      }
+    }
+  };
 
   const handleSubmit = form.onSubmit(async (values) => {
     setLoading(true);
@@ -77,10 +114,41 @@ export const NewEntry = () => {
         return;
       }
 
-      // Filter out empty scripts
-      const validScripts = values.scripts.filter((script) => script.url && script.name);
+      // Process scripts - upload local files if needed
+      const processedScripts = await Promise.all(
+        values.scripts
+          .filter((script) => (script.isLocal && script.file) || (!script.isLocal && script.url))
+          .map(async (script) => {
+            let scriptUrl = script.url;
 
-      if (validScripts.length === 0) {
+            // Upload local file
+            if (script.isLocal && script.file) {
+              const fileContent = await new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result as string);
+                reader.onerror = reject;
+                reader.readAsText(script.file!);
+              });
+
+              const content = JSON.parse(fileContent);
+              const scriptId = await iveBridge.saveLocalScript(
+                script.file.name,
+                content,
+                script.file.size
+              );
+
+              scriptUrl = `file://${scriptId}`;
+            }
+
+            return {
+              url: scriptUrl,
+              name: script.name,
+              creator: script.creator || 'Unknown',
+            };
+          })
+      );
+
+      if (processedScripts.length === 0) {
         notifications.show({
           title: 'Error',
           message: 'At least one script is required',
@@ -96,11 +164,7 @@ export const NewEntry = () => {
         thumbnail: values.thumbnailUrl || undefined,
         tags: values.tags.length > 0 ? ['manual', ...values.tags] : ['manual'],
         videoSources: validVideoSources,
-        scripts: validScripts.map((script) => ({
-          url: script.url,
-          name: script.name,
-          creator: script.creator || 'Unknown',
-        })),
+        scripts: processedScripts,
         defaultScriptId: values.defaultScriptId,
       });
 
@@ -240,7 +304,13 @@ export const NewEntry = () => {
                     variant="light"
                     leftSection={<IconPlus size={16} />}
                     onClick={() =>
-                      form.insertListItem('scripts', { url: '', name: '', creator: '' })
+                      form.insertListItem('scripts', {
+                        url: '',
+                        name: '',
+                        creator: '',
+                        isLocal: false,
+                        file: null,
+                      })
                     }
                     radius="md"
                   >
@@ -250,7 +320,7 @@ export const NewEntry = () => {
 
                 <ScrollArea h={400} type="auto" offsetScrollbars>
                   <Stack gap="md" pr="xs">
-                    {form.values.scripts.map((_, index) => (
+                    {form.values.scripts.map((script, index) => (
                       <Box
                         key={index}
                         p="md"
@@ -272,13 +342,48 @@ export const NewEntry = () => {
                         </Group>
 
                         <Stack gap="xs">
-                          <TextInput
-                            label="Script URL"
-                            placeholder="https://..."
-                            required
-                            radius="md"
-                            {...form.getInputProps(`scripts.${index}.url`)}
-                          />
+                          <Group>
+                            <Button
+                              size="xs"
+                              variant={!script.isLocal ? 'filled' : 'default'}
+                              onClick={() => form.setFieldValue(`scripts.${index}.isLocal`, false)}
+                              radius="md"
+                            >
+                              URL
+                            </Button>
+                            <Button
+                              size="xs"
+                              variant={script.isLocal ? 'filled' : 'default'}
+                              onClick={() => form.setFieldValue(`scripts.${index}.isLocal`, true)}
+                              radius="md"
+                            >
+                              Local File
+                            </Button>
+                          </Group>
+
+                          {script.isLocal ? (
+                            <>
+                              <TextInput
+                                type="file"
+                                label="Script File"
+                                accept=".funscript"
+                                required
+                                radius="md"
+                                onChange={(e) => handleFileChange(index, e)}
+                              />
+                              <Text size="xs" c="dimmed">
+                                Maximum file size: 2MB
+                              </Text>
+                            </>
+                          ) : (
+                            <TextInput
+                              label="Script URL"
+                              placeholder="https://..."
+                              required
+                              radius="md"
+                              {...form.getInputProps(`scripts.${index}.url`)}
+                            />
+                          )}
 
                           <TextInput
                             label="Script Name"

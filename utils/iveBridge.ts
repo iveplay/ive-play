@@ -32,10 +32,10 @@ export interface ScriptMetadata {
   updatedAt: number;
 }
 
-export interface IveDbState {
-  entries: Record<string, IveEntry>;
-  videoSources: Record<string, VideoSource>;
-  scripts: Record<string, ScriptMetadata>;
+export interface IveEntryWithDetails {
+  entry: IveEntry;
+  videoSources: VideoSource[];
+  scripts: ScriptMetadata[];
 }
 
 export interface CreateIveEntryData {
@@ -58,10 +58,11 @@ export interface IveSearchOptions {
   favorites?: boolean;
 }
 
-export interface IveEntryWithDetails {
-  entry: IveEntry;
-  videoSources: VideoSource[];
-  scripts: ScriptMetadata[];
+export interface LocalScriptInfo {
+  id: string;
+  name: string;
+  size: number;
+  createdAt: number;
 }
 
 const MESSAGES = {
@@ -78,7 +79,14 @@ const MESSAGES = {
   IVEDB_REMOVE_FAVORITE: 'ive:ivedb:remove_favorite',
   IVEDB_GET_FAVORITES: 'ive:ivedb:get_favorites',
   IVEDB_IS_FAVORITED: 'ive:ivedb:is_favorited',
+  // Utils
   IVE_SELECT_SCRIPT: 'ive:select_script',
+  // Local script
+  LOCAL_SCRIPT_SAVE: 'ive:local_script:save',
+  LOCAL_SCRIPT_GET: 'ive:local_script:get',
+  LOCAL_SCRIPT_DELETE: 'ive:local_script:delete',
+  LOCAL_SCRIPT_LIST: 'ive:local_script:list',
+  LOCAL_SCRIPT_INFO: 'ive:local_script:info',
 };
 
 class IveBridge {
@@ -209,6 +217,35 @@ class IveBridge {
 
   selectScript(scriptId: string, timestamp: number) {
     return this.sendMessage<void>(MESSAGES.IVE_SELECT_SCRIPT, { scriptId, timestamp });
+  }
+
+  // Local script methods
+  saveLocalScript(name: string, content: Record<string, unknown>, size: number) {
+    return this.sendMessage<string>(MESSAGES.LOCAL_SCRIPT_SAVE, {
+      name,
+      content,
+      size,
+    });
+  }
+
+  getLocalScript(scriptId: string) {
+    return this.sendMessage<Record<string, unknown> | null>(MESSAGES.LOCAL_SCRIPT_GET, {
+      scriptId,
+    });
+  }
+
+  deleteLocalScript(scriptId: string) {
+    return this.sendMessage<void>(MESSAGES.LOCAL_SCRIPT_DELETE, { scriptId });
+  }
+
+  getLocalScriptsList() {
+    return this.sendMessage<Record<string, LocalScriptInfo>>(MESSAGES.LOCAL_SCRIPT_LIST);
+  }
+
+  getLocalScriptInfo(scriptId: string) {
+    return this.sendMessage<LocalScriptInfo | null>(MESSAGES.LOCAL_SCRIPT_INFO, {
+      scriptId,
+    });
   }
 }
 

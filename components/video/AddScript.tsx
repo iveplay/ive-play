@@ -3,7 +3,7 @@ import { Button, Checkbox, Divider, Group, Modal, Stack, Text, TextInput } from 
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { useIveStore } from '@/store/useIveStore';
-import { IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
+import { iveBridge, IveEntry, ScriptMetadata, VideoSource } from '@/utils/iveBridge';
 import styles from './ModalEntry.module.css';
 
 type AddScriptProps = {
@@ -22,6 +22,7 @@ export const AddScript = ({
   existingScripts,
 }: AddScriptProps) => {
   const [loading, setLoading] = useState(false);
+  const [isLocalFile, setIsLocalFile] = useState(false);
   const updateEntry = useIveStore((state) => state.updateEntry);
 
   const form = useForm({
@@ -30,31 +31,82 @@ export const AddScript = ({
       name: '',
       creator: '',
       setAsDefault: false,
+      file: null as File | null,
     },
     validate: {
       url: (value) =>
-        !value
+        !isLocalFile && !value
           ? 'Script URL is required'
-          : !value.startsWith('http')
+          : !isLocalFile && !value.startsWith('http')
             ? 'Must be a valid URL'
             : null,
       name: (value) => (!value ? 'Script name is required' : null),
+      file: (value) => (isLocalFile && !value ? 'Please select a .funscript file' : null),
     },
   });
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (!file.name.endsWith('.funscript')) {
+        notifications.show({
+          title: 'Error',
+          message: 'Please select a .funscript file',
+          color: 'red',
+        });
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        notifications.show({
+          title: 'Error',
+          message: 'File size exceeds 2MB limit',
+          color: 'red',
+        });
+        return;
+      }
+
+      form.setFieldValue('file', file);
+      if (!form.values.name) {
+        form.setFieldValue('name', file.name.replace('.funscript', ''));
+      }
+    }
+  };
 
   const handleSubmit = form.onSubmit(async (values) => {
     setLoading(true);
     try {
-      // Check if script URL already exists
-      const isDuplicate = existingScripts.some((script) => script.url === values.url);
-      if (isDuplicate) {
-        notifications.show({
-          title: 'Error',
-          message: 'This script URL already exists for this entry',
-          color: 'red',
+      let scriptUrl = values.url;
+
+      // Handle local file upload
+      if (isLocalFile && values.file) {
+        const fileContent = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsText(values.file!);
         });
-        setLoading(false);
-        return;
+
+        const content = JSON.parse(fileContent);
+        const scriptId = await iveBridge.saveLocalScript(
+          values.file.name,
+          content,
+          values.file.size
+        );
+
+        scriptUrl = `file://${scriptId}`;
+      } else {
+        // Check if script URL already exists
+        const isDuplicate = existingScripts.some((script) => script.url === values.url);
+        if (isDuplicate) {
+          notifications.show({
+            title: 'Error',
+            message: 'This script URL already exists for this entry',
+            color: 'red',
+          });
+          setLoading(false);
+          return;
+        }
       }
 
       // Add the new script to existing scripts
@@ -65,7 +117,7 @@ export const AddScript = ({
           creator: script.creator || 'Unknown',
         })),
         {
-          url: values.url,
+          url: scriptUrl,
           name: values.name,
           creator: values.creator || 'Unknown',
         },
@@ -92,7 +144,7 @@ export const AddScript = ({
     } catch (error) {
       notifications.show({
         title: 'Error',
-        message: 'Failed to add script',
+        message: `Failed to add script: ${error instanceof Error ? error.message : String(error)}`,
         color: 'red',
       });
     } finally {
@@ -102,6 +154,7 @@ export const AddScript = ({
 
   const handleClose = () => {
     form.reset();
+    setIsLocalFile(false);
     onClose();
   };
 
@@ -122,14 +175,47 @@ export const AddScript = ({
             Add a new script to &quot;{entry.title}&quot;
           </Text>
 
-          <TextInput
-            key={form.key('url')}
-            label="Script URL"
-            placeholder="https://..."
-            required
-            radius="md"
-            {...form.getInputProps('url')}
-          />
+          <Group>
+            <Button
+              variant={!isLocalFile ? 'filled' : 'default'}
+              onClick={() => setIsLocalFile(false)}
+              radius="md"
+            >
+              URL
+            </Button>
+            <Button
+              variant={isLocalFile ? 'filled' : 'default'}
+              onClick={() => setIsLocalFile(true)}
+              radius="md"
+            >
+              Local File
+            </Button>
+          </Group>
+
+          {isLocalFile ? (
+            <>
+              <TextInput
+                type="file"
+                label="Script File"
+                accept=".funscript"
+                required
+                radius="md"
+                onChange={handleFileChange}
+              />
+              <Text size="xs" c="dimmed">
+                Maximum file size: 2MB
+              </Text>
+            </>
+          ) : (
+            <TextInput
+              key={form.key('url')}
+              label="Script URL"
+              placeholder="https://..."
+              required
+              radius="md"
+              {...form.getInputProps('url')}
+            />
+          )}
 
           <TextInput
             key={form.key('name')}
