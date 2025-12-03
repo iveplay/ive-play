@@ -83,7 +83,7 @@ export const ExportButton = () => {
 
   return (
     <Button
-      className="box menuItem"
+      className="box h menuItem"
       miw={64}
       onClick={handleExport}
       loading={isExporting}

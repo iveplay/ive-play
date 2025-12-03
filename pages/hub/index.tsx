@@ -38,12 +38,12 @@ const HubPage = () => {
       data-navbar-expanded={opened || undefined}
     >
       <AppShell.Header ref={setHeader} withBorder={false}>
-        <Flex h={64} m="md" gap="md">
+        <Flex h={64} m="md" gap="md" wrap="wrap">
           <Burger
             opened={opened}
             onClick={toggle}
             size="md"
-            className="box"
+            className="box h"
             p="lg"
             w={64}
             hiddenFrom="sm"
@@ -51,7 +51,7 @@ const HubPage = () => {
           <Flex className="box menuItem" component={Link} href="/hub" justify="center">
             <Logo />
           </Flex>
-          <Box className="box" flex={1} />
+          <Box className="box h" flex={1} />
           <Filters />
           <ExportButton />
           <ImportButton />

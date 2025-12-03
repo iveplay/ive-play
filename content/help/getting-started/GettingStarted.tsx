@@ -10,12 +10,12 @@ export const GettingStarted = () => {
     <Box component="section" id="getting-started" mb="md">
       <Grid gutter="md">
         <Grid.Col span={{ base: 0, md: 1, xl: 2 }} display={{ base: 'none', md: 'block' }}>
-          <div className="box w" />
+          <div className="box w h" />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 10, xl: 8 }}>
           <div>
             <Flex
-              className="box w"
+              className="box w h"
               align="center"
               direction="column"
               p={{ base: '32px', md: '64px' }}
@@ -154,7 +154,7 @@ export const GettingStarted = () => {
           </div>
         </Grid.Col>
         <Grid.Col span={{ base: 0, md: 1, xl: 2 }} display={{ base: 'none', md: 'block' }}>
-          <div className="box w" />
+          <div className="box w h" />
         </Grid.Col>
       </Grid>
     </Box>

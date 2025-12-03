@@ -145,7 +145,7 @@ export const ImportButton = () => {
         style={{ display: 'none' }}
       />
       <Button
-        className="box menuItem"
+        className="box h menuItem"
         miw={64}
         onClick={() => fileInputRef.current?.click()}
         loading={isImporting}

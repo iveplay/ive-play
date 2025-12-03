@@ -9,7 +9,7 @@ export const Navigation = () => {
       <Link href="/" className="box menuItem">
         <Logo />
       </Link>
-      <div className="box" />
+      <div className="box h" />
       <Box component="ul" className="box" visibleFrom="md">
         <li>
           <Link href="/#download" className="menuItem">
@@ -38,7 +38,7 @@ export const Navigation = () => {
             opened={false}
             onClick={undefined}
             size="md"
-            className="box"
+            className="box h"
             p="lg"
             w={64}
             hiddenFrom="md"

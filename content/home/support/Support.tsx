@@ -6,11 +6,11 @@ export const Support = () => {
     <Box component="section" id="support" mb="md">
       <Grid gutter="md">
         <Grid.Col span={{ base: 0, md: 2 }} display={{ base: 'none', md: 'block' }}>
-          <div className="box w" />
+          <div className="box w h" />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 8 }}>
           <Flex
-            className="box w"
+            className="box w h"
             p={{ base: '64px', md: '96px' }}
             direction="column"
             align="center"
@@ -55,7 +55,7 @@ export const Support = () => {
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 0, md: 2 }} display={{ base: 'none', md: 'block' }}>
-          <div className="box w" />
+          <div className="box w h" />
         </Grid.Col>
       </Grid>
     </Box>

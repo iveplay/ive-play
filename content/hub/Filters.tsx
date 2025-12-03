@@ -13,7 +13,7 @@ export const Filters = () => {
 
   return (
     <Button
-      className="box menuItem"
+      className="box h menuItem"
       miw={64}
       onClick={() => setFilters({ ...filters, favorites: !filters.favorites })}
     >

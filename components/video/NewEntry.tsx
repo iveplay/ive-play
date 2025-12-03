@@ -189,7 +189,7 @@ export const NewEntry = () => {
 
   return (
     <>
-      <Button className="box menuItem" miw={64} onClick={open}>
+      <Button className="box h menuItem" miw={64} onClick={open}>
         <Flex gap="xs" align="center">
           <IconPlus />
           <Text display={{ base: 'none', sm: 'block' }}>New</Text>

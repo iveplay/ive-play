@@ -8,7 +8,7 @@ export const Welcome = () => {
   return (
     <section className={styles.welcome}>
       <Flex
-        className="box w"
+        className="box w h"
         p={{ base: '32px', md: '64px' }}
         direction="column"
         align="center"

@@ -5,7 +5,7 @@ import { CHROME_VERSION, FIREFOX_VERSION } from '@/utils/versions';
 export const Download = () => {
   return (
     <Box component="section" id="download" mb="md">
-      <Flex className="box w" p={{ base: '64px', md: '96px' }} direction="column" align="center">
+      <Flex className="box w h" p={{ base: '64px', md: '96px' }} direction="column" align="center">
         <IconDownload size={48} />
         <Title order={2} size={32} ta="center" my="md" fw={300} ff="var(--font-frankfurter)">
           Download the Extension
@@ -17,11 +17,11 @@ export const Download = () => {
       </Flex>
       <Grid mt="md" gutter="md">
         <Grid.Col span={{ base: 0, md: 2 }} display={{ base: 'none', md: 'block' }}>
-          <div className="box w" />
+          <div className="box w h" />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Flex
-            className="box w"
+            className="box w h"
             direction="column"
             align="center"
             justify="center"
@@ -60,7 +60,7 @@ export const Download = () => {
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Flex
-            className="box w"
+            className="box w h"
             direction="column"
             align="center"
             justify="center"
@@ -96,7 +96,7 @@ export const Download = () => {
           </Flex>
         </Grid.Col>
         <Grid.Col span={{ base: 0, md: 2 }} display={{ base: 'none', md: 'block' }}>
-          <div className="box w" />
+          <div className="box w h" />
         </Grid.Col>
       </Grid>
     </Box>
