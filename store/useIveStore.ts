@@ -217,11 +217,11 @@ export const useIveStore = create<IveStore>((set, get) => ({
 
   checkForNewEntries: async () => {
     try {
-      const { entries, entriesPerPage } = get();
+      const { entries, entriesPerPage, filters } = get();
       const existingIds = new Set(entries.map((e) => e.entry.id));
 
-      // Get latest entries from start
-      const newBasicEntries = await iveBridge.getEntriesPaginated(0, entriesPerPage);
+      // Get latest entries from start with current filters
+      const newBasicEntries = await iveBridge.getEntriesPaginated(0, entriesPerPage, filters);
       const newEntries = newBasicEntries.filter((entry) => !existingIds.has(entry.id));
 
       if (newEntries.length > 0) {
