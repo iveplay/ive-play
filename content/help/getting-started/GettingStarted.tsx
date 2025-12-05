@@ -55,7 +55,7 @@ export const GettingStarted = () => {
               </Text>
             </Step>
             <Step number={2} title="Connecting your device" />
-            <Step number={2.1} title="Connect The Handy" imageUrl={handyConnect.src}>
+            <Step title="Connect The Handy" imageUrl={handyConnect.src}>
               <Text>
                 Get the connection key from the Handy app after setting up your device. Open IVE by
                 clicking on the IVE extension. On the Handy page enter the key and click connect.
@@ -68,7 +68,7 @@ export const GettingStarted = () => {
                 settings for stroke range and timing offset.
               </Text>
             </Step>
-            <Step number={2.2} title="Connect Intiface" imageUrl={intifaceConnect.src} imageLeft>
+            <Step title="or Connect Intiface" imageUrl={intifaceConnect.src} imageLeft>
               <Text>
                 Download and install{' '}
                 <Anchor href="https://intiface.com" target="_blank" fw={700}>
@@ -103,7 +103,7 @@ export const GettingStarted = () => {
               </Anchor>
               . More details on how they work below.
             </Step>
-            <Step number={3.1} title="Eroscripts" imageUrl={eroscripts.src}>
+            <Step title="Eroscripts" imageUrl={eroscripts.src}>
               <Text>
                 Eroscripts is a forum and community for sharing and discussing scripts. To play
                 scripts from Eroscripts find and open a{' '}
@@ -126,7 +126,7 @@ export const GettingStarted = () => {
                 can also drag and drop link on the selects in the block.
               </Text>
             </Step>
-            <Step number={3.2} title="IVDB">
+            <Step title="IVDB">
               <Text>
                 IVDB is a large database of scripts for made by and for the handy. To play scripts
                 from IVDB simply open a video page and click the IVE icon in the top right.
@@ -135,14 +135,14 @@ export const GettingStarted = () => {
                 Note: IVDB only works with The Handy!
               </Text>
             </Step>
-            <Step number={3.3} title="FapTap">
+            <Step title="FapTap">
               <Text>
                 FapTap is a site for browsing and playing videos with scripts. To play scripts from
                 FapTap simply browse the videos and click the IVE icon of a video card. Or go to the
                 detail and click the IVE icon below the video.
               </Text>
             </Step>
-            <Step number={3.4} title="FunScriptHub" imageUrl={eroscripts.src} imageLeft>
+            <Step title="FunScriptHub" imageUrl={eroscripts.src} imageLeft>
               <Text>
                 FunScriptHub is a site for browsing scripts. Altough not that active anymore. Most
                 scripts are also on Eroscripts. To play scripts, find a video and you will see the
@@ -168,7 +168,7 @@ const Step = ({
   children,
   imageLeft = false,
 }: {
-  number: number;
+  number?: number;
   title: string;
   imageUrl?: string;
   children?: ReactNode;
@@ -186,7 +186,8 @@ const Step = ({
     >
       <Flex className="box w" direction="column" p="32" gap="md">
         <Title order={3} size="28" fw="400" ta="center" ff="var(--font-frankfurter)">
-          {number}. {title}
+          {!!number && `${number}. `}
+          {title}
         </Title>
         {children && (
           <Text size="lg" mt="xs" w="100%">
