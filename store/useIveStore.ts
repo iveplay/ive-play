@@ -196,7 +196,12 @@ export const useIveStore = create<IveStore>((set, get) => ({
   checkExtension: async () => {
     try {
       const result = await iveBridge.ping();
-      const versionMatch = result.version === REQUIRED_VERSION;
+
+      // Match with anything above REQUIRED_VERSION
+      const versionMatch = result.version
+        ? result.version.split('.').map(Number).join('') >=
+          REQUIRED_VERSION.split('.').map(Number).join('')
+        : false;
 
       set({
         extensionAvailable: result.available,
