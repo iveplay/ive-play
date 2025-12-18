@@ -18,7 +18,7 @@ export const PrivacyContent = () => {
           Privacy Policy
         </Title>
         <Text size="sm" c="dimmed" ta="center" mb="xl">
-          December 3, 2025
+          December 18, 2025
         </Text>
 
         {/* Our commitment */}
@@ -143,6 +143,17 @@ export const PrivacyContent = () => {
                 fw={600}
               >
                 The Handy's privacy policy
+              </Anchor>{' '}
+              for details.
+            </List.Item>{' '}
+            <List.Item>
+              <Text component="span" fw={600}>
+                Autoblow:
+              </Text>{' '}
+              Your device token is stored locally. Video titles may be visible to Autoblow's API
+              during script playback due to how their service functions. Please review{' '}
+              <Anchor href="https://autoblow.com/" target="_blank" fw={600}>
+                Autoblow's privacy policy
               </Anchor>{' '}
               for details.
             </List.Item>

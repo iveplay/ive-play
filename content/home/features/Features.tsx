@@ -92,11 +92,15 @@ export const Features = () => {
                   fw={700}
                 >
                   The Handy
+                </Anchor>
+                {', '}
+                <Anchor href="https://autoblow.com/" target="_blank" fw={700}>
+                  Autoblow
                 </Anchor>{' '}
                 and all{' '}
-                <Text component="span" fw={700}>
-                  Buttplug.io
-                </Text>{' '}
+                <Anchor href="https://intiface.com/" target="_blank" fw={700}>
+                  Intiface
+                </Anchor>{' '}
                 compatible devices including{' '}
                 <Text component="span" fw={700}>
                   Lovense, Satisfyer, Kiiroo, ...

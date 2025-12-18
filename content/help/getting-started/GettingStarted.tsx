@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { IconRocket } from '@tabler/icons-react';
 import { Anchor, Box, Flex, Grid, Image, Text, Title } from '@mantine/core';
+import autoblowConnect from '@/assets/autoblow-connect.jpg';
 import handyConnect from '@/assets/handy-connect.jpg';
 import intifaceConnect from '@/assets/intiface-connect.jpg';
 import eroscripts from '@/assets/ive-eroscripts.jpg';
@@ -68,7 +69,18 @@ export const GettingStarted = () => {
                 settings for stroke range and timing offset.
               </Text>
             </Step>
-            <Step title="or Connect Intiface" imageUrl={intifaceConnect.src} imageLeft>
+            <Step title="or Connect Autoblow" imageUrl={autoblowConnect.src} imageLeft>
+              <Text>
+                Get the device token from your Autoblow device after setting up your device. Open
+                IVE by clicking on the IVE extension. On the Autoblow page enter the token and click
+                connect.
+              </Text>
+              <Text mt="md">
+                After a successful connection your device should show up in the device list. With
+                some device settings if there are any.
+              </Text>
+            </Step>
+            <Step title="or Connect Intiface" imageUrl={intifaceConnect.src}>
               <Text>
                 Download and install{' '}
                 <Anchor href="https://intiface.com" target="_blank" fw={700}>

@@ -23,7 +23,7 @@ export const Faq = () => {
           />
           <QA
             question="What devices work with IVE?"
-            answer="The Handy (FW4 only) connects directly. All other devices (Lovense, Kiiroo, Satisfyer, etc.) work through Intiface Central."
+            answer="The Handy (FW4 only) connects directly, the same as Autoblow devices! All other devices (Lovense, Kiiroo, Satisfyer, etc.) work through Intiface Central."
           />
           <QA
             question="Why isn't my script syncing properly?"
@@ -35,13 +35,17 @@ export const Faq = () => {
           />
           <QA
             question="Can I use my own script files?"
-            answer="Currently no, but local script support is planned for future updates."
+            answer="Yes you can! Click on the HUB button at the top of this page and add a new script by pressing the '+' button."
           />
           <QA
             question="Is my data safe with IVE?"
             answer={
               <>
-                Yes, IVE respects your privacy. Everything of IVE is completely local.{' '}
+                Yes, IVE respects your privacy (
+                <Anchor href="/privacy" target="_blank" fw={700}>
+                  Privacy Policy
+                </Anchor>
+                ). Everything of IVE is completely local.{' '}
                 <Text component="span" fw={700}>
                   NOTHING
                 </Text>{' '}
