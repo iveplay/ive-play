@@ -12,6 +12,7 @@ export function proxy(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/fonts') ||
     request.nextUrl.pathname.includes('.') || // e.g., .static, .css, .png
     request.nextUrl.pathname === '/age-verify' ||
+    request.nextUrl.search.includes('patreon') || // Allow Patreon callbacks
     isbot(userAgent)
   ) {
     return NextResponse.next();

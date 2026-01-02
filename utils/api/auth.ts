@@ -1,13 +1,23 @@
 import { apiClient } from './client';
 
 export type UserRole = 'user' | 'patreon' | 'creator' | 'admin';
+export type PatreonTier =
+  | '★ life enjoyer ★'
+  | '★ toy enjoyer ★'
+  | '★ ive enjoyer ★'
+  | '★ extension enjoyer ★';
 
 export interface UserInfo {
   userId: string;
   email: string | null;
   role: UserRole;
   patreonLinked: boolean;
-  patreonTier: string | null;
+  patreonTier: PatreonTier | null;
+}
+
+export interface DeleteAccountParams {
+  deleteScripts?: boolean;
+  confirmEmail?: string;
 }
 
 export interface PatreonConnectResponse {
@@ -31,7 +41,13 @@ export const authApi = {
   },
 
   /** Delete user account */
-  deleteAccount(): Promise<{ success: boolean }> {
-    return apiClient.delete('/v1/auth/me');
+  deleteAccount({
+    deleteScripts = false,
+    confirmEmail = '',
+  }: DeleteAccountParams): Promise<{ success: boolean }> {
+    return apiClient.delete('/v1/auth/me', {
+      deleteScripts,
+      confirmEmail,
+    });
   },
 };

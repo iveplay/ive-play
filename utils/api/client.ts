@@ -63,8 +63,12 @@ class ApiClient {
     });
   }
 
-  delete<T>(path: string, options?: FetchOptions): Promise<T> {
-    return this.request<T>(path, { ...options, method: 'DELETE' });
+  delete<T>(path: string, body?: unknown, options?: FetchOptions): Promise<T> {
+    return this.request<T>(path, {
+      ...options,
+      method: 'DELETE',
+      body: body ? JSON.stringify(body) : undefined,
+    });
   }
 }
 

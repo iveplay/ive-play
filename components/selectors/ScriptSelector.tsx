@@ -54,7 +54,7 @@ export const ScriptSelector = ({ scripts, entry, onSelect }: ScriptSelectorProps
 
   return (
     <Combobox
-      radius="md"
+      radius="lg"
       store={combobox}
       withinPortal={false}
       onOptionSubmit={(val) => {

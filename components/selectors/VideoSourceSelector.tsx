@@ -42,7 +42,7 @@ export const VideoSourceSelector = ({ videoSources, onSelect }: VideoSourceSelec
 
   return (
     <Combobox
-      radius="md"
+      radius="lg"
       store={combobox}
       withinPortal={false}
       onOptionSubmit={(val) => {

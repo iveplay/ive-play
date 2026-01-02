@@ -1,6 +1,6 @@
 import { useUser } from '@clerk/nextjs';
 import { IconLock } from '@tabler/icons-react';
-import { Button, Center, Loader, Stack, Text, Title, UnstyledButton } from '@mantine/core';
+import { Button, Center, Group, Loader, Stack, Text, Title } from '@mantine/core';
 import { HubLayout } from '@/components/layout/HubLayout';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -27,21 +27,28 @@ const HubPage = () => {
             <Title order={1} fw={300} ff="var(--font-frankfurter)">
               Sign in to access all Scripts!
             </Title>
-            <Text c="dimmed" ta="center" maw={400}>
+            <Text ta="center" maw={400}>
               Access the global script database, sync your library across devices, and discover new
               content.
             </Text>
-            <Button radius="lg" size="lg" fw={500} onClick={() => openAuthModal('sign-in')}>
-              Sign In
-            </Button>
-            <Text size="sm" c="dimmed">
-              Don't have an account?{' '}
-              <UnstyledButton onClick={() => openAuthModal('sign-up')}>
-                <Text component="span" c="brand">
-                  Sign up
-                </Text>
-              </UnstyledButton>
+            <Text ta="center" maw={450}>
+              All current features are locked behind patreon <strong>IVE Enjoyer</strong> tier. Make
+              sure to connect your account after signing up!
             </Text>
+            <Group>
+              <Button radius="lg" size="lg" fw={500} onClick={() => openAuthModal('sign-in')}>
+                Sign In
+              </Button>
+              <Button
+                radius="lg"
+                size="lg"
+                variant="outline"
+                fw={500}
+                onClick={() => openAuthModal('sign-up')}
+              >
+                Sign Up
+              </Button>
+            </Group>
           </Stack>
         </Center>
       </HubLayout>

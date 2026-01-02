@@ -50,14 +50,14 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
             label="Video Title"
             placeholder="Enter video title"
             required
-            radius="md"
+            radius="lg"
             {...form.getInputProps('title')}
           />
 
           <TextInput
             label="Thumbnail URL"
             placeholder="https://..."
-            radius="md"
+            radius="lg"
             {...form.getInputProps('thumbnailUrl')}
           />
 
@@ -65,14 +65,14 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
             label="Duration (seconds)"
             placeholder="Video duration in seconds"
             min={0}
-            radius="md"
+            radius="lg"
             {...form.getInputProps('duration')}
           />
 
           <TagsInput
             label="Tags"
             placeholder="Add tags (press Enter)"
-            radius="md"
+            radius="lg"
             {...form.getInputProps('tags')}
           />
 
@@ -86,7 +86,7 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
                 variant="light"
                 leftSection={<IconPlus size={14} />}
                 onClick={() => form.insertListItem('videoSources', { url: '' })}
-                radius="md"
+                radius="lg"
               >
                 Add Source
               </Button>
@@ -97,7 +97,7 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
                 <TextInput
                   placeholder="https://..."
                   required
-                  radius="md"
+                  radius="lg"
                   flex={1}
                   {...form.getInputProps(`videoSources.${index}.url`)}
                 />
@@ -136,7 +136,7 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
                   file: null,
                 })
               }
-              radius="md"
+              radius="lg"
             >
               Add Script
             </Button>
@@ -155,7 +155,9 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
                   getInputProps={form.getInputProps}
                   onRemove={() => form.removeListItem('scripts', index)}
                   onSetDefault={() => form.setFieldValue('defaultScriptId', script.url)}
-                  onLocalToggle={(isLocal) => form.setFieldValue(`scripts.${index}.isLocal`, isLocal)}
+                  onLocalToggle={(isLocal) =>
+                    form.setFieldValue(`scripts.${index}.isLocal`, isLocal)
+                  }
                   onFileChange={(file) => handleFileChange(index, file)}
                 />
               ))}

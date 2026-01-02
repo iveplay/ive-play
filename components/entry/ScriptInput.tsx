@@ -89,7 +89,7 @@ export const ScriptInput = ({
               size="xs"
               variant={!value.isLocal ? 'filled' : 'default'}
               onClick={() => onLocalToggle(false)}
-              radius="md"
+              radius="lg"
             >
               URL
             </Button>
@@ -97,7 +97,7 @@ export const ScriptInput = ({
               size="xs"
               variant={value.isLocal ? 'filled' : 'default'}
               onClick={() => onLocalToggle(true)}
-              radius="md"
+              radius="lg"
             >
               Local File
             </Button>
@@ -115,7 +115,7 @@ export const ScriptInput = ({
               label="Script File"
               accept=".funscript"
               required
-              radius="md"
+              radius="lg"
               onChange={handleFileChange}
             />
             <Text size="xs" c="dimmed">
@@ -127,7 +127,7 @@ export const ScriptInput = ({
             label="Script URL"
             placeholder="https://..."
             required
-            radius="md"
+            radius="lg"
             {...getInputProps(`scripts.${index}.url`)}
           />
         )}
@@ -136,14 +136,14 @@ export const ScriptInput = ({
           label="Script Name"
           placeholder="Enter script name"
           required
-          radius="md"
+          radius="lg"
           {...getInputProps(`scripts.${index}.name`)}
         />
 
         <TextInput
           label="Creator"
           placeholder="Script creator"
-          radius="md"
+          radius="lg"
           {...getInputProps(`scripts.${index}.creator`)}
         />
 

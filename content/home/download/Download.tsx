@@ -43,7 +43,7 @@ export const Download = () => {
               }
               withArrow
               position="bottom"
-              radius="md"
+              radius="lg"
             >
               <Button
                 component="a"

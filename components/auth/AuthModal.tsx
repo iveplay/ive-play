@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { SignIn, SignUp } from '@clerk/nextjs';
+import { SignIn, SignUp, useUser } from '@clerk/nextjs';
 import { useShallow } from 'zustand/shallow';
 import { Modal } from '@mantine/core';
 import { useAuthStore } from '@/store/useAuthStore';
 
 export const AuthModal = () => {
   const router = useRouter();
+  const { isSignedIn } = useUser();
   const { authModalOpen, authModalView, setAuthModalView, closeAuthModal } = useAuthStore(
     useShallow((state) => ({
       authModalOpen: state.authModalOpen,
@@ -37,6 +38,10 @@ export const AuthModal = () => {
       router.events.off('hashChangeStart', onHashChangeStart);
     };
   }, [closeAuthModal, router.events, setAuthModalView]);
+
+  if (isSignedIn) {
+    return null;
+  }
 
   return (
     <Modal

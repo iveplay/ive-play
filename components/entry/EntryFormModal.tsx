@@ -2,12 +2,7 @@ import { useState } from 'react';
 import { Button, Divider, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
-import {
-  createEmptyScript,
-  EntryForm,
-  EntryFormValues,
-  entryFormValidation,
-} from './EntryForm';
+import { createEmptyScript, EntryForm, entryFormValidation, EntryFormValues } from './EntryForm';
 
 type EntryData = {
   id: string;
@@ -190,10 +185,10 @@ export const EntryFormModal = ({
         <Divider my="lg" />
 
         <Group justify="flex-end">
-          <Button variant="default" onClick={handleClose} radius="md">
+          <Button variant="default" onClick={handleClose} radius="lg">
             Cancel
           </Button>
-          <Button type="submit" loading={loading} radius="md">
+          <Button type="submit" loading={loading} radius="lg">
             {mode === 'create' ? 'Add entry' : 'Save changes'}
           </Button>
         </Group>
