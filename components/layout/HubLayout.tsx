@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useClerk } from '@clerk/nextjs';
+import { useClerk, useUser } from '@clerk/nextjs';
 import {
   IconBrandDiscord,
   IconBrandPatreon,
@@ -49,7 +49,9 @@ const bottomNavItems: NavItem[] = [
 ];
 
 export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutProps) => {
+  const router = useRouter();
   const [opened, { toggle }] = useDisclosure();
+  const { isSignedIn } = useUser();
   const { signOut } = useClerk();
   const [header, setHeader] = useState<HTMLElement | null>(null);
   const [navbar, setNavbar] = useState<HTMLElement | null>(null);
@@ -107,7 +109,7 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
             p={0}
             w={64}
             h={64}
-            onClick={() => signOut({ redirectUrl: '/' })}
+            onClick={() => (isSignedIn ? signOut({ redirectUrl: '/' }) : router.push('/'))}
           >
             <Flex
               direction="column"

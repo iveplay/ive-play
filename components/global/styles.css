@@ -67,3 +67,9 @@ html {
 .mantine-Pill-root {
   background: var(--mantine-color-body);
 }
+
+.mantine-focus-auto:focus-visible,
+.mantine-focus-always:focus {
+  outline: 2px solid white;
+  border-radius: 0.9em;
+}

@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   fetchUser: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, error: null, authModalOpen: false });
     try {
       const user = await authApi.getMe();
       set({
