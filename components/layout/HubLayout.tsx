@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useClerk } from '@clerk/nextjs';
 import {
   IconBrandDiscord,
   IconBrandPatreon,
@@ -9,8 +10,9 @@ import {
   IconLogout2,
 } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { AppShell, Box, Burger, Flex, Text } from '@mantine/core';
+import { AppShell, Box, Burger, Flex, Text, UnstyledButton } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
+import { UserButton } from '@/components/auth/UserButton';
 import { Logo } from '@/components/logo/Logo';
 
 type NavItem = {
@@ -44,11 +46,11 @@ const bottomNavItems: NavItem[] = [
     label: 'Patreon',
     external: true,
   },
-  { href: '/', icon: <IconLogout2 />, label: 'Exit' },
 ];
 
 export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutProps) => {
   const [opened, { toggle }] = useDisclosure();
+  const { signOut } = useClerk();
   const [header, setHeader] = useState<HTMLElement | null>(null);
   const [navbar, setNavbar] = useState<HTMLElement | null>(null);
 
@@ -69,7 +71,7 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
       navbar={{ width: 96, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       data-navbar-expanded={opened || undefined}
     >
-      <AppShell.Header ref={setHeader} withBorder={false}>
+      <AppShell.Header ref={setHeader} withBorder={false} className="hub-navbar-header">
         <Flex h={64} m="md" gap="md" wrap="wrap">
           <Burger
             opened={opened}
@@ -87,6 +89,7 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
             {headerCenter}
           </Box>
           {headerContent}
+          <UserButton />
         </Flex>
       </AppShell.Header>
 
@@ -99,6 +102,27 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
           {bottomNavItems.map((item) => (
             <MenuItem key={item.href} item={item} />
           ))}
+          <UnstyledButton
+            className="box menuItem"
+            p={0}
+            w={64}
+            h={64}
+            onClick={() => signOut({ redirectUrl: '/' })}
+          >
+            <Flex
+              direction="column"
+              align="center"
+              c="var(--mantine-color-text)"
+              justify="center"
+              h="64"
+              gap="2"
+            >
+              <IconLogout2 />
+              <Text size="xs" className="hoverText">
+                Sign Out
+              </Text>
+            </Flex>
+          </UnstyledButton>
         </Flex>
       </AppShell.Navbar>
 

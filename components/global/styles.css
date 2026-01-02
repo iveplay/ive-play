@@ -56,6 +56,12 @@ html {
   @mixin smaller-than $mantine-breakpoint-sm {
     --app-shell-navbar-width: rem(96px);
   }
+
+  &&& {
+    .hub-navbar-header {
+      right: 0 !important;
+    }
+  }
 }
 
 .mantine-Pill-root {
