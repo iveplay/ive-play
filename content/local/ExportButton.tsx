@@ -70,7 +70,7 @@ export const ExportButton = () => {
         color: 'green',
       });
     } catch (error) {
-      console.error('Export error:', error);
+      console.log('Export error:', error);
       notifications.show({
         title: 'Export Failed',
         message: error instanceof Error ? error.message : 'Failed to export data',

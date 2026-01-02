@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button, Flex, Group, Text, Title } from '@mantine/core';
-import { Logo } from '../../../components/logo/Logo';
+import { Logo } from '@/components/logo/Logo';
 import { Browser } from '../browser/Browser';
 import styles from './Welcome.module.css';
 

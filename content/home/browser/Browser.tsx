@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IconPlayerPauseFilled, IconPlayerPlayFilled } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
-import { Logo } from '../../../components/logo/Logo';
+import { Logo } from '@/components/logo/Logo';
 import styles from './Browser.module.css';
 
 export const Browser = () => {

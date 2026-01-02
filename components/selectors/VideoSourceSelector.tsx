@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { IconVideo } from '@tabler/icons-react';
 import { Combobox, Flex, InputBase, Text, useCombobox } from '@mantine/core';
-import { VideoSource } from '@/utils/iveBridge';
+import { VideoSourceData } from '../video/VideoCard';
 import styles from './ScriptSelector.module.css';
 
 type VideoSourceSelectorProps = {
-  videoSources: VideoSource[];
+  videoSources: VideoSourceData[];
   onSelect?: (url: string) => void;
 };
 
@@ -78,7 +78,7 @@ export const VideoSourceSelector = ({ videoSources, onSelect }: VideoSourceSelec
   );
 };
 
-type VideoSourceOptionProps = VideoSource;
+type VideoSourceOptionProps = VideoSourceData;
 
 const VideoSourceOption = ({ url }: VideoSourceOptionProps) => {
   if (!url) {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { IconUser } from '@tabler/icons-react';
 import { Combobox, Flex, InputBase, Text, useCombobox } from '@mantine/core';
-import { IveEntry, ScriptMetadata } from '@/utils/iveBridge';
+import { ScriptData, VideoEntry } from '../video/VideoCard';
 import styles from './ScriptSelector.module.css';
 
 type ScriptSelectorProps = {
-  scripts: ScriptMetadata[];
-  entry?: IveEntry;
+  scripts: ScriptData[];
+  entry?: VideoEntry;
   onSelect?: (scriptId: string) => void;
 };
 
@@ -92,7 +92,7 @@ export const ScriptSelector = ({ scripts, entry, onSelect }: ScriptSelectorProps
   );
 };
 
-type SelectOptionProps = ScriptMetadata & { isDefault?: boolean };
+type SelectOptionProps = ScriptData & { isDefault?: boolean };
 
 const ScriptOption = ({ name, creator, isDefault }: SelectOptionProps) => {
   return (

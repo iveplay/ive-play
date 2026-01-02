@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useShallow } from 'zustand/shallow';
 import { Box, Button, Center, Flex, Loader, SimpleGrid, Text, Title } from '@mantine/core';
-import { Video } from '@/components/video/Video';
+import { Video } from '@/content/local/videos/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useNewVideosCheck } from '@/hooks/useNewVideosCheck';
 import { useIveStore } from '@/store/useIveStore';
