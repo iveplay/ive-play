@@ -2,6 +2,7 @@ import { useUser } from '@clerk/nextjs';
 import { IconLock } from '@tabler/icons-react';
 import { Button, Center, Group, Loader, Stack, Text, Title } from '@mantine/core';
 import { HubLayout } from '@/components/layout/HubLayout';
+import { CloudVideos } from '@/content/hub/CloudVideos';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const HubPage = () => {
@@ -55,12 +56,9 @@ const HubPage = () => {
     );
   }
 
-  // TODO: Phase 3 - Show cloud entries
   return (
     <HubLayout>
-      <Center h="100%" className="box" flex={1}>
-        <Text c="dimmed">Coming soon - browse the global script database</Text>
-      </Center>
+      <CloudVideos />
     </HubLayout>
   );
 };

@@ -37,6 +37,7 @@ type VideoCardProps = {
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
   onPlay?: (videoUrl: string, scriptId: string) => void;
+  onScriptSelect?: (scriptId: string) => void;
   actionMenuItems?: ReactNode[];
 };
 
@@ -47,11 +48,17 @@ export const VideoCard = ({
   isFavorite = false,
   onToggleFavorite,
   onPlay,
+  onScriptSelect,
   actionMenuItems,
 }: VideoCardProps) => {
   const { title, thumbnail, duration, tags } = entry;
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(videoSources[0]?.url);
   const [selectedScriptId, setSelectedScriptId] = useState(scripts[0]?.id);
+
+  const handleScriptSelect = (scriptId: string) => {
+    setSelectedScriptId(scriptId);
+    onScriptSelect?.(scriptId);
+  };
 
   return (
     <div className={styles.videoContainer}>
@@ -109,7 +116,7 @@ export const VideoCard = ({
       {!!onPlay && (
         <>
           <VideoSourceSelector videoSources={videoSources} onSelect={setSelectedVideoUrl} />
-          <ScriptSelector scripts={scripts} entry={entry} onSelect={setSelectedScriptId} />
+          <ScriptSelector scripts={scripts} entry={entry} onSelect={handleScriptSelect} />
         </>
       )}
 

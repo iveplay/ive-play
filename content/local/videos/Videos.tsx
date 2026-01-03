@@ -86,7 +86,7 @@ export const Videos = () => {
         })}
       </SimpleGrid>
 
-      {entriesHasMore && !loading && (
+      {((entriesHasMore && !loading) || isLoadingMore) && (
         <Flex mt="md" gap="md" justify="center" align="center">
           <Box className="box w" h="50" />
           <Button
