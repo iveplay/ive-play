@@ -8,4 +8,8 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
+  "vars": {
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_bWFpbi1mb3gtODQuY2xlcmsuYWNjb3VudHMuZGV2JA",
+    "NEXT_PUBLIC_API_URL": "https://api.iveplay.io",
+  },
 }
