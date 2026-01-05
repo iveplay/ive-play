@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { IconDownload } from '@tabler/icons-react';
 import { Menu } from '@mantine/core';
 import { ScriptData, VideoCard, VideoEntry, VideoSourceData } from '@/components/video/VideoCard';
+import { iveBridge } from '@/utils/iveBridge';
 
 type CloudVideoProps = {
   entry: VideoEntry;
@@ -9,30 +10,38 @@ type CloudVideoProps = {
   scripts: ScriptData[];
 };
 
-// Event to tell extension to save script
-const SAVE_SCRIPT_EVENT = 'ive:events:save_script';
-
 export const CloudVideo = ({ entry, videoSources, scripts }: CloudVideoProps) => {
   const [selectedScriptId, setSelectedScriptId] = useState(scripts[0]?.id);
   const selectedScript = scripts.find((s) => s.id === selectedScriptId) || scripts[0];
 
-  const handlePlay = (videoUrl: string, scriptId: string) => {
-    const script = scripts.find((s) => s.id === scriptId);
-
-    if (script?.url) {
-      // Dispatch event for extension to save/select script
-      document.dispatchEvent(
-        new CustomEvent(SAVE_SCRIPT_EVENT, {
-          detail: {
-            videoUrl,
-            scriptUrl: script.url,
-            scriptInfo: {
-              name: script.name,
-              creator: script.creator,
-            },
-          },
-        })
-      );
+  const handlePlay = async (videoUrl: string, scriptId: string) => {
+    // Save to local IveDB via bridge and select script for playback
+    try {
+      await iveBridge.saveAndPlay({
+        entry: {
+          title: entry.title,
+          duration: entry.duration,
+          thumbnail: entry.thumbnail,
+          tags: entry.tags,
+          videoSources: videoSources.map((vs) => ({
+            url: vs.url,
+            status: vs.status,
+          })),
+          scripts: scripts.map((s) => ({
+            url: s.url,
+            name: s.name,
+            creator: s.creator,
+            supportUrl: s.supportUrl,
+            avgSpeed: s.avgSpeed,
+            maxSpeed: s.maxSpeed,
+            actionCount: s.actionCount,
+          })),
+        },
+        videoUrl,
+        scriptId,
+      });
+    } catch (error) {
+      console.error('Failed to save to extension:', error);
     }
 
     // Open the video page

@@ -21,6 +21,7 @@ export type VideoEntry = {
 export type VideoSourceData = {
   id: string;
   url: string;
+  status?: 'working' | 'broken' | 'unknown';
 };
 
 export type ScriptData = {
@@ -28,6 +29,10 @@ export type ScriptData = {
   url: string;
   name: string;
   creator: string;
+  supportUrl?: string;
+  avgSpeed?: number;
+  maxSpeed?: number;
+  actionCount?: number;
 };
 
 type VideoCardProps = {

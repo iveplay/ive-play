@@ -81,6 +81,7 @@ const MESSAGES = {
   IVEDB_IS_FAVORITED: 'ive:ivedb:is_favorited',
   // Utils
   IVE_SELECT_SCRIPT: 'ive:select_script',
+  IVE_SAVE_AND_PLAY: 'ive:save_and_play',
   // Local script
   LOCAL_SCRIPT_SAVE: 'ive:local_script:save',
   LOCAL_SCRIPT_GET: 'ive:local_script:get',
@@ -246,6 +247,18 @@ class IveBridge {
     return this.sendMessage<LocalScriptInfo | null>(MESSAGES.LOCAL_SCRIPT_INFO, {
       scriptId,
     });
+  }
+
+  /**
+   * Save entry to IveDB and select script for playback.
+   * Opens the video URL after saving.
+   */
+  saveAndPlay(data: {
+    entry: CreateIveEntryData;
+    videoUrl: string;
+    scriptId?: string; // Which script to auto-select (index or id)
+  }) {
+    return this.sendMessage<{ entryId: string; scriptId: string }>(MESSAGES.IVE_SAVE_AND_PLAY, data);
   }
 }
 
