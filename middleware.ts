@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isbot } from 'isbot';
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const userAgent = request.headers.get('user-agent');
 
   // Skip verification for assets and API routes
