@@ -8,7 +8,6 @@ import { apiClient } from '@/utils/api/client';
 
 export const CloudVideos = () => {
   const { getToken } = useAuth();
-
   const { entries, loading, isLoadingMore, hasMore, error, loadEntries, loadMoreEntries } =
     useCloudStore(
       useShallow((state) => ({
@@ -56,12 +55,7 @@ export const CloudVideos = () => {
     <>
       <SimpleGrid cols={{ base: 1, sm: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
         {entries.map(({ entry, videoSources, scripts }) => (
-          <CloudVideo
-            key={entry.id}
-            entry={entry}
-            videoSources={videoSources}
-            scripts={scripts}
-          />
+          <CloudVideo key={entry.id} entry={entry} videoSources={videoSources} scripts={scripts} />
         ))}
       </SimpleGrid>
       {((hasMore && !loading) || isLoadingMore) && (

@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { ActionIcon, Anchor, Image, Pill, PillGroup, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Image, Loader, Pill, PillGroup, Title } from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
 import { ActionMenu } from '../action-menu/ActionMenu';
 import { ScriptSelector } from '../selectors/ScriptSelector';
@@ -44,6 +44,7 @@ type VideoCardProps = {
   onPlay?: (videoUrl: string, scriptId: string) => void;
   onScriptSelect?: (scriptId: string) => void;
   actionMenuItems?: ReactNode[];
+  isLoading?: boolean;
 };
 
 export const VideoCard = ({
@@ -55,6 +56,7 @@ export const VideoCard = ({
   onPlay,
   onScriptSelect,
   actionMenuItems,
+  isLoading = false,
 }: VideoCardProps) => {
   const { title, thumbnail, duration, tags } = entry;
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(videoSources[0]?.url);
@@ -101,19 +103,23 @@ export const VideoCard = ({
 
         {onPlay && selectedVideoUrl && selectedScriptId && (
           <div className={styles.playButtonContainer}>
-            <Anchor
-              href={selectedVideoUrl}
-              c="white"
-              className={styles.playButton}
-              underline="never"
-              target="_blank"
-              onClick={(e) => {
-                e.preventDefault();
-                onPlay(selectedVideoUrl, selectedScriptId);
-              }}
-            >
-              V
-            </Anchor>
+            {isLoading ? (
+              <Loader className={styles.playButton} size="sm" color="white" />
+            ) : (
+              <Anchor
+                href={selectedVideoUrl}
+                c="white"
+                className={styles.playButton}
+                underline="never"
+                target="_blank"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onPlay(selectedVideoUrl, selectedScriptId);
+                }}
+              >
+                V
+              </Anchor>
+            )}
           </div>
         )}
       </div>
