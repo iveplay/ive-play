@@ -3,6 +3,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useShallow } from 'zustand/shallow';
 import { Box, Button, Center, Flex, Loader, SimpleGrid, Text } from '@mantine/core';
 import { CloudVideo } from '@/content/hub/CloudVideo';
+import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useCloudStore } from '@/store/useCloudStore';
 import { apiClient } from '@/utils/api/client';
 
@@ -20,6 +21,9 @@ export const CloudVideos = () => {
         loadMoreEntries: state.loadMoreEntries,
       }))
     );
+
+  // lets just always check
+  useExtensionCheck();
 
   // Set up token getter and load entries on mount
   useEffect(() => {
