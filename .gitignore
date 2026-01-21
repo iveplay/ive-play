@@ -131,7 +131,6 @@ dist
 .pnp.*
 
 .DS_Store
-.vscode/
 certificates
 .pem
 

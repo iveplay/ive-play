@@ -24,7 +24,7 @@ export const PatreonSection = () => {
 
     if (patreon === 'success') {
       notifications.show({
-        title: 'Patreon Connected!',
+        title: 'Patreon connected!',
         message: tier ? `Welcome, ${tier} tier patron!` : 'Your account is now linked.',
         color: 'green',
       });
@@ -32,7 +32,7 @@ export const PatreonSection = () => {
       router.replace('/hub/me/settings', undefined, { shallow: true });
     } else if (patreon === 'error') {
       notifications.show({
-        title: 'Patreon Connection Failed',
+        title: 'Patreon connection failed',
         message: reason?.toString() || 'Something went wrong. Please try again.',
         color: 'red',
       });
@@ -65,7 +65,7 @@ export const PatreonSection = () => {
       await authApi.disconnectPatreon();
       await fetchUser();
       notifications.show({
-        title: 'Patreon Disconnected',
+        title: 'Patreon disconnected',
         message: 'Your Patreon account has been unlinked.',
         color: 'blue',
       });

@@ -5,6 +5,7 @@ import { CloudVideo } from '@/content/hub/CloudVideo';
 import { useInfiniteEntries } from '@/hooks/useEntries';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { apiClient } from '@/utils/api/client';
+import { PatreonRequired } from './PatreonRequired';
 
 export const CloudVideos = () => {
   const { getToken } = useAuth();
@@ -33,9 +34,17 @@ export const CloudVideos = () => {
   }
 
   if (error) {
+    // Check if it's a Patreon subscription error
+    const errorMessage = error instanceof Error ? error.message : 'Failed to load entries';
+    const isPatreonError = errorMessage.includes('Patreon subscription required');
+
+    if (isPatreonError) {
+      return <PatreonRequired />;
+    }
+
     return (
       <Center flex={1} className="box">
-        <Text c="red">{error instanceof Error ? error.message : 'Failed to load entries'}</Text>
+        <Text c="red">{errorMessage}</Text>
       </Center>
     );
   }
