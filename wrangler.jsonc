@@ -8,10 +8,4 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
-  "env": {
-    "develop": {
-      "name": "develop-ive-play",
-      "routes": [{ "pattern": "develop.iveplay.io/*", "custom_domain": true }],
-    },
-  },
 }
