@@ -1,37 +1,30 @@
 import { useEffect } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { useShallow } from 'zustand/shallow';
 import { Box, Button, Center, Flex, Loader, SimpleGrid, Text } from '@mantine/core';
 import { CloudVideo } from '@/content/hub/CloudVideo';
+import { useInfiniteEntries } from '@/hooks/useEntries';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
-import { useCloudStore } from '@/store/useCloudStore';
 import { apiClient } from '@/utils/api/client';
 
 export const CloudVideos = () => {
   const { getToken } = useAuth();
-  const { entries, loading, isLoadingMore, hasMore, error, loadEntries, loadMoreEntries } =
-    useCloudStore(
-      useShallow((state) => ({
-        entries: state.entries,
-        loading: state.loading,
-        isLoadingMore: state.isLoadingMore,
-        hasMore: state.hasMore,
-        error: state.error,
-        loadEntries: state.loadEntries,
-        loadMoreEntries: state.loadMoreEntries,
-      }))
-    );
+
+  // Set up token getter on mount
+  useEffect(() => {
+    apiClient.setTokenGetter(getToken);
+  }, [getToken]);
+
+  // Use React Query for data fetching with automatic caching
+  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading } =
+    useInfiniteEntries(20);
 
   // lets just always check
   useExtensionCheck();
 
-  // Set up token getter and load entries on mount
-  useEffect(() => {
-    apiClient.setTokenGetter(getToken);
-    loadEntries(true);
-  }, [getToken, loadEntries]);
+  // Flatten all pages into a single array of entries
+  const entries = data?.pages.flatMap((page) => page.entries) ?? [];
 
-  if (loading && entries.length === 0) {
+  if (isLoading) {
     return (
       <Center flex={1}>
         <Loader size="lg" />
@@ -42,7 +35,7 @@ export const CloudVideos = () => {
   if (error) {
     return (
       <Center flex={1} className="box">
-        <Text c="red">{error}</Text>
+        <Text c="red">{error instanceof Error ? error.message : 'Failed to load entries'}</Text>
       </Center>
     );
   }
@@ -62,17 +55,17 @@ export const CloudVideos = () => {
           <CloudVideo key={entry.id} entry={entry} videoSources={videoSources} scripts={scripts} />
         ))}
       </SimpleGrid>
-      {((hasMore && !loading) || isLoadingMore) && (
+      {((hasNextPage && !isFetching) || isFetchingNextPage) && (
         <Flex mt="md" gap="md" justify="center" align="center">
           <Box className="box w" h="50" />
           <Button
-            onClick={loadMoreEntries}
-            loading={isLoadingMore}
+            onClick={() => fetchNextPage()}
+            loading={isFetchingNextPage}
             size="lg"
             radius="lg"
             flex="0 0 auto"
           >
-            {isLoadingMore ? 'Loading...' : 'Load more'}
+            {isFetchingNextPage ? 'Loading...' : 'Load more'}
           </Button>
           <Box className="box w" h="50" />
         </Flex>
