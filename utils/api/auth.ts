@@ -32,7 +32,9 @@ export const authApi = {
 
   /** Get Patreon OAuth URL (requires auth) */
   getPatreonConnectUrl(): Promise<PatreonConnectResponse> {
-    return apiClient.get('/v1/auth/patreon/connect');
+    // Pass current origin so callback redirects to correct domain
+    const redirect = `${window.location.origin}/hub/me/settings`;
+    return apiClient.get(`/v1/auth/patreon/connect?redirect=${encodeURIComponent(redirect)}`);
   },
 
   /** Disconnect Patreon account */
