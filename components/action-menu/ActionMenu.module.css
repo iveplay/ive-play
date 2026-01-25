@@ -1,7 +1,7 @@
 .menuButton {
   position: absolute;
-  top: rem(8px);
-  right: rem(8px);
+  top: rem(4px);
+  right: rem(4px);
   backdrop-filter: blur(10px);
 }
 

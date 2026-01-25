@@ -14,17 +14,17 @@
     aspect-ratio: 16 / 10;
   }
 
-  .duration {
+  .pillStack {
     position: absolute;
-    bottom: rem(8px);
-    left: rem(8px);
+    bottom: rem(4px);
+    left: rem(4px);
   }
 }
 
 .favoriteButton {
   position: absolute;
-  top: rem(8px);
-  left: rem(8px);
+  top: rem(4px);
+  left: rem(4px);
 }
 
 .playButtonContainer {

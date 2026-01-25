@@ -69,7 +69,7 @@ export const CloudVideo = ({ entry, videoSources, scripts }: CloudVideoProps) =>
       isLoading={isPlayLoading}
       onScriptSelect={setSelectedScriptId}
       actionMenuItems={
-        selectedScript
+        selectedScript && entry.source !== 'scraper:ivdb'
           ? [
               <Menu.Item
                 key="download"

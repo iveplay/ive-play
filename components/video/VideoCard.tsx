@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { ActionIcon, Anchor, Image, Loader, Pill, PillGroup, Title } from '@mantine/core';
+import { ActionIcon, Anchor, Image, Loader, Pill, PillGroup, Stack, Title } from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
 import { ActionMenu } from '../action-menu/ActionMenu';
 import { ScriptSelector } from '../selectors/ScriptSelector';
@@ -16,6 +16,7 @@ export type VideoEntry = {
   thumbnail?: string;
   tags?: string[];
   defaultScriptId?: string;
+  source?: string;
 };
 
 export type VideoSourceData = {
@@ -58,7 +59,7 @@ export const VideoCard = ({
   actionMenuItems,
   isLoading = false,
 }: VideoCardProps) => {
-  const { title, thumbnail, duration, tags } = entry;
+  const { title, thumbnail, duration, tags, source } = entry;
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(videoSources[0]?.url);
   const [selectedScriptId, setSelectedScriptId] = useState(scripts[0]?.id);
 
@@ -95,11 +96,18 @@ export const VideoCard = ({
           fallbackSrc={`https://placehold.co/400/DDD/333?font=roboto&text=${encodeURIComponent(title.slice(0, 25))}`}
         />
 
-        {duration && (
-          <Pill size="sm" aria-label="Video duration" className={styles.duration}>
-            {formatTime(duration)}
-          </Pill>
-        )}
+        <Stack className={styles.pillStack} gap={4}>
+          {duration && (
+            <Pill size="sm" aria-label="Video duration" w="fit-content">
+              {formatTime(duration)}
+            </Pill>
+          )}
+          {source === 'scraper:ivdb' && (
+            <Pill size="sm" w="fit-content">
+              The handy ONLY!
+            </Pill>
+          )}
+        </Stack>
 
         {onPlay && selectedVideoUrl && selectedScriptId && (
           <div className={styles.playButtonContainer}>
