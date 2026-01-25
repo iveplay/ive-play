@@ -6,11 +6,13 @@ import {
   IconBrandDiscord,
   IconBrandPatreon,
   IconDatabase,
+  IconDotsVertical,
   IconHome,
   IconLogout2,
+  IconX,
 } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { AppShell, Box, Burger, Flex, Text, UnstyledButton } from '@mantine/core';
+import { AppShell, Box, Burger, Button, Flex, Text, UnstyledButton } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { UserButton } from '@/components/auth/UserButton';
 import { Logo } from '@/components/logo/Logo';
@@ -48,22 +50,38 @@ const bottomNavItems: NavItem[] = [
   },
 ];
 
+const ASIDE_BREAKPOINT = 'md';
+
 export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutProps) => {
   const router = useRouter();
   const [opened, { toggle }] = useDisclosure();
+  const [asideOpened, { toggle: toggleAside }] = useDisclosure();
   const { isSignedIn } = useUser();
   const { signOut } = useClerk();
   const [header, setHeader] = useState<HTMLElement | null>(null);
   const [navbar, setNavbar] = useState<HTMLElement | null>(null);
+  const [aside, setAside] = useState<HTMLElement | null>(null);
 
   useClickOutside(
-    () => {
+    (e) => {
       if (opened) {
         toggle();
+        e.stopPropagation();
       }
     },
     null,
     [header, navbar]
+  );
+
+  useClickOutside(
+    (e) => {
+      if (asideOpened) {
+        toggleAside();
+        e.stopPropagation();
+      }
+    },
+    null,
+    [header, aside]
   );
 
   return (
@@ -71,27 +89,54 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
       className="hub-navbar"
       header={{ height: 96 }}
       navbar={{ width: 96, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      aside={{ width: 96, breakpoint: ASIDE_BREAKPOINT, collapsed: { mobile: !asideOpened } }}
       data-navbar-expanded={opened || undefined}
+      data-aside-expanded={asideOpened || undefined}
     >
       <AppShell.Header ref={setHeader} withBorder={false} className="hub-navbar-header">
-        <Flex h={64} m="md" gap="md" wrap="wrap">
+        <Flex h={64} m="md" gap="md" align="center">
           <Burger
             opened={opened}
-            onClick={toggle}
+            onClick={() => {
+              toggle();
+              asideOpened && toggleAside();
+            }}
             size="md"
             className="box h"
             p="lg"
             w={64}
             hiddenFrom="sm"
           />
-          <Flex className="box menuItem" component={Link} href="/hub" justify="center">
+          <Flex className="box menuItem" flex="0 1 0" component={Link} href="/hub" justify="center">
             <Logo />
           </Flex>
-          <Box className="box h" flex={1}>
+          <Box className="box h" flex={1} visibleFrom="sm">
             {headerCenter}
           </Box>
-          {headerContent}
-          <UserButton />
+          <Box className="box h" flex={1} hiddenFrom="sm" />
+          <Flex gap="md" visibleFrom={headerContent ? ASIDE_BREAKPOINT : undefined}>
+            {headerContent}
+            <UserButton />
+          </Flex>
+          {headerContent && (
+            <Button
+              onClick={() => {
+                toggleAside();
+                opened && toggle();
+              }}
+              size="md"
+              className="box h"
+              p="lg"
+              w={64}
+              hiddenFrom={ASIDE_BREAKPOINT}
+            >
+              {asideOpened ? (
+                <IconX style={{ transform: 'scale(1.5)' }} stroke={1.5} />
+              ) : (
+                <IconDotsVertical size={24} />
+              )}
+            </Button>
+          )}
         </Flex>
       </AppShell.Header>
 
@@ -128,9 +173,19 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
         </Flex>
       </AppShell.Navbar>
 
+      {headerContent && (
+        <AppShell.Aside ref={setAside} withBorder={false} hiddenFrom={ASIDE_BREAKPOINT} w="96">
+          <Flex direction="column" px="md" pb="md" gap="md" h="100%">
+            <UserButton />
+            {headerContent}
+            <div className="box h" />
+          </Flex>
+        </AppShell.Aside>
+      )}
+
       <AppShell.Main
         display="flex"
-        mr="md"
+        mr={{ base: asideOpened ? '96px' : 'md' }}
         ml={{ base: opened ? '96px' : 'md', sm: 0 }}
         pb="md"
         style={{

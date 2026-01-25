@@ -1,5 +1,5 @@
 import { useUser } from '@clerk/nextjs';
-import { Center, Loader } from '@mantine/core';
+import { Center, Loader, Text } from '@mantine/core';
 import { HubLayout } from '@/components/layout/HubLayout';
 import { CloudVideos } from '@/content/hub/CloudVideos';
 import { NotSignedInHub } from '@/content/hub/NotSignedInHub';
@@ -9,7 +9,13 @@ const HubPage = () => {
 
   if (!isLoaded) {
     return (
-      <HubLayout>
+      <HubLayout
+        headerCenter={
+          <Text size="32px" fw={300} ff="var(--font-frankfurter)">
+            Hub
+          </Text>
+        }
+      >
         <Center h="100%" flex={1}>
           <Loader size="lg" />
         </Center>
@@ -19,14 +25,26 @@ const HubPage = () => {
 
   if (!isSignedIn) {
     return (
-      <HubLayout>
+      <HubLayout
+        headerCenter={
+          <Text size="32px" fw={300} ff="var(--font-frankfurter)">
+            Hub
+          </Text>
+        }
+      >
         <NotSignedInHub />
       </HubLayout>
     );
   }
 
   return (
-    <HubLayout>
+    <HubLayout
+      headerCenter={
+        <Text size="32px" fw={300} ff="var(--font-frankfurter)">
+          Hub
+        </Text>
+      }
+    >
       <CloudVideos />
     </HubLayout>
   );

@@ -44,10 +44,19 @@ export const NewEntry = () => {
 
   return (
     <>
-      <Button className="box h menuItem" miw={64} onClick={open}>
-        <Flex gap="xs" align="center">
+      <Button className="box menuItem" miw={64} onClick={open} p={{ base: '0', md: '16' }}>
+        <Flex
+          gap={{ base: '2', md: 'xs' }}
+          align="center"
+          justify="center"
+          direction={{ base: 'column', md: 'row' }}
+          h={{ base: '64', md: 'auto' }}
+        >
           <IconPlus />
-          <Text display={{ base: 'none', sm: 'block' }}>New</Text>
+          <Text size="xs" hiddenFrom="md">
+            New
+          </Text>
+          <Text visibleFrom="md">New</Text>
         </Flex>
       </Button>
 

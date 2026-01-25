@@ -83,15 +83,25 @@ export const ExportButton = () => {
 
   return (
     <Button
-      className="box h menuItem"
+      className="box menuItem"
       miw={64}
       onClick={handleExport}
       loading={isExporting}
       disabled={entries.length === 0}
+      p={{ base: '0', md: '16' }}
     >
-      <Flex gap="xs" align="center">
+      <Flex
+        gap={{ base: '2', md: 'xs' }}
+        align="center"
+        justify="center"
+        direction={{ base: 'column', md: 'row' }}
+        h={{ base: '64', md: 'auto' }}
+      >
         <IconDownload />
-        <Text display={{ base: 'none', sm: 'block' }}>Export</Text>
+        <Text size="xs" hiddenFrom="md">
+          Export
+        </Text>
+        <Text visibleFrom="md">Export</Text>
       </Flex>
     </Button>
   );

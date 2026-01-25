@@ -145,14 +145,24 @@ export const ImportButton = () => {
         style={{ display: 'none' }}
       />
       <Button
-        className="box h menuItem"
+        className="box menuItem"
         miw={64}
         onClick={() => fileInputRef.current?.click()}
         loading={isImporting}
+        p={{ base: '0', md: '16' }}
       >
-        <Flex gap="xs" align="center">
+        <Flex
+          gap={{ base: '2', md: 'xs' }}
+          align="center"
+          justify="center"
+          direction={{ base: 'column', md: 'row' }}
+          h={{ base: '64', md: 'auto' }}
+        >
           <IconUpload />
-          <Text display={{ base: 'none', sm: 'block' }}>Import</Text>
+          <Text size="xs" hiddenFrom="md">
+            Import
+          </Text>
+          <Text visibleFrom="md">Import</Text>
         </Flex>
       </Button>
     </>

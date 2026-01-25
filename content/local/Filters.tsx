@@ -13,13 +13,23 @@ export const Filters = () => {
 
   return (
     <Button
-      className="box h menuItem"
+      className="box menuItem"
       miw={64}
       onClick={() => setFilters({ ...filters, favorites: !filters.favorites })}
+      p={{ base: '0', md: '16' }}
     >
-      <Flex gap="xs" align="center">
+      <Flex
+        gap={{ base: '2', md: 'xs' }}
+        align="center"
+        justify="center"
+        direction={{ base: 'column', md: 'row' }}
+        h={{ base: '64', md: 'auto' }}
+      >
         {filters.favorites ? <IconHeartFilled /> : <IconHeart />}
-        <Text display={{ base: 'none', sm: 'block' }}>Favorites</Text>
+        <Text size="xs" hiddenFrom="md">
+          Favorites
+        </Text>
+        <Text visibleFrom="md">Favorites</Text>
       </Flex>
     </Button>
   );
