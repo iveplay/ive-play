@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { IconUser } from '@tabler/icons-react';
-import { Combobox, Flex, InputBase, Text, useCombobox } from '@mantine/core';
+import { Flex, Text } from '@mantine/core';
 import { ScriptData, VideoEntry } from '../video/VideoCard';
-import styles from './ScriptSelector.module.css';
+import { OptionSelector } from './OptionSelector';
 
 type ScriptSelectorProps = {
   scripts: ScriptData[];
@@ -11,10 +11,6 @@ type ScriptSelectorProps = {
 };
 
 export const ScriptSelector = ({ scripts, entry, onSelect }: ScriptSelectorProps) => {
-  const combobox = useCombobox({
-    onDropdownClose: () => combobox.resetSelectedOption(),
-  });
-
   // Initialize with default script or first script
   const defaultScriptId = entry?.defaultScriptId
     ? scripts.find((s) => s.url === entry.defaultScriptId)?.id
@@ -28,67 +24,23 @@ export const ScriptSelector = ({ scripts, entry, onSelect }: ScriptSelectorProps
 
   const [entryId, setEntryId] = useState<string | undefined>(defaultScriptId);
 
-  if (scripts.length <= 1) {
-    return (
-      <InputBase
-        classNames={{ input: styles.optionSelector }}
-        component="div"
-        radius="lg"
-        onClick={() => combobox.toggleDropdown()}
-        rightSectionPointerEvents="none"
-        multiline
-        title={scripts[0]?.name}
-      >
-        <ScriptOption {...scripts[0]} isDefault={entry?.defaultScriptId === scripts[0]?.url} />
-      </InputBase>
-    );
-  }
-
-  const selectedOption = scripts.find((item) => item.id === entryId) || scripts[0];
-
-  const options = scripts.map((item) => (
-    <Combobox.Option value={item.id} key={item.id} className={styles.optionItem}>
-      <ScriptOption {...item} isDefault={entry?.defaultScriptId === item.url} />
-    </Combobox.Option>
-  ));
-
   return (
-    <Combobox
-      radius="lg"
-      store={combobox}
-      withinPortal={false}
-      onOptionSubmit={(val) => {
-        setEntryId(val);
+    <OptionSelector
+      items={scripts}
+      selectedItemId={entryId}
+      onSelect={(script) => {
+        setEntryId(script.id);
         if (onSelect) {
-          onSelect(val);
+          onSelect(script.id);
         }
-        combobox.closeDropdown();
       }}
-    >
-      <Combobox.Target>
-        <InputBase
-          classNames={{ input: styles.optionSelector }}
-          component="button"
-          type="button"
-          pointer
-          radius="lg"
-          rightSection={<Combobox.Chevron color="lightgray" />}
-          onClick={() => combobox.toggleDropdown()}
-          rightSectionPointerEvents="none"
-          multiline
-          title={selectedOption.name}
-        >
-          <ScriptOption
-            {...selectedOption}
-            isDefault={entry?.defaultScriptId === selectedOption.url}
-          />
-        </InputBase>
-      </Combobox.Target>
-
-      <Combobox.Dropdown className={styles.optionDropdown}>
-        <Combobox.Options>{options}</Combobox.Options>
-      </Combobox.Dropdown>
-    </Combobox>
+      getItemId={(item) => item.id}
+      getItemTitle={(item) => item.name}
+      renderOption={(item) => (
+        <ScriptOption {...item} isDefault={entry?.defaultScriptId === item.url} />
+      )}
+      singleItemConfig={{ component: 'div' }}
+    />
   );
 };
 

@@ -124,15 +124,15 @@ export const VideoCard = ({
         )}
       </div>
 
-      {!!onPlay && (
-        <>
-          <VideoSourceSelector videoSources={videoSources} onSelect={setSelectedVideoUrl} />
-          <ScriptSelector scripts={scripts} entry={entry} onSelect={handleScriptSelect} />
-        </>
-      )}
-
       <div className={clsx('box', styles.videoInfo)}>
-        <Title size="lg" lineClamp={2} h={48} title={title}>
+        {!!onPlay && (
+          <>
+            <VideoSourceSelector videoSources={videoSources} onSelect={setSelectedVideoUrl} />
+            <ScriptSelector scripts={scripts} entry={entry} onSelect={handleScriptSelect} />
+          </>
+        )}
+
+        <Title size="lg" lineClamp={2} h={48} m={4} title={title}>
           {title}
         </Title>
         {tags && tags.length > 0 && (

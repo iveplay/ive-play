@@ -14,6 +14,7 @@ export const ActionMenu = ({ menuItems }: ActionMenuProps) => {
 
   return (
     <Menu
+      radius="lg"
       position="bottom-end"
       offset={4}
       classNames={{ dropdown: styles.menuDropdown, item: styles.menuItem }}

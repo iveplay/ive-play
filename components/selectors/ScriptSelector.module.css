@@ -1,19 +1,23 @@
 .optionSelector {
   border: none;
-  padding-block: rem(12px);
   cursor: pointer;
+  min-height: 0;
+  height: 32px;
+  background-color: var(--mantine-color-body);
 }
 
 .optionDropdown {
   border: none;
-  border-radius: rem(8px);
   background-color: rgba(41, 11, 29, 0.85);
   backdrop-filter: blur(10px);
 }
 
 .optionItem {
+  height: 32px;
+  min-height: 0;
+
   &:hover {
-    border-radius: rem(6px);
+    border-radius: rem(16px);
     background-color: rgba(123, 2, 77, 0.6);
   }
 }
