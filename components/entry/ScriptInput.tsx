@@ -1,6 +1,17 @@
-import { IconTrash } from '@tabler/icons-react';
-import { ActionIcon, Box, Button, Group, Radio, Stack, Text, TextInput } from '@mantine/core';
+import { IconPhoto, IconTrash, IconX } from '@tabler/icons-react';
+import {
+  ActionIcon,
+  Box,
+  Checkbox,
+  Flex,
+  Group,
+  SegmentedControl,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import styles from './EntryFormModal.module.css';
 
 export type ScriptInputValue = {
   url: string;
@@ -43,7 +54,7 @@ export const ScriptInput = ({
 
     if (!file.name.endsWith('.funscript')) {
       notifications.show({
-        title: 'Error',
+        title: 'Invalid file',
         message: 'Please select a .funscript file',
         color: 'red',
       });
@@ -52,8 +63,8 @@ export const ScriptInput = ({
 
     if (file.size > 2 * 1024 * 1024) {
       notifications.show({
-        title: 'Error',
-        message: 'File size exceeds 2MB limit',
+        title: 'File too large',
+        message: 'Maximum file size is 2MB',
         color: 'red',
       });
       return;
@@ -67,88 +78,131 @@ export const ScriptInput = ({
   const showToggle = showLocalOption && !isExistingLocal && !isExistingRemote;
 
   return (
-    <Box
-      p="md"
-      style={{ border: '1px solid var(--mantine-color-default-border)', borderRadius: 8 }}
-    >
-      <Group justify="space-between" mb="xs">
-        <Text size="sm" fw={500}>
-          Script {index + 1}
-        </Text>
-        {canRemove && (
-          <ActionIcon color="red" variant="subtle" onClick={onRemove}>
-            <IconTrash size={16} />
-          </ActionIcon>
-        )}
-      </Group>
+    <Box className={`${styles.scriptCard} ${isDefault ? styles.scriptCardDefault : ''}`}>
+      <Stack gap="sm">
+        <Flex align="center" gap="sm">
+          {showToggle && (
+            <SegmentedControl
+              flex="1"
+              size="xs"
+              radius="lg"
+              data={[
+                { label: 'URL', value: 'url' },
+                { label: 'Local File', value: 'local' },
+              ]}
+              value={value.isLocal ? 'local' : 'url'}
+              onChange={(val) => onLocalToggle(val === 'local')}
+            />
+          )}
+          {canRemove && (
+            <ActionIcon
+              radius="lg"
+              variant="subtle"
+              color="red"
+              className={styles.deleteButton}
+              onClick={onRemove}
+            >
+              <IconTrash size={14} />
+            </ActionIcon>
+          )}
+        </Flex>
 
-      <Stack gap="xs">
-        {showToggle && (
-          <Group>
-            <Button
-              size="xs"
-              variant={!value.isLocal ? 'filled' : 'default'}
-              onClick={() => onLocalToggle(false)}
-              radius="lg"
-            >
-              URL
-            </Button>
-            <Button
-              size="xs"
-              variant={value.isLocal ? 'filled' : 'default'}
-              onClick={() => onLocalToggle(true)}
-              radius="lg"
-            >
-              Local File
-            </Button>
-          </Group>
-        )}
+        <Group grow>
+          <TextInput
+            size="sm"
+            placeholder="Script name"
+            radius="lg"
+            {...getInputProps(`scripts.${index}.name`)}
+          />
+          <TextInput
+            size="sm"
+            placeholder="Creator (optional)"
+            radius="lg"
+            {...getInputProps(`scripts.${index}.creator`)}
+          />
+        </Group>
 
         {isExistingLocal ? (
-          <Text size="sm" c="dimmed">
-            Local script: {value.name}
-          </Text>
+          <Box p="sm" bg="dark.7" style={{ borderRadius: 'var(--mantine-radius-md)' }}>
+            <Text size="sm" c="dimmed">
+              📁 {value.name}
+            </Text>
+          </Box>
         ) : value.isLocal && showLocalOption ? (
-          <>
+          <Stack gap="xs">
             <TextInput
               type="file"
-              label="Script File"
+              size="sm"
               accept=".funscript"
-              required
               radius="lg"
               onChange={handleFileChange}
+              placeholder="Select .funscript file"
+              rightSection={
+                value.file && (
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    onClick={() => onFileChange(null as unknown as File)}
+                  >
+                    <IconX size={14} />
+                  </ActionIcon>
+                )
+              }
             />
-            <Text size="xs" c="dimmed">
-              Maximum file size: 2MB
-            </Text>
-          </>
+            {value.file && (
+              <Text size="xs" c="dimmed">
+                {value.file.name} ({(value.file.size / 1024).toFixed(1)} KB)
+              </Text>
+            )}
+          </Stack>
         ) : (
           <TextInput
-            label="Script URL"
-            placeholder="https://..."
-            required
+            size="sm"
+            placeholder="https://example.com/script.funscript"
             radius="lg"
             {...getInputProps(`scripts.${index}.url`)}
           />
         )}
 
-        <TextInput
-          label="Script Name"
-          placeholder="Enter script name"
-          required
-          radius="lg"
-          {...getInputProps(`scripts.${index}.name`)}
+        <Checkbox
+          size="sm"
+          label="Use as default"
+          checked={isDefault}
+          onChange={onSetDefault}
+          styles={{
+            input: { cursor: 'pointer' },
+            label: { cursor: 'pointer' },
+          }}
         />
-
-        <TextInput
-          label="Creator"
-          placeholder="Script creator"
-          radius="lg"
-          {...getInputProps(`scripts.${index}.creator`)}
-        />
-
-        <Radio label="Set as default" checked={isDefault} onChange={onSetDefault} />
       </Stack>
     </Box>
+  );
+};
+
+// Thumbnail preview component
+type ThumbnailPreviewProps = {
+  url: string;
+};
+
+export const ThumbnailPreview = ({ url }: ThumbnailPreviewProps) => {
+  if (!url) {
+    return (
+      <div className={styles.thumbnailPreview}>
+        <div className={styles.thumbnailPlaceholder}>
+          <IconPhoto size={24} />
+          <span>No thumbnail</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.thumbnailPreview}>
+      <img
+        src={url}
+        alt="Thumbnail preview"
+        onError={(e) => (e.currentTarget.style.display = 'none')}
+      />
+    </div>
   );
 };

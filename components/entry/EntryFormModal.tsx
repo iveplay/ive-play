@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Button, Divider, Group, Modal } from '@mantine/core';
+import { Button, Group, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import { createEmptyScript, EntryForm, entryFormValidation, EntryFormValues } from './EntryForm';
+import styles from './EntryFormModal.module.css';
 
 type EntryData = {
   id: string;
@@ -175,23 +176,30 @@ export const EntryFormModal = ({
     <Modal
       opened={opened}
       onClose={handleClose}
-      title={mode === 'create' ? 'Add new entry' : 'Edit entry'}
-      radius="lg"
+      title={mode === 'create' ? 'New Entry' : 'Edit Entry'}
       size="xl"
+      radius="xl"
+      padding={0}
+      centered
+      classNames={{
+        header: styles.modalHeader,
+        body: styles.modalBody,
+        content: styles.modalContent,
+      }}
     >
       <form onSubmit={handleSubmit}>
         <EntryForm form={form} showLocalScripts={showLocalScripts} />
 
-        <Divider my="lg" />
-
-        <Group justify="flex-end">
-          <Button variant="default" onClick={handleClose} radius="lg">
-            Cancel
-          </Button>
-          <Button type="submit" loading={loading} radius="lg">
-            {mode === 'create' ? 'Add entry' : 'Save changes'}
-          </Button>
-        </Group>
+        <div className={styles.footer}>
+          <Group gap="sm" className={styles.footerActions}>
+            <Button variant="default" onClick={handleClose} radius="lg">
+              Cancel
+            </Button>
+            <Button type="submit" loading={loading} radius="lg">
+              {mode === 'create' ? 'Create' : 'Save'}
+            </Button>
+          </Group>
+        </div>
       </form>
     </Modal>
   );

@@ -1,18 +1,18 @@
-import { IconPlus, IconTrash } from '@tabler/icons-react';
+import { IconLink, IconMovie, IconPlus, IconScript, IconTrash } from '@tabler/icons-react';
 import {
   ActionIcon,
+  Box,
   Button,
   Grid,
-  Group,
   NumberInput,
-  ScrollArea,
   Stack,
   TagsInput,
-  Text,
   TextInput,
 } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
-import { ScriptInput, ScriptInputValue } from './ScriptInput';
+import { useMediaQuery } from '@mantine/hooks';
+import { ScriptInput, ScriptInputValue, ThumbnailPreview } from './ScriptInput';
+import styles from './EntryFormModal.module.css';
 
 export type EntryFormValues = {
   title: string;
@@ -30,6 +30,8 @@ type EntryFormProps = {
 };
 
 export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   const handleFileChange = (index: number, file: File) => {
     form.setFieldValue(`scripts.${index}.file`, file);
     if (!form.values.scripts[index].name) {
@@ -37,134 +39,163 @@ export const EntryForm = ({ form, showLocalScripts = false }: EntryFormProps) =>
     }
   };
 
-  return (
-    <Grid gutter="lg">
-      {/* Left Column - Video Details */}
-      <Grid.Col span={6}>
-        <Stack gap="md">
-          <Text fw={600} size="lg">
-            Video Details
-          </Text>
+  const VideoDetailsSection = (
+    <Box className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <div className={styles.sectionTitle}>
+          <IconMovie size={16} />
+          <span>Video Details</span>
+        </div>
+      </div>
 
-          <TextInput
-            label="Video Title"
-            placeholder="Enter video title"
-            required
-            radius="lg"
-            {...form.getInputProps('title')}
-          />
+      <Stack gap="md">
+        <TextInput
+          label="Title"
+          placeholder="Video title"
+          required
+          size="sm"
+          radius="lg"
+          {...form.getInputProps('title')}
+        />
 
-          <TextInput
-            label="Thumbnail URL"
-            placeholder="https://..."
-            radius="lg"
-            {...form.getInputProps('thumbnailUrl')}
-          />
+        <TextInput
+          label="Thumbnail URL"
+          placeholder="https://..."
+          size="sm"
+          radius="lg"
+          {...form.getInputProps('thumbnailUrl')}
+        />
+        <NumberInput
+          label="Duration (sec)"
+          placeholder="Optional"
+          min={0}
+          size="sm"
+          radius="lg"
+          {...form.getInputProps('duration')}
+        />
 
-          <NumberInput
-            label="Duration (seconds)"
-            placeholder="Video duration in seconds"
-            min={0}
-            radius="lg"
-            {...form.getInputProps('duration')}
-          />
+        {form.values.thumbnailUrl && <ThumbnailPreview url={form.values.thumbnailUrl} />}
 
-          <TagsInput
-            label="Tags"
-            placeholder="Add tags (press Enter)"
-            radius="lg"
-            {...form.getInputProps('tags')}
-          />
+        <TagsInput
+          label="Tags"
+          placeholder="Press Enter to add"
+          size="sm"
+          radius="lg"
+          {...form.getInputProps('tags')}
+        />
+      </Stack>
+    </Box>
+  );
 
-          <Stack gap="xs">
-            <Group justify="space-between">
-              <Text size="sm" fw={500}>
-                Video Sources
-              </Text>
-              <Button
-                size="xs"
-                variant="light"
-                leftSection={<IconPlus size={14} />}
-                onClick={() => form.insertListItem('videoSources', { url: '' })}
-                radius="lg"
-              >
-                Add Source
-              </Button>
-            </Group>
+  const VideoSourcesSection = (
+    <Box className={styles.section} style={{ borderTop: '1px solid var(--mantine-color-dark-5)' }}>
+      <div className={styles.sectionHeader}>
+        <div className={styles.sectionTitle}>
+          <IconLink size={16} />
+          <span>Video Sources</span>
+        </div>
+        <Button
+          size="compact-xs"
+          variant="subtle"
+          leftSection={<IconPlus size={14} />}
+          onClick={() => form.insertListItem('videoSources', { url: '' })}
+        >
+          Add
+        </Button>
+      </div>
 
-            {form.values.videoSources.map((_, index) => (
-              <Group key={index} wrap="nowrap">
-                <TextInput
-                  placeholder="https://..."
-                  required
-                  radius="lg"
-                  flex={1}
-                  {...form.getInputProps(`videoSources.${index}.url`)}
-                />
-                {form.values.videoSources.length > 1 && (
-                  <ActionIcon
-                    color="red"
-                    variant="subtle"
-                    onClick={() => form.removeListItem('videoSources', index)}
-                  >
-                    <IconTrash size={16} />
-                  </ActionIcon>
-                )}
-              </Group>
-            ))}
-          </Stack>
-        </Stack>
-      </Grid.Col>
-
-      {/* Right Column - Scripts */}
-      <Grid.Col span={6}>
-        <Stack gap="md" h="100%">
-          <Group justify="space-between">
-            <Text fw={600} size="lg">
-              Scripts
-            </Text>
-            <Button
-              size="xs"
-              variant="light"
-              leftSection={<IconPlus size={16} />}
-              onClick={() =>
-                form.insertListItem('scripts', {
-                  url: '',
-                  name: '',
-                  creator: '',
-                  isLocal: false,
-                  file: null,
-                })
-              }
+      <Stack gap="xs">
+        {form.values.videoSources.map((_, index) => (
+          <div key={index} className={styles.sourceRow}>
+            <TextInput
+              placeholder="https://example.com/video"
+              size="sm"
               radius="lg"
-            >
-              Add Script
-            </Button>
-          </Group>
+              flex={1}
+              {...form.getInputProps(`videoSources.${index}.url`)}
+            />
+            {form.values.videoSources.length > 1 && (
+              <ActionIcon
+                size="sm"
+                variant="subtle"
+                color="red"
+                className={styles.deleteButton}
+                onClick={() => form.removeListItem('videoSources', index)}
+              >
+                <IconTrash size={14} />
+              </ActionIcon>
+            )}
+          </div>
+        ))}
+      </Stack>
+    </Box>
+  );
 
-          <ScrollArea h={400} type="auto" offsetScrollbars>
-            <Stack gap="md" pr="xs">
-              {form.values.scripts.map((script, index) => (
-                <ScriptInput
-                  key={index}
-                  index={index}
-                  value={script}
-                  canRemove={form.values.scripts.length > 1}
-                  isDefault={form.values.defaultScriptId === script.url}
-                  showLocalOption={showLocalScripts}
-                  getInputProps={form.getInputProps}
-                  onRemove={() => form.removeListItem('scripts', index)}
-                  onSetDefault={() => form.setFieldValue('defaultScriptId', script.url)}
-                  onLocalToggle={(isLocal) =>
-                    form.setFieldValue(`scripts.${index}.isLocal`, isLocal)
-                  }
-                  onFileChange={(file) => handleFileChange(index, file)}
-                />
-              ))}
-            </Stack>
-          </ScrollArea>
-        </Stack>
+  const ScriptsSection = (
+    <Box
+      className={styles.section}
+      h="100%"
+      style={{ borderTop: '1px solid var(--mantine-color-dark-5)' }}
+    >
+      <div className={styles.sectionHeader}>
+        <div className={styles.sectionTitle}>
+          <IconScript size={16} />
+          <span>Scripts</span>
+        </div>
+        <Button
+          size="compact-xs"
+          variant="subtle"
+          leftSection={<IconPlus size={14} />}
+          onClick={() =>
+            form.insertListItem('scripts', {
+              url: '',
+              name: '',
+              creator: '',
+              isLocal: false,
+              file: null,
+            })
+          }
+        >
+          Add
+        </Button>
+      </div>
+      <Stack gap="sm">
+        {form.values.scripts.map((script, index) => (
+          <ScriptInput
+            key={index}
+            index={index}
+            value={script}
+            canRemove={form.values.scripts.length > 1}
+            isDefault={form.values.defaultScriptId === script.url}
+            showLocalOption={showLocalScripts}
+            getInputProps={form.getInputProps}
+            onRemove={() => form.removeListItem('scripts', index)}
+            onSetDefault={() => form.setFieldValue('defaultScriptId', script.url)}
+            onLocalToggle={(isLocal) => form.setFieldValue(`scripts.${index}.isLocal`, isLocal)}
+            onFileChange={(file) => handleFileChange(index, file)}
+          />
+        ))}
+      </Stack>
+    </Box>
+  );
+
+  if (isMobile) {
+    return (
+      <Stack gap={0}>
+        {VideoDetailsSection}
+        {VideoSourcesSection}
+        {ScriptsSection}
+      </Stack>
+    );
+  }
+
+  return (
+    <Grid gutter={0}>
+      <Grid.Col span={6} style={{ borderRight: '1px solid var(--mantine-color-dark-5)' }}>
+        {VideoDetailsSection}
+        {VideoSourcesSection}
       </Grid.Col>
+      <Grid.Col span={6}>{ScriptsSection}</Grid.Col>
     </Grid>
   );
 };
