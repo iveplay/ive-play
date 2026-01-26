@@ -1,0 +1,27 @@
+.navbar::before {
+  position: absolute;
+  content: '';
+  width: 16px;
+  height: 16px;
+  right: -16px;
+  background: radial-gradient(
+      16px at 100% 100%,
+      #0000 calc(100% - 0.5px),
+      var(--mantine-color-dark-7) calc(100% + 0.5px)
+    )
+    100% 100% / 16px 16px no-repeat;
+}
+
+.aside::before {
+  position: absolute;
+  content: '';
+  width: 16px;
+  height: 16px;
+  left: -16px;
+  background: radial-gradient(
+      16px at 0 100%,
+      #0000 calc(100% - 0.5px),
+      var(--mantine-color-dark-7) calc(100% + 0.5px)
+    )
+    100% 100% / 16px 16px no-repeat;
+}

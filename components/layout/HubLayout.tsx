@@ -16,6 +16,7 @@ import { AppShell, Box, Burger, Button, Flex, Text, UnstyledButton } from '@mant
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { UserButton } from '@/components/auth/UserButton';
 import { Logo } from '@/components/logo/Logo';
+import styles from './HubLayout.module.css';
 
 type NavItem = {
   href: string;
@@ -140,7 +141,7 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
         </Flex>
       </AppShell.Header>
 
-      <AppShell.Navbar ref={setNavbar} withBorder={false}>
+      <AppShell.Navbar ref={setNavbar} withBorder={false} className={styles.navbar}>
         <Flex direction="column" px="md" pb="md" gap="md" h="100%">
           {navItems.map((item) => (
             <MenuItem key={item.href} item={item} />
@@ -174,7 +175,13 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
       </AppShell.Navbar>
 
       {headerContent && (
-        <AppShell.Aside ref={setAside} withBorder={false} hiddenFrom={ASIDE_BREAKPOINT} w="96">
+        <AppShell.Aside
+          ref={setAside}
+          withBorder={false}
+          hiddenFrom={ASIDE_BREAKPOINT}
+          w="96"
+          className={styles.aside}
+        >
           <Flex direction="column" px="md" pb="md" gap="md" h="100%">
             <UserButton />
             {headerContent}
@@ -185,8 +192,8 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
 
       <AppShell.Main
         display="flex"
-        mr={{ base: asideOpened ? '96px' : 'md' }}
-        ml={{ base: opened ? '96px' : 'md', sm: 0 }}
+        mr="md"
+        ml={{ base: 'md', sm: 0 }}
         pb="md"
         style={{
           flexDirection: 'column',
