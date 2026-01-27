@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import clsx from 'clsx';
 import {
@@ -10,6 +10,7 @@ import {
   Pill,
   PillGroup,
   Stack,
+  Text,
   Title,
 } from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
@@ -72,6 +73,11 @@ export const VideoCard = ({
   const { title, thumbnail, duration, tags, source } = entry;
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(videoSources[0]?.url);
   const [selectedScriptId, setSelectedScriptId] = useState(scripts[0]?.id);
+
+  const selectedScript = useMemo(
+    () => scripts.find((s) => s.id === selectedScriptId),
+    [scripts, selectedScriptId]
+  );
 
   const handleScriptSelect = (scriptId: string) => {
     setSelectedScriptId(scriptId);
@@ -157,9 +163,28 @@ export const VideoCard = ({
           </>
         )}
 
-        <Title size="lg" lineClamp={2} h={48} m={4} title={title}>
+        <Title size="lg" lineClamp={2} h={48} mx={4} mt={4} title={title}>
           {title}
         </Title>
+
+        {selectedScript?.creator && (
+          <Flex mx={4} gap={4} align="center">
+            <Text size="sm">Script by: </Text>
+            {selectedScript.supportUrl ? (
+              <Anchor
+                display="inline-flex"
+                href={selectedScript.supportUrl}
+                target="_blank"
+                size="sm"
+                style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+              >
+                {selectedScript.creator}
+              </Anchor>
+            ) : (
+              <Text size="sm">{selectedScript.creator}</Text>
+            )}
+          </Flex>
+        )}
         {tags && tags.length > 0 && (
           <PillGroup className={styles.tags} h={18}>
             {tags.map((tag) => (
