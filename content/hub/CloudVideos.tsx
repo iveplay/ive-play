@@ -59,7 +59,7 @@ export const CloudVideos = () => {
 
   return (
     <>
-      <SimpleGrid cols={{ base: 1, sm: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
         {entries.map(({ entry, videoSources, scripts }) => (
           <CloudVideo key={entry.id} entry={entry} videoSources={videoSources} scripts={scripts} />
         ))}

@@ -1,7 +1,17 @@
 import { ReactNode, useState } from 'react';
 import { IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { ActionIcon, Anchor, Image, Loader, Pill, PillGroup, Stack, Title } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  Flex,
+  Image,
+  Loader,
+  Pill,
+  PillGroup,
+  Stack,
+  Title,
+} from '@mantine/core';
 import { formatTime } from '@/utils/formatTime';
 import { ActionMenu } from '../action-menu/ActionMenu';
 import { ScriptSelector } from '../selectors/ScriptSelector';
@@ -102,10 +112,17 @@ export const VideoCard = ({
               {formatTime(duration)}
             </Pill>
           )}
-          {source === 'scraper:ivdb' && (
-            <Pill size="sm" w="fit-content">
-              The handy ONLY!
-            </Pill>
+          {source && (
+            <Flex gap={4}>
+              <Pill size="sm" w="fit-content" style={{ textTransform: 'capitalize' }}>
+                {source?.split('scraper:')[1] || 'Unknown Source'}
+              </Pill>
+              {source === 'scraper:ivdb' && (
+                <Pill size="sm" w="fit-content">
+                  The handy ONLY!
+                </Pill>
+              )}
+            </Flex>
           )}
         </Stack>
 

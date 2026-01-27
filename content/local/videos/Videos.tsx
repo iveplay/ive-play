@@ -76,7 +76,7 @@ export const Videos = () => {
 
   return (
     <>
-      <SimpleGrid cols={{ base: 1, sm: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }} spacing="md" verticalSpacing="md">
         {entries.map((entryWithDetails) => {
           const { entry, videoSources, scripts } = entryWithDetails;
 
