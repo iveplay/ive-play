@@ -17,6 +17,9 @@ html {
 }
 
 .menuItem {
+  outline: none;
+  border: none;
+  cursor: pointer;
   min-height: rem(64px);
   text-decoration: none;
   border-radius: rem(16px);

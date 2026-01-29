@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from 'react';
 import { Combobox, InputBase, useCombobox } from '@mantine/core';
-import styles from './ScriptSelector.module.css';
+import styles from './OptionSelector.module.css';
 
 export type OptionSelectorProps<T> = {
   items: T[];

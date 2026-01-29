@@ -49,14 +49,57 @@ export interface ListEntriesResponse {
   offset: number;
 }
 
+export interface TagWithCount {
+  tag: string;
+  count: number;
+}
+
+export interface ListTagsResponse {
+  tags: TagWithCount[];
+}
+
+// Search/filter parameters
+export interface EntriesSearchParams {
+  q?: string; // Title search (LIKE)
+  source?: 'ivdb' | 'faptap' | 'eroscripts'; // Source filter
+  tags?: string[]; // Tags filter (any match)
+  creator?: string; // Creator search (LIKE)
+  domain?: string; // Video domain filter (LIKE)
+}
+
 export const entriesApi = {
-  /** List entries with pagination */
-  list(limit = 20, offset = 0): Promise<ListEntriesResponse> {
-    return apiClient.get(`/v1/entries?limit=${limit}&offset=${offset}`);
+  /** List entries with pagination and optional search/filter */
+  list(limit = 20, offset = 0, search?: EntriesSearchParams): Promise<ListEntriesResponse> {
+    const params = new URLSearchParams();
+    params.set('limit', String(limit));
+    params.set('offset', String(offset));
+
+    if (search?.q) {
+      params.set('q', search.q);
+    }
+    if (search?.source) {
+      params.set('source', search.source);
+    }
+    if (search?.tags?.length) {
+      params.set('tags', search.tags.join(','));
+    }
+    if (search?.creator) {
+      params.set('creator', search.creator);
+    }
+    if (search?.domain) {
+      params.set('domain', search.domain);
+    }
+
+    return apiClient.get(`/v1/entries?${params.toString()}`);
   },
 
   /** Get a single entry by ID */
   get(id: string): Promise<EntryWithDetails> {
     return apiClient.get(`/v1/entries/${id}`);
+  },
+
+  /** Get popular tags */
+  getTags(limit = 100): Promise<ListTagsResponse> {
+    return apiClient.get(`/v1/entries/tags?limit=${limit}`);
   },
 };

@@ -28,7 +28,8 @@ type NavItem = {
 type HubLayoutProps = {
   children: ReactNode;
   headerContent?: ReactNode;
-  headerCenter?: ReactNode;
+  title?: string;
+  search?: ReactNode;
 };
 
 const navItems: NavItem[] = [
@@ -53,7 +54,7 @@ const bottomNavItems: NavItem[] = [
 
 const ASIDE_BREAKPOINT = 'md';
 
-export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutProps) => {
+export const HubLayout = ({ children, headerContent, title, search }: HubLayoutProps) => {
   const router = useRouter();
   const [opened, { toggle }] = useDisclosure();
   const [asideOpened, { toggle: toggleAside }] = useDisclosure();
@@ -112,11 +113,14 @@ export const HubLayout = ({ children, headerContent, headerCenter }: HubLayoutPr
             <Logo />
           </Flex>
           <Box className="box h" flex={1} visibleFrom="sm">
-            {headerCenter}
+            <Text size="32px" fw={300} ff="var(--font-frankfurter)">
+              {title}
+            </Text>
           </Box>
-          <Box className="box h" flex={1} hiddenFrom="sm" />
+          <Box className="box h" p={0} flex={1} hiddenFrom="sm" />
           <Flex gap="md" visibleFrom={headerContent ? ASIDE_BREAKPOINT : undefined}>
             {headerContent}
+            {search}
             <UserButton />
           </Flex>
           {headerContent && (
