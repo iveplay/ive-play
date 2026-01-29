@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { IconSearch, IconX } from '@tabler/icons-react';
 import {
   ActionIcon,
@@ -44,11 +44,16 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
     clearFilters,
   } = useHubSearch({ onSearchChange });
 
+  const tagCountMap = useMemo(
+    () => new Map(tagSuggestions.map((tag) => [tag.tag, tag.count])),
+    [tagSuggestions]
+  );
+
   return (
     <Modal
       opened={isOpen}
       onClose={onClose}
-      size="lg"
+      size="xl"
       radius="xl"
       centered={false}
       withCloseButton={false}
@@ -74,7 +79,7 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
 
       {/* Filters */}
       <Grid gutter="md">
-        <Grid.Col span={{ base: 6, sm: 3 }}>
+        <Grid.Col span={6}>
           <Select
             label="Source"
             placeholder="All sources"
@@ -86,7 +91,7 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
             radius="lg"
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 6, sm: 3 }}>
+        <Grid.Col span={6}>
           <TextInput
             label="Site"
             placeholder="pornhub..."
@@ -96,7 +101,7 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
             radius="lg"
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 6, sm: 3 }}>
+        <Grid.Col span={6}>
           <TextInput
             label="Creator"
             placeholder="name..."
@@ -106,15 +111,16 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
             radius="lg"
           />
         </Grid.Col>
-        <Grid.Col span={{ base: 6, sm: 3 }}>
+        <Grid.Col span={6}>
           <TagsInput
             label="Tags"
-            value={tags}
-            placeholder="Add tags..."
-            data={tagSuggestions}
-            onChange={handleTagsChange}
             size="sm"
             radius="lg"
+            value={tags}
+            placeholder="Add tags..."
+            renderOption={({ option }) => `${option.value} (${tagCountMap.get(option.value) || 0})`}
+            data={tagSuggestions.map((tag) => tag.tag)}
+            onChange={handleTagsChange}
           />
         </Grid.Col>
       </Grid>

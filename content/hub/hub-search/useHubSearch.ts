@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebouncedValue } from '@mantine/hooks';
 import { useTags } from '@/hooks/useEntries';
 import { EntriesSearchParams } from '@/utils/api/entries';
@@ -24,17 +24,6 @@ export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
   const [debouncedQuery] = useDebouncedValue(query, 400);
   const [debouncedCreator] = useDebouncedValue(creator, 400);
   const [debouncedDomain] = useDebouncedValue(domain, 400);
-
-  // Convert tags to suggestions format
-  const tagSuggestions = useMemo(() => {
-    if (!tagsData?.tags) {
-      return [];
-    }
-    return tagsData.tags.map((t) => ({
-      value: t.tag,
-      label: `${t.tag} (${t.count})`,
-    }));
-  }, [tagsData]);
 
   // Build search params
   const buildSearchParams = (overrides?: Partial<EntriesSearchParams>): EntriesSearchParams => {
@@ -105,7 +94,7 @@ export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
     tags,
     creator,
     domain,
-    tagSuggestions,
+    tagSuggestions: tagsData?.tags || [],
 
     // Setters
     setQuery,
