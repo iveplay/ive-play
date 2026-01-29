@@ -117,7 +117,7 @@ class IveBridge {
         if (pending) {
           this.pendingMessages.delete(id);
           if (error) {
-            pending.reject(new Error(error));
+            pending.reject(error);
           } else {
             pending.resolve(data);
           }
@@ -258,7 +258,10 @@ class IveBridge {
     videoUrl: string;
     scriptId?: string; // Which script to auto-select (index or id)
   }) {
-    return this.sendMessage<{ entryId: string; scriptId: string }>(MESSAGES.IVE_SAVE_AND_PLAY, data);
+    return this.sendMessage<{ entryId: string; scriptId: string }>(
+      MESSAGES.IVE_SAVE_AND_PLAY,
+      data
+    );
   }
 }
 
