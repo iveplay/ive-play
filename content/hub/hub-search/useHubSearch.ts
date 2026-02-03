@@ -68,7 +68,7 @@ export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
     const newSource = value || '';
     setSource(newSource);
     onSearchChange(
-      buildSearchParams({ source: (newSource as EntriesSearchParams['source']) || undefined })
+      buildSearchParams({ source: newSource as EntriesSearchParams['source'] })
     );
   };
 
