@@ -15,7 +15,6 @@ import { EntriesSearchParams } from '@/utils/api/entries';
 import { useHubSearch } from './useHubSearch';
 
 const SOURCE_OPTIONS = [
-  { value: 'faptap', label: 'FapTap' },
   { value: 'eroscripts', label: 'Eroscripts' },
   { value: 'ivdb', label: 'IVDB' },
 ];
