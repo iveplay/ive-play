@@ -5,7 +5,7 @@ import {
   Flex,
   Grid,
   Modal,
-  Select,
+  MultiSelect,
   TagsInput,
   Text,
   TextInput,
@@ -80,11 +80,11 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
       {/* Filters */}
       <Grid gutter="md">
         <Grid.Col span={6}>
-          <Select
+          <MultiSelect
             label="Source"
             placeholder="All sources"
             data={SOURCE_OPTIONS}
-            value={source || null}
+            value={source}
             onChange={handleSourceChange}
             clearable
             size="sm"

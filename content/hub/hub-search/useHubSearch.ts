@@ -15,7 +15,7 @@ export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
 
   // Search state
   const [query, setQuery] = useState('');
-  const [source, setSource] = useState('');
+  const [source, setSource] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [creator, setCreator] = useState('');
   const [domain, setDomain] = useState('');
@@ -38,8 +38,8 @@ export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
     if (q) {
       params.q = q;
     }
-    if (s) {
-      params.source = s as EntriesSearchParams['source'];
+    if (s?.length) {
+      params.source = s;
     }
     if (t?.length) {
       params.tags = t;
@@ -64,23 +64,20 @@ export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
   }, [debouncedQuery, debouncedCreator, debouncedDomain]);
 
   // Handle immediate filter changes
-  const handleSourceChange = (value: string | null) => {
-    const newSource = value || '';
-    setSource(newSource);
-    onSearchChange(
-      buildSearchParams({ source: newSource as EntriesSearchParams['source'] })
-    );
+  const handleSourceChange = (value: string[]) => {
+    setSource(value);
+    onSearchChange(buildSearchParams({ source: value }));
   };
 
   const handleTagsChange = (value: string[]) => {
     setTags(value);
-    onSearchChange(buildSearchParams({ tags: value.length ? value : undefined }));
+    onSearchChange(buildSearchParams({ tags: value }));
   };
 
   // Clear all filters
   const clearFilters = () => {
     setQuery('');
-    setSource('');
+    setSource([]);
     setTags([]);
     setCreator('');
     setDomain('');

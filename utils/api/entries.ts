@@ -61,7 +61,7 @@ export interface ListTagsResponse {
 // Search/filter parameters
 export interface EntriesSearchParams {
   q?: string; // Title search (LIKE)
-  source?: 'ivdb' | 'faptap' | 'eroscripts'; // Source filter
+  source?: string[]; // Source filter (comma-separated in API)
   tags?: string[]; // Tags filter (any match)
   creator?: string; // Creator search (LIKE)
   domain?: string; // Video domain filter (LIKE)
@@ -77,8 +77,8 @@ export const entriesApi = {
     if (search?.q) {
       params.set('q', search.q);
     }
-    if (search?.source) {
-      params.set('source', search.source);
+    if (search?.source?.length) {
+      params.set('source', search.source.join(','));
     }
     if (search?.tags?.length) {
       params.set('tags', search.tags.join(','));
