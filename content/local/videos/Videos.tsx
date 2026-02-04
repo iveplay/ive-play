@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useShallow } from 'zustand/shallow';
 import { Box, Button, Center, Flex, Loader, SimpleGrid, Text, Title } from '@mantine/core';
+import { useIntersection } from '@mantine/hooks';
 import { Video } from '@/content/local/videos/Video';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { useNewVideosCheck } from '@/hooks/useNewVideosCheck';
@@ -33,6 +35,14 @@ export const Videos = () => {
       loadMoreEntries: state.loadMoreEntries,
     }))
   );
+
+  const { ref: sentinelRef, entry } = useIntersection({ rootMargin: '200px' });
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      loadMoreEntries();
+    }
+  }, [entry?.isIntersecting, loadMoreEntries]);
 
   const { isLoading } = useExtensionCheck();
   useNewVideosCheck(10000);
@@ -87,17 +97,21 @@ export const Videos = () => {
       </SimpleGrid>
 
       {((entriesHasMore && !loading) || isLoadingMore) && (
-        <Flex mt="md" gap="md" justify="center" align="center">
+        <Flex mt="md" gap="md" justify="center" align="center" ref={sentinelRef}>
           <Box className="box w" h="50" />
-          <Button
-            onClick={loadMoreEntries}
-            loading={isLoadingMore}
-            size="lg"
-            radius="lg"
-            flex="0 0 auto"
-          >
-            {isLoadingMore ? 'Loading...' : 'Load more'}
-          </Button>
+          {isLoadingMore ? (
+            <Loader size="md" />
+          ) : (
+            <Button
+              onClick={loadMoreEntries}
+              loading={isLoadingMore}
+              size="lg"
+              radius="lg"
+              flex="0 0 auto"
+            >
+              Load more
+            </Button>
+          )}
           <Box className="box w" h="50" />
         </Flex>
       )}

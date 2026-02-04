@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { Box, Button, Flex } from '@mantine/core';
+import { Box, Button, Flex, Loader } from '@mantine/core';
+import { useIntersection } from '@mantine/hooks';
 import { HubLayout } from '@/components/layout/HubLayout';
 import { CloudVideos } from '@/content/hub/CloudVideos';
 import { useInfiniteEntries } from '@/hooks/useEntries';
@@ -28,6 +29,14 @@ export const Hub = () => {
 
   const entries = data?.pages.flatMap((page) => page.entries) ?? [];
 
+  const { ref: sentinelRef, entry: sentinelEntry } = useIntersection({ rootMargin: '200px' });
+
+  useEffect(() => {
+    if (sentinelEntry?.isIntersecting && fetchNextPage) {
+      fetchNextPage();
+    }
+  }, [sentinelEntry?.isIntersecting, fetchNextPage]);
+
   return (
     <HubLayout title="Hub" search={<HubSearch onSearchChange={setSearchParams} />}>
       <CloudVideos entries={entries} isLoading={isLoading} error={error} />
@@ -35,17 +44,21 @@ export const Hub = () => {
         fetchNextPage &&
         entries.length > 0 &&
         !error && (
-          <Flex mt="md" gap="md" justify="center" align="center">
+          <Flex mt="md" gap="md" justify="center" align="center" ref={sentinelRef}>
             <Box className="box w" h="50" />
-            <Button
-              onClick={() => fetchNextPage()}
-              loading={isFetchingNextPage}
-              size="lg"
-              radius="lg"
-              flex="0 0 auto"
-            >
-              {isFetchingNextPage ? 'Loading...' : 'Load more'}
-            </Button>
+            {isFetchingNextPage ? (
+              <Loader size="md" />
+            ) : (
+              <Button
+                onClick={() => fetchNextPage()}
+                loading={isFetchingNextPage}
+                size="lg"
+                radius="lg"
+                flex="0 0 auto"
+              >
+                Load more
+              </Button>
+            )}
             <Box className="box w" h="50" />
           </Flex>
         )}
