@@ -117,7 +117,7 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
             size="sm"
             radius="lg"
             value={tags}
-            placeholder="Add tags..."
+            placeholder="Add tags, use -tagname to exclude"
             renderOption={({ option }) => `${option.value} (${tagCountMap.get(option.value) || 0})`}
             data={tagSuggestions.map((tag) => tag.tag)}
             onChange={handleTagsChange}
