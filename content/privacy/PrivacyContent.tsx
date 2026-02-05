@@ -18,7 +18,7 @@ export const PrivacyContent = () => {
           Privacy Policy
         </Title>
         <Text size="sm" c="dimmed" ta="center" mb="xl">
-          December 18, 2025
+          February 5, 2026
         </Text>
 
         {/* Our commitment */}
@@ -28,28 +28,35 @@ export const PrivacyContent = () => {
           </Title>
           <Text mb="md">
             At IVEplay, we believe privacy is a fundamental right. This Privacy Policy explains how
-            we handle information when you use our IVE (Interactive Video Experience) browser
-            extension and web services at iveplay.io.
+            we handle information when you use the IVE browser extension and our web services at
+            iveplay.io.
+          </Text>
+          <Text mb="md">
+            IVE works on two levels: the{' '}
+            <Text component="span" fw={600}>
+              browser extension
+            </Text>
+            , which operates entirely locally on your device, and the{' '}
+            <Text component="span" fw={600}>
+              IVE Hub
+            </Text>
+            , an optional online account you can create to sync your library and access additional
+            features. This policy covers both.
           </Text>
           <Text fw={600}>
-            The bottom line: IVE is designed with privacy at its core. We don't collect, analyze, or
-            transmit your personal data. Everything happens locally on your device.
+            The extension itself does not collect or transmit your personal data. If you choose to
+            create an account and use the Hub, we store only what is necessary to provide those
+            features.
           </Text>
         </Box>
 
         {/* What we don't do */}
         <Box mb="xl">
           <Title order={2} size="h3" mb="md" fw={500}>
-            What we don't do
+            What we never do
           </Title>
-          <Text mb="sm">Let's start with what matters most:</Text>
+          <Text mb="sm">Regardless of whether you use the extension or the Hub:</Text>
           <List spacing="sm" mb="md">
-            <List.Item>
-              <Text component="span" fw={600}>
-                No data Collection:
-              </Text>{' '}
-              We do not collect any personally identifiable information
-            </List.Item>
             <List.Item>
               <Text component="span" fw={600}>
                 No tracking:
@@ -72,22 +79,22 @@ export const PrivacyContent = () => {
               <Text component="span" fw={600}>
                 No data selling:
               </Text>{' '}
-              We will never sell your information to third parties
+              We will never sell or share your information with third parties
             </List.Item>
           </List>
         </Box>
 
-        {/* What happens locally */}
+        {/* Extension — what stays local */}
         <Box mb="xl">
           <Title order={2} size="h3" mb="md" fw={500}>
-            What happens locally
+            Browser extension (local only)
           </Title>
           <Text mb="sm">
-            IVE stores certain information{' '}
+            The IVE browser extension stores all data{' '}
             <Text component="span" fw={600}>
-              locally on your device only
-            </Text>{' '}
-            to provide core functionality:
+              locally on your device
+            </Text>
+            . None of the following ever leaves your browser:
           </Text>
           <List spacing="sm" mb="md">
             <List.Item>
@@ -119,8 +126,140 @@ export const PrivacyContent = () => {
             </List.Item>
           </List>
           <Text fw={600}>
-            Important: This data never leaves your browser or device. It is not transmitted to our
-            servers or any third party.
+            You can use the extension without ever creating an account. In that case, no data is
+            transmitted to our servers.
+          </Text>
+        </Box>
+
+        {/* Hub — what we store when you create an account */}
+        <Box mb="xl">
+          <Title order={2} size="h3" mb="md" fw={500}>
+            IVE Hub (when you create an account)
+          </Title>
+          <Text mb="md">
+            If you choose to sign up for an IVE Hub account, we collect and store the following data
+            on our servers to provide Hub features. This only applies if you create an account — it
+            is entirely optional.
+          </Text>
+
+          <Title order={3} size="h4" mb="sm" fw={500}>
+            Account information
+          </Title>
+          <List spacing="sm" mb="md">
+            <List.Item>
+              <Text component="span" fw={600}>
+                Email address:
+              </Text>{' '}
+              Provided through our authentication provider (Clerk) when you sign up. Used for
+              account identification and communication.
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                User ID:
+              </Text>{' '}
+              A unique identifier created when your account is set up
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Account role:
+              </Text>{' '}
+              Your role (e.g. user, creator) used to determine what features you can access
+            </List.Item>
+          </List>
+
+          {/* We do not use this for now */}
+          {/* <Title order={3} size="h4" mb="sm" fw={500}>
+            Library data
+          </Title>
+          <Text mb="sm">When you use the Hub to manage your library, we store:</Text>
+          <List spacing="sm" mb="md">
+            <List.Item>
+              <Text component="span" fw={600}>
+                Saved entries:
+              </Text>{' '}
+              Video titles, durations, and thumbnails for entries you add to your library
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Video and script URLs:
+              </Text>{' '}
+              Links to videos and scripts you associate with your library entries
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Favorites and tags:
+              </Text>{' '}
+              Entries you mark as favorites and tags you use for organization
+            </List.Item>
+          </List> */}
+
+          {/* <Title order={3} size="h4" mb="sm" fw={500}>
+            Contributor data
+          </Title>
+          <Text mb="sm">
+            If you contribute entries to the public database, your user ID is recorded as the source
+            of those contributions.
+          </Text> */}
+
+          {/* We do not use this for now */}
+          <Title order={3} size="h4" mb="sm" fw={500}>
+            Patreon integration
+          </Title>
+          <Text mb="sm">When you link your Patreon account, we store:</Text>
+          <List spacing="sm" mb="md">
+            <List.Item>
+              <Text component="span" fw={600}>
+                Patreon ID and tier:
+              </Text>{' '}
+              Used to verify your supporter status and unlock corresponding features
+            </List.Item>
+          </List>
+          <Text>
+            We do not store your full Patreon profile (name, image, etc.) — only the ID and tier
+            needed to verify your support.
+          </Text>
+        </Box>
+
+        {/* Authentication */}
+        <Box mb="xl">
+          <Title order={2} size="h3" mb="md" fw={500}>
+            Authentication
+          </Title>
+          <Text mb="md">
+            Account authentication is handled by{' '}
+            <Anchor href="https://clerk.com" target="_blank" fw={600}>
+              Clerk
+            </Anchor>
+            , a third-party authentication provider. When you sign up or log in, Clerk manages the
+            session and provides us with your email address and user ID. Please review{' '}
+            <Anchor href="https://clerk.com/legal/privacy" target="_blank" fw={600}>
+              Clerk's privacy policy
+            </Anchor>{' '}
+            for details on how they handle your authentication data.
+          </Text>
+        </Box>
+
+        {/* Account deletion */}
+        <Box mb="xl">
+          <Title order={2} size="h3" mb="md" fw={500}>
+            Account deletion
+          </Title>
+          <Text mb="md">
+            You can delete your IVE Hub account at any time from your account settings. When you
+            delete your account:
+          </Text>
+          <List spacing="sm" mb="md">
+            <List.Item>Your user record and email are permanently removed</List.Item>
+            <List.Item>
+              All your library data (entries, videos, scripts, favorites) is deleted
+            </List.Item>
+            <List.Item>Your Patreon link (if any) is removed</List.Item>
+            <List.Item>Your contributor record is removed</List.Item>
+            <List.Item>Your Clerk account is deleted</List.Item>
+          </List>
+          <Text>
+            If you have contributed entries to the public database as a creator, you can choose
+            whether to also remove those contributions during deletion.
           </Text>
         </Box>
 
@@ -226,6 +365,12 @@ export const PrivacyContent = () => {
               </Text>{' '}
               Required for basic site functionality (age verification, session management)
             </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Authentication cookies:
+              </Text>{' '}
+              If you sign in, Clerk sets session cookies to keep you logged in
+            </List.Item>
           </List>
           <Text>We do not use tracking cookies or third-party advertising cookies.</Text>
         </Box>
@@ -236,7 +381,8 @@ export const PrivacyContent = () => {
             Data security
           </Title>
           <Text mb="sm">
-            Your local data is protected by your browser's built-in security features. We recommend:
+            Your local data is protected by your browser's built-in security features. Hub data is
+            stored on encrypted servers. We recommend:
           </Text>
           <List spacing="sm" mb="md">
             <List.Item>
@@ -300,8 +446,9 @@ export const PrivacyContent = () => {
         {/* Closing */}
         <Box>
           <Text fw={600} ta="center">
-            Thank you for trusting IVEplay with your interactive experiences. Your privacy is never
-            compromised—because we simply don't have access to your data.
+            Thank you for trusting IVEplay. The extension works fully offline with no data
+            collection. The Hub is optional — and if you use it, we only store what's needed to
+            power the library.
           </Text>
         </Box>
       </Flex>
