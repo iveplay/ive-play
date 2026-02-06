@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import {
   entriesApi,
   EntriesSearchParams,
@@ -19,17 +19,13 @@ export const entriesKeys = {
 };
 
 /**
- * Hook for infinite scroll pagination of entries with search/filter
+ * Hook for page-based pagination of entries with search/filter
  */
-export const useInfiniteEntries = (limit = 20, search?: EntriesSearchParams) => {
-  return useInfiniteQuery<ListEntriesResponse, Error>({
-    queryKey: entriesKeys.list(limit, search),
-    queryFn: ({ pageParam = 0 }) => entriesApi.list(limit, pageParam as number, search),
-    getNextPageParam: (lastPage) => {
-      const nextOffset = lastPage.offset + lastPage.entries.length;
-      return nextOffset < lastPage.total ? nextOffset : undefined;
-    },
-    initialPageParam: 0,
+export const usePaginatedEntries = (page = 1, limit = 20, search?: EntriesSearchParams) => {
+  const offset = (page - 1) * limit;
+  return useQuery<ListEntriesResponse, Error>({
+    queryKey: [...entriesKeys.list(limit, search), { page }],
+    queryFn: () => entriesApi.list(limit, offset, search),
   });
 };
 
