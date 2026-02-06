@@ -1,0 +1,8 @@
+.sideBoxes {
+  flex: 1;
+  min-width: rem(64px);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
+}

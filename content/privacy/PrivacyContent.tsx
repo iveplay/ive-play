@@ -395,6 +395,65 @@ export const PrivacyContent = () => {
           </List>
         </Box>
 
+        {/* Your rights (GDPR) */}
+        <Box mb="xl">
+          <Title order={2} size="h3" mb="md" fw={500}>
+            Your rights
+          </Title>
+          <Text mb="md">
+            IVEplay is operated from within the EEA and we process personal data in accordance with
+            the General Data Protection Regulation (GDPR).
+          </Text>
+          <Text mb="md">
+            When you create an account, the legal basis for processing your data is the performance
+            of our contract with you (the{' '}
+            <Anchor href="/terms" fw={600}>
+              Terms of Service
+            </Anchor>
+            ). For optional features like Patreon linking, the legal basis is your consent.
+          </Text>
+          <Text mb="sm">You have the right to:</Text>
+          <List spacing="sm" mb="md">
+            <List.Item>
+              <Text component="span" fw={600}>
+                Access
+              </Text>{' '}
+              your data — see what we store about you
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Correct
+              </Text>{' '}
+              your data — update inaccurate information
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Delete
+              </Text>{' '}
+              your data — remove your account and all associated data
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Export
+              </Text>{' '}
+              your data — request a copy of your data
+            </List.Item>
+            <List.Item>
+              <Text component="span" fw={600}>
+                Withdraw consent
+              </Text>{' '}
+              for optional processing (e.g. unlinking Patreon)
+            </List.Item>
+          </List>
+          <Text>
+            To exercise any of these rights, contact us at{' '}
+            <Anchor href="mailto:privacy@iveplay.io" fw={600}>
+              privacy@iveplay.io
+            </Anchor>
+            .
+          </Text>
+        </Box>
+
         {/* Age requirement */}
         <Box mb="xl">
           <Title order={2} size="h3" mb="md" fw={500}>

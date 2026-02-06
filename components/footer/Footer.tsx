@@ -26,6 +26,13 @@ export const Footer = () => {
             Privacy Policy
           </Text>
           <Text
+            component={Link}
+            href="/terms"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            Terms of Service
+          </Text>
+          <Text
             component="a"
             href="mailto:dmca@iveplay.io"
             style={{ textDecoration: 'none', color: 'inherit' }}
