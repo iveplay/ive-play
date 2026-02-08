@@ -11,7 +11,6 @@ import {
   TextInput,
   UnstyledButton,
 } from '@mantine/core';
-import { EntriesSearchParams } from '@/utils/api/entries';
 import { useHubSearch } from './useHubSearch';
 
 const SOURCE_OPTIONS = [
@@ -22,10 +21,9 @@ const SOURCE_OPTIONS = [
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSearchChange: (params: EntriesSearchParams) => void;
 }
 
-export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProps) => {
+export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -41,7 +39,7 @@ export const SearchModal = ({ isOpen, onClose, onSearchChange }: SearchModalProp
     handleSourceChange,
     handleTagsChange,
     clearFilters,
-  } = useHubSearch({ onSearchChange });
+  } = useHubSearch();
 
   const tagCountMap = useMemo(
     () => new Map(tagSuggestions.map((tag) => [tag.tag, tag.count])),

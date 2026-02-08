@@ -1,43 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 import { useAuth } from '@clerk/nextjs';
+import { parseAsInteger, useQueryState } from 'nuqs';
 import { Flex, Pagination, Text } from '@mantine/core';
 import { HubLayout } from '@/components/layout/HubLayout';
 import { CloudVideos } from '@/content/hub/CloudVideos';
 import { usePaginatedEntries } from '@/hooks/useEntries';
 import { useExtensionCheck } from '@/hooks/useExtensionCheck';
 import { apiClient } from '@/utils/api/client';
-import { EntriesSearchParams } from '@/utils/api/entries';
 import { HubSearch } from './hub-search/HubSearch';
+import { useHubSearch } from './hub-search/useHubSearch';
 
 const ITEMS_PER_PAGE = 20;
 
 export const Hub = () => {
-  const router = useRouter();
   const { getToken } = useAuth();
 
-  // Set up token getter on mount
   useEffect(() => {
     apiClient.setTokenGetter(getToken);
   }, [getToken]);
 
-  // Always check for extension
   useExtensionCheck();
 
-  const [searchParams, setSearchParams] = useState<EntriesSearchParams>({});
-
-  // Get current page from URL query
-  const page = Math.max(1, Number(router.query.page) || 1);
+  const { searchParams } = useHubSearch();
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
 
   // Reset to page 1 when search params change
-  const handleSearchChange = (params: EntriesSearchParams) => {
-    setSearchParams(params);
-    if (page !== 1) {
-      router.replace({ query: { page: 1 } }, undefined, { shallow: true });
+  const prevSearchRef = useRef(searchParams);
+  useEffect(() => {
+    if (JSON.stringify(prevSearchRef.current) !== JSON.stringify(searchParams)) {
+      prevSearchRef.current = searchParams;
+      if (page !== 1) {
+        setPage(1);
+      }
     }
-  };
+  }, [searchParams]);
 
-  // Fetch entries for current page
   const { data, error, isLoading } = usePaginatedEntries(page, ITEMS_PER_PAGE, searchParams);
 
   const entries = data?.entries ?? [];
@@ -45,12 +42,12 @@ export const Hub = () => {
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
 
   const handlePageChange = (newPage: number) => {
-    router.push({ query: { ...router.query, page: newPage } }, undefined, { shallow: true });
+    setPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <HubLayout title="Hub" search={<HubSearch onSearchChange={handleSearchChange} />}>
+    <HubLayout title="Hub" search={<HubSearch />}>
       <CloudVideos entries={entries} isLoading={isLoading} error={error} />
       {totalPages > 1 && !isLoading && !error && (
         <Flex mt="xl" direction="column" gap="xs" align="center">

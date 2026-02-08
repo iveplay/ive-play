@@ -1,14 +1,9 @@
 import { IconSearch } from '@tabler/icons-react';
 import { Box, Flex, Text } from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
-import { EntriesSearchParams } from '@/utils/api/entries';
 import { SearchModal } from './SearchModal';
 
-interface HubSearchProps {
-  onSearchChange: (params: EntriesSearchParams) => void;
-}
-
-export const HubSearch = ({ onSearchChange }: HubSearchProps) => {
+export const HubSearch = () => {
   const [isOpen, { open, close }] = useDisclosure(false);
 
   useHotkeys([['mod + K', open]]);
@@ -30,7 +25,7 @@ export const HubSearch = ({ onSearchChange }: HubSearchProps) => {
           </Text>
         </Flex>
       </Box>
-      <SearchModal isOpen={isOpen} onClose={close} onSearchChange={onSearchChange} />
+      <SearchModal isOpen={isOpen} onClose={close} />
     </>
   );
 };

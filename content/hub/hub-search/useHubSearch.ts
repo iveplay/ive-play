@@ -1,104 +1,63 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDebouncedValue } from '@mantine/hooks';
+import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { useTags } from '@/hooks/useEntries';
 import { EntriesSearchParams } from '@/utils/api/entries';
 
-interface UseHubSearchOptions {
-  onSearchChange: (params: EntriesSearchParams) => void;
-}
+const searchParsers = {
+  q: parseAsString.withDefault(''),
+  source: parseAsArrayOf(parseAsString, ',').withDefault([]),
+  tags: parseAsArrayOf(parseAsString, ',').withDefault([]),
+  creator: parseAsString.withDefault(''),
+  domain: parseAsString.withDefault(''),
+};
 
-export const useHubSearch = ({ onSearchChange }: UseHubSearchOptions) => {
-  const isInitialMount = useRef(true);
-
-  // Fetch available tags
+export const useHubSearch = () => {
   const { data: tagsData } = useTags(100);
 
-  // Search state
-  const [query, setQuery] = useState('');
-  const [source, setSource] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
-  const [creator, setCreator] = useState('');
-  const [domain, setDomain] = useState('');
+  const [params, setParams] = useQueryStates(searchParsers, {
+    throttleMs: 400,
+  });
 
-  // Debounce text inputs
-  const [debouncedQuery] = useDebouncedValue(query, 400);
-  const [debouncedCreator] = useDebouncedValue(creator, 400);
-  const [debouncedDomain] = useDebouncedValue(domain, 400);
+  const setQuery = (q: string) => setParams({ q: q || null });
+  const setCreator = (creator: string) => setParams({ creator: creator || null });
+  const setDomain = (domain: string) => setParams({ domain: domain || null });
 
-  // Build search params
-  const buildSearchParams = (overrides?: Partial<EntriesSearchParams>): EntriesSearchParams => {
-    const params: EntriesSearchParams = {};
+  const handleSourceChange = (source: string[]) =>
+    setParams({ source: source.length ? source : null });
 
-    const q = overrides?.q !== undefined ? overrides.q : debouncedQuery;
-    const s = overrides?.source !== undefined ? overrides.source : source;
-    const t = overrides?.tags !== undefined ? overrides.tags : tags;
-    const c = overrides?.creator !== undefined ? overrides.creator : debouncedCreator;
-    const d = overrides?.domain !== undefined ? overrides.domain : debouncedDomain;
+  const handleTagsChange = (tags: string[]) => setParams({ tags: tags.length ? tags : null });
 
-    if (q) {
-      params.q = q;
-    }
-    if (s?.length) {
-      params.source = s;
-    }
-    if (t?.length) {
-      params.tags = t;
-    }
-    if (c) {
-      params.creator = c;
-    }
-    if (d) {
-      params.domain = d;
-    }
+  const clearFilters = () =>
+    setParams({ q: null, source: null, tags: null, creator: null, domain: null });
 
-    return params;
-  };
-
-  // Trigger search when debounced values change
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-    onSearchChange(buildSearchParams());
-  }, [debouncedQuery, debouncedCreator, debouncedDomain]);
-
-  // Handle immediate filter changes
-  const handleSourceChange = (value: string[]) => {
-    setSource(value);
-    onSearchChange(buildSearchParams({ source: value }));
-  };
-
-  const handleTagsChange = (value: string[]) => {
-    setTags(value);
-    onSearchChange(buildSearchParams({ tags: value }));
-  };
-
-  // Clear all filters
-  const clearFilters = () => {
-    setQuery('');
-    setSource([]);
-    setTags([]);
-    setCreator('');
-    setDomain('');
-    onSearchChange({});
-  };
+  // Build search params for the API (strip empty values)
+  const searchParams: EntriesSearchParams = {};
+  if (params.q) {
+    searchParams.q = params.q;
+  }
+  if (params.source.length) {
+    searchParams.source = params.source;
+  }
+  if (params.tags.length) {
+    searchParams.tags = params.tags;
+  }
+  if (params.creator) {
+    searchParams.creator = params.creator;
+  }
+  if (params.domain) {
+    searchParams.domain = params.domain;
+  }
 
   return {
-    // State
-    query,
-    source,
-    tags,
-    creator,
-    domain,
+    query: params.q,
+    source: params.source,
+    tags: params.tags,
+    creator: params.creator,
+    domain: params.domain,
     tagSuggestions: tagsData?.tags || [],
-
-    // Setters
+    searchParams,
     setQuery,
     setCreator,
     setDomain,
-
-    // Handlers
     handleSourceChange,
     handleTagsChange,
     clearFilters,
