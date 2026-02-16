@@ -109,9 +109,9 @@ export const HubLayout = ({ children, headerContent, title, search }: HubLayoutP
             w={64}
             hiddenFrom="sm"
           />
-          <Flex className="box menuItem" flex="0 1 0" component={Link} href="/hub" justify="center">
+          <UnstyledButton className="box menuItem" onClick={() => router.push('/hub')}>
             <Logo />
-          </Flex>
+          </UnstyledButton>
           <Box className="box h" flex={1} visibleFrom="sm">
             <Text size="32px" fw={300} ff="var(--font-frankfurter)">
               {title}
