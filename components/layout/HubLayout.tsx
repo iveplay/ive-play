@@ -23,6 +23,7 @@ type NavItem = {
   icon: ReactNode;
   label: string;
   external?: boolean;
+  visibleFrom?: string;
 };
 
 type HubLayoutProps = {
@@ -34,7 +35,7 @@ type HubLayoutProps = {
 
 const navItems: NavItem[] = [
   { href: '/hub', icon: <IconHome />, label: 'Hub' },
-  { href: '/hub/local', icon: <IconDatabase />, label: 'Local' },
+  { href: '/hub/local', icon: <IconDatabase />, label: 'Local', visibleFrom: 'sm' },
 ];
 
 const bottomNavItems: NavItem[] = [
@@ -223,6 +224,7 @@ const MenuItem = ({ item }: { item: NavItem }) => {
       p={0}
       w={64}
       h={64}
+      visibleFrom={item.visibleFrom}
     >
       <Flex
         direction="column"
