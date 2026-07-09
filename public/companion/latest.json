@@ -1,11 +1,11 @@
 {
-  "version": "2.0.3",
-  "notes": "Allow rollback",
-  "pub_date": "2026-07-06T00:00:00Z",
+  "version": "2.0.4",
+  "notes": "Initial release!",
+  "pub_date": "2026-07-10T00:00:00Z",
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSc1pUWmhkdzdlbUVodXVhME1QWDU0S0tkbXdKZ0hYUXdZUEhRclRuL3JmNGx2ZlZJRDk0Zlg1Nk9GNDV2Z1Fqa1Y5SWxnWG5rY0pSdnVnanF4ajJRR1lwaS9mNDZNL2drPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzgzMjkzNDYxCWZpbGU6SVZFIENvbXBhbmlvbl8yLjAuM194NjQtc2V0dXAuZXhlCm5qU1duSll1ZTFrVXhYcVREWkRmUi9kZTIrMEJ4bVJxMlIvNDFMT2h6aW9uejJHajNvc1JyWVhwK3hIK2d0WW1sSEJnQUtlbnZUZm90VWtONkZhSkRRPT0K",
-      "url": "https://iveplay.io/companion/IVE%20Companion_2.0.3_x64-setup.exe"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSc1pUWmhkdzdlbUl0M2ZxRTVPQ3ZsZnVjdUMzN2hOaDZTTEw4ZGNKNHRuQTVtbUwyUnRKZFlnQy9JNXc1RXo3UStVZTlwbzdMYm1QZElwSnk3NFpmWHYvVWdoWVFyVlFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzgzNjM0MDg5CWZpbGU6SVZFIENvbXBhbmlvbl8yLjAuNF94NjQtc2V0dXAuZXhlCm9DTnE0RVduNU5CT3N0VmtBbmgyTzh1R1k1OHlzTkQvR3FPcEtaODZpNWh6T20rMEdjbVZHSkRORGEzQkw0bDg1WXgxZjE5ZWo0cURQQ25Kdk1FY0JRPT0K",
+      "url": "https://iveplay.io/companion/IVE%20Companion_2.0.4_x64-setup.exe"
     }
   }
 }
